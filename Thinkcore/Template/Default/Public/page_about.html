@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body >
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_about.jpg);">
+            <div class="m-channel-title"><h2>关于#lazyme#</h2><small>ABOUT US</small></div>
+    </div>
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <volist name="catList" id="vo">
+          <li  <if condition='$catInfo["ID"] eq $vo["ID"]'>class="active"</if>><a href="{:U('about',array('id'=>$vo['ID']))}">{$vo.AboutNameCH}</a></li>            
+        </volist>
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="#">关于#lazyme#</a></li>
+        <li class="active">{$datas.AboutNameCH}</li>
+      </ol>
+    </div>
+  </div>
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container   m-about-wraper">
+      
+        <div class="m-title">
+          <h1>{$datas.AboutNameCH}</h1>
+          <baidushare class="pull-right"/>
+         
+          <div class="blank5"></div>
+        </div>
+        <article class="m-article">
+          {$datas.ContentCH}
+        </article>
+        <div class="m-article-footer">
+          <baidushare class="pull-right"/>
+        </div>
+        
+      
+      
+    </div>          
+             
+    
+    
+ 
+     
+  </div>
+  <!--./mainer-->
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

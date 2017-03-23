@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body class="P-dealer-register">
+<div class="g-all" >
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_reseller.jpg);">
+            <div class="m-channel-title"><h2>经销商专区</h2><small>Reseller</small></div>
+    </div>
+    
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <volist name="catList" id="vo">    
+          <if condition='$vo["a"] eq "lists"'> 
+            <li><a href="<?php echo U($vo['a']); ?>">{$vo.name}</a></li> 
+          </if> 
+        </volist>
+        <li><a href="{:U('login')}">登入</a></li> 
+        <li  class="active"><a href="{:U('register')}">注册</a></li>
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Reseller/index')}">经销商专区</a></li>
+        <li class="active">注册</li>
+       
+      </ol>
+    </div>
+  </div>
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container">
+      <div class="m-dealer-register">
+        <h2 class="heading">经销商注册</h2>
+        <form class="form form-horizontal" action="{:U('register')}" method="post" onsubmit="return submit_reg(this);">
+          <div class="form-group ">
+            <label class="control-label col-sm-3 col-xs-12" for="name"><span class="red">*</span>用户名:</label>
+            <div class="control-con col-sm-6 col-xs-8">
+              <input class="form-control   " name="name" id="name" placeholder="请输用户名，用于登录" onblur="checkTheLen('name',0,'用户名不能为空',3,'可点右侧按钮验证该用户名是否已被他人注册',1)" type="text">
+              <span class="help-block info-block"><span class="red">*</span> 请输入用户名，用于登录</span>
+            </div>
+            <div class="col-sm-3 col-xs-4">
+              <a class="btn btn-default checkBtn " href="javascript:void(0)" onclick="checkUnique(this,'name','<?php echo U('check_unique');?>')" data-loading-text="检查中...">检查是否已被注册</a>
+            </div>
+            
+          </div>
+          
+          <div class="clearfix"></div>
+          <div class="form-group ">
+            <label class="control-label col-sm-3 col-xs-12"><span class="red">*</span>客户号:</label>
+            <div class="control-con col-sm-6 col-xs-8">
+              <input class="form-control   " name="code" id="code" placeholder="请输入客户号" onblur="checkFormJxCode(1)" type="text">
+              <span class="help-block info-block"><span class="red">*</span> 客户号是由#lazyme#公司提供的9位数字，请填写正确，如忘记自己的客户号，请联系你的区域经理或业务</span> 
+            </div>
+            <div class="col-sm-3 col-xs-4">
+             <a class="btn btn-default checkBtn " href="javascript:void(0)" onclick="checkUnique(this,'code','<?php echo U('check_unique');?>')" data-loading-text="检查中...">检查是否已被注册</a>
+            </div>
+            
+          </div>
+          
+          <div class="clearfix"></div>
+          <div class="form-group ">
+            <label class="control-label col-sm-3"><span class="red">*</span>经销地区/地址:</label>
+            <div class="control-con col-sm-9">
+              <input class="form-control  " name="address" id="address" placeholder="请填写你所在地址" onblur="checkTheLen('address',6,'地址字数过短',1,'',1)" type="text">
+              <span class="help-block info-block"><span class="red">*</span> 请填写您的所在地址</span> 
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3"><span class="red">*</span>登录密码:</label>
+            <div class="control-con col-sm-9">
+              <input class="form-control  " name="password" id="password" placeholder="请输入密码" onblur="checkFormPw(1)" type="password">
+              <span class="help-block info-block"><span class="red">*</span> 请输入密码，不得少于6位</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3"><span class="red">*</span>再次输入密码:</label>
+            <div class="control-con col-sm-9">
+              <input class="form-control  " name="pwdconfirm" id="pwdconfirm" placeholder="请再次输入以确保无误" onblur="checkFormRePw(1)" type="password">
+              <span class="help-block info-block"><span class="red">*</span> 请再次输入密码，以确保无误</span> 
+            </div>
+          </div>
+          <div class="form-group ">
+            <label class="control-label col-sm-3 col-xs-12"><span class="red">*</span>姓名:</label>
+            <div class="control-con col-sm-6 col-xs-8">
+              <input class="form-control  " name="realname" id="realname" placeholder="请填写您的姓名" onblur="checkTheLen('realname',0,'姓名不能为空',1,'',1)" type="text">
+              <span class="help-block info-block"><span class="red">*</span> 必填</span>
+            </div>
+            <div  class="col-sm-3  col-xs-4">
+              <label>
+                <input checked="" class="inputnoborder" value="先生" name="Sex" type="radio">
+                男</label>
+              <label>
+                <input class="inputnoborder" value="女士" name="Sex" type="radio">
+                女</label>
+            </div>
+          </div>
+          
+          <div class="form-group ">
+            <label class="control-label col-sm-3"><span class="red">*</span>联系电话:</label>
+            <div class="control-con col-sm-9">
+              <input class="form-control  " name="phone" id="phone" placeholder="请填写联系电话" onblur="checkTheLen('phone',6,'请输入正确的电话号码',1,'',1)" type="text">
+              <span class="help-block info-block"><span class="red">*</span> 必填</span> 
+            </div>
+          </div>
+          <div class="form-group ">
+            <label class="control-label col-sm-3">电子邮箱:</label>
+            <div class="control-con col-sm-9">
+              <input class="form-control  " name="email" id="email" placeholder="请填写电子邮箱" type="text">
+              <span class="help-block info-block"></span> 
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="control-label col-sm-3 col-xs-12">验证码:</label>
+  
+              <div class="col-sm-5 col-xs-6">
+                <input class="form-control  " id="verify" name="verify" autocomplete="off" placeholder="请输入右侧验证码" onblur="checkTheLen('verify',0,'验证码不能为空',3,'( ￣▽￣)',0)">
+                <span class="help-block info-block">请填写图片显示的验证码</span> 
+              </div>
+              <div class="col-sm-4 col-xs-6" > <img src="{:U('Api/Checkcode/index',array('width'=>110,'height'=>34,'mode'=>2,'code_len'=>4))}" id="code_img" title="看不清，点击换一张" onclick="refreshs()" align="absmiddle"> <a href="javascript:refreshs();">换一张</a> </div>
+ 
+          </div>
+          
+           <button class="btn btn-lg btn-danger  J-btn-submit col-sm-9 col-xs-12 pull-right " type="submit" data-loading-text="提交中" autocomplete="off">注 册</button>
+
+          
+        </form>
+        <div class="blank30"></div>
+        <a class="btn btn-primary col-sm-9 col-xs-12 pull-right" href="{:U('login')}">已有帐号？现在登入-></a>
+        
+       
+      </div>
+      <div class="blank50"></div>
+
+      <div role="alert" class="alert alert-warning  fade in" id="od-tips-save" style="margin:15px 0 0; font-size:14px">
+        <button data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
+
+        <h4 style="padding-top:15px">提示</h4><p style="padding-top:5px; line-height:1.8;  ">
+        如果您还未注册#lazyme#经销商，请先 <a class="btn btn-default" href="{:U('register')}">注册</a>，注册时“经销商客户号”由#lazyme#营销中心统一提供。如果忘记了你的“客户号”，可向#lazyme#区域经理/业务员帮忙查询。如有帐号问题，可询 #lazyme#网站管理员：0757&mdash;82729091<!-- 详情可咨询市场部，电话：0757-82260461 -->。 </p>
+      </div>
+
+      
+
+        
+      
+      
+    </div>                  
+     
+  </div>
+ <script src="__TPL_JS__/Default/reseller.js"></script>
+  <!--./mainer-->
+  <script type="text/javascript">
+$(function(){
+        
+    var RIS_array = ["name","code", "address","password","pwdconfirm", "realname","phone","verify"]
+    var RIS_array_len = RIS_array.length;
+    for(i=0;i<RIS_array_len;i++){
+        var inputID = RIS_array[i]
+        resetInputStyle(inputID)
+    }
+})
+
+
+
+  function submit_reg(obj){
+    var returnTrue = 1
+      returnTrue = returnTrue==0? 0 : checkTheLen('name',0,'用户名不能为空',3,'可点右侧按钮验证该用户名是否已被他人注册',0)
+      returnTrue = returnTrue==0? 0 :checkFormJxCode(0)
+      returnTrue = returnTrue==0? 0 :checkTheLen('address',6,'地址字数过短',1,'',0)
+      returnTrue = returnTrue==0? 0 :checkFormPw(0)
+      returnTrue = returnTrue==0? 0 :checkFormRePw(0)
+      returnTrue = returnTrue==0? 0 :checkTheLen('realname',0,'姓名不能为空',1,'',0)
+      returnTrue = returnTrue==0? 0 :checkTheLen('phone',6,'请输入正确的电话号码',1,'',0)
+      returnTrue = returnTrue==0? 0 :checkTheLen('verify',0,'请填写验证码',3,'( ￣▽￣)',0)
+    if(returnTrue == 0){
+        goToErrorInput(obj);
+        return false;
+    }
+    submit_ajax(obj,function(json){
+      if(json.status){
+        return true;
+      }else{
+        if(typeof(json.input)!='undefined'){
+          $input = $(obj).find('input[name='+json.input+']');
+          $input.inputFeedback({'status':0,'info':json.info});
+            goToErrorInput($input);
+        }        
+        refreshs();
+      }
+      return false;
+    })
+    return false;
+
+  }
+
+  </script>
+
+
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

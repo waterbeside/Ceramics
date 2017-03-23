@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body >
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_about.jpg);">
+            <div class="m-channel-title"><h2>关于#lazyme#</h2><small>ABOUT US</small></div>
+    </div>
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <volist name="catList" id="vo">
+          <li  <if condition='$catid eq $vo["ID"]'>class="active"</if>><a href="{:U('about',array('id'=>$vo['ID']))}">{$vo.AboutNameCH}</a></li>            
+        </volist>
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="#">关于#lazyme#</a></li>
+        <li class="active">{$datas.AboutNameCH}</li>
+      </ol>
+    </div>
+  </div>
+   
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container   m-about-wraper">
+      <?php if(in_array($catid, array(3,4))){ ?>
+
+      
+        <div class="m-title">
+          <h1>{$datas.AboutNameCH}</h1>
+          <baidushare class="pull-right"/> 
+          
+          <div class="blank5"></div>
+        </div>
+        <?php } ?>
+        <div class="row">
+          <?php if($catid==3){?>
+          <ul class="m-list-honer J-rebox-wrap">
+            <mylist model="others" id='vo' return="honerlist" catid="48"   where="ViewFlagCH = 1" order="ID DESC" >
+              <li class="col-lg-3 col-sm-4 col-xs-6 ">                
+                    <a   href="http://#/{$vo.BigPic}" title="{$vo.OthersNameCH}">
+                        <div class="photobox-wrap">
+                            <div class="photobox">
+                                <div class="pic">
+                                    <img src="http://#/{$vo.SmallPic}">
+                                </div>
+                            </div>
+                            <div class="info">
+                                <p>{$vo.OthersNameCH}</p>
+                            </div>
+                        </div>
+                    </a>                
+              </li>
+            </mylist>  
+          </ul>
+          <div class="blank5"></div>
+          <h1  >资质认证</h1>
+          <ul class="m-list-honer J-rebox-wrap">
+            <mylist model="others" id='vo' return="honerlist" catid="49"   where="ViewFlagCH = 1" order="ID DESC" >
+              <li class="col-lg-3 col-sm-4 col-xs-6 ">                
+                    <a  href="http://#/{$vo.BigPic}" title="{$vo.OthersNameCH}">
+                        <div class="photobox-wrap">
+                            <div class="photobox">
+                                <div class="pic">
+                                    <img src="http://#/{$vo.SmallPic}">
+                                </div>
+                            </div>
+                            <div class="info">
+                                <p>{$vo.OthersNameCH}</p>
+                            </div>
+                        </div>
+                    </a>                
+              </li>
+            </mylist>  
+          </ul>
+          <?php } ?>
+          <?php if($catid==4){?>
+          <ul class="m-list-photos J-rebox-wrap">
+            <mylist model="others" id='vo' return="honerlist" catid="50"   where="ViewFlagCH = 1" order="ID ASC" >
+              <li class="col-lg-3 col-sm-4 col-xs-6 ">                
+                    <a  href="http://#/{$vo.BigPic}" title="{$vo.OthersNameCH}">
+                        <div class="photobox-wrap">
+                            <div class="photobox">
+                                <div class="pic" style="background-image: url('http://#/{$vo.SmallPic}');"></div>
+                            </div>
+                            <div class="info">
+                                <p>{$vo.OthersNameCH}</p>
+                            </div>
+                        </div>
+                    </a>                
+              </li>
+            </mylist>  
+          </ul>
+          <?php } ?>
+         
+
+        </div>
+        <article class="m-article">
+          {$datas.ContentCH}
+        </article>
+
+        
+        <div class="m-article-footer">
+          <baidushare class="pull-right"/> 
+        </div>
+        
+      
+      
+    </div>          
+             
+    
+    
+ 
+     
+  </div>
+  <!--./mainer-->
+  <link rel="stylesheet" href="__CSS_PATH__/Common/jquery-rebox.css" >
+  <script src="__JS_PATH__/Common/jquery-rebox.js"></script>
+  <script type="text/javascript">
+  $(function(){
+    $('.J-rebox-wrap').rebox({ selector: 'a' });     
+  })
+  </script>
+  
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

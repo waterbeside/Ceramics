@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body  >
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_news.jpg);">
+            <div class="m-channel-title">
+              <h2>新闻资讯</h2>
+              <small>NEWS</small> 
+            </div>
+    </div>
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <volist name="catList" id="vo">
+          <li  <if condition='$catInfo["ID"] eq $vo["ID"]'>class="active"</if>><a href="{:U('newslist',array('catid'=>$vo['ID']))}">{$vo.SortNameCH}</a></li>            
+        </volist>
+      </ul>
+      <ol class="breadcrumb  hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Index/newslist')}">新闻资讯</a></li>
+        <if  condition="$catInfo.SortNameCH neq ''"><li class="active">{$catInfo.SortNameCH}</li></if>
+      </ol>
+    </div>
+  </div>
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <ul class="m-list-news">
+      <volist name="datas" id="vo">
+        <li class="media"  data-id="{$vo.ID}">
+          <div class="container">
+            <a class="media-left" href="{:U('newsshow',array('id'=>$vo['ID']))}">
+              <div class="picWrap">
+                <img src="<?php if($vo['thumb']){echo $vo['thumb']; }else{ ?> __TPL_IMG__/Default/news_default_pic.jpg <?php }?>" onerror="onerror=null;src='__TPL_IMG__/Default/news_default_pic.jpg'">
+              </div></a>
+            <div class="media-body">
+              <h3><a href="{:U('newsshow',array('id'=>$vo['ID']))}">{$vo.NewsNameCH}</a></h3>
+              <div class="time">{$vo.AddTime|strtotime|date="Y-m-d",###}</div>
+              <p class="info">{$vo.SeoDescriptionCH}</p>
+              <a href="{:U('newsshow',array('id'=>$vo['ID']))}" class="btn btn-more">更多 <i class="fa fa-angle-right"></i></a>
+            </div>
+          </div>          
+        </li>   
+      </volist>  
+    </ul>
+    <div class="pagenav">
+      {$showPages}  
+    </div>
+ 
+     
+  </div>
+  <!--./mainer-->
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

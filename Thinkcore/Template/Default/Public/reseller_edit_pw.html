@@ -1,0 +1,78 @@
+<div class="table-edit table-edit-model"> 
+  <div class="common-form">
+    <form class="form  " action="{:U('edit')}" method="post" onsubmit="return submit_edit(this);">
+      <input type="hidden" name="resetpwd" id="J-resetpwd" value="1">
+       <div class=" panel panel-default active">
+          <div class="panel-heading"><h5>基本信息</h5></div>          
+          <table class="table table-striped table-bordered ">            
+            <tbody>
+             
+              <tr>
+                <td class="th-label" width="15%">用户名:</td>
+                <td width="35%">{$data.name}</td>
+                <td class="th-label" width="15%">真实姓名:</td>
+                <td width="35%">{$data.realname}</td>
+              </tr>
+              <tr>
+                <td class="th-label">編號:</td>
+                <td>{$data.code}</td>
+                <td class="th-label">电话:</td>
+                <td>{$data.phone}</td>
+              </tr>
+              <tr>
+                <td class="th-label">地址:</td>
+                <td colspan="3">{$data.address}</td>
+              </tr>
+             
+            </tbody>
+        </table>
+      </div>
+      <div class=" panel panel-default active">
+          <div class="panel-heading"><h5>修改密码</h5></div>          
+          <table class="table table-striped table-bordered ">            
+            <tbody>            
+              <tr>
+                <td class="th-label" width="120">密码:</td>
+                <td><div class="control-con">
+                      <input class="form-control  " name="password" id="password" placeholder="请输入密码" onblur="checkFormPw(1)" type="password" value="">
+                      <span class="help-block info-block">请输入密码，不得少于6位，不得大于16位</span>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="th-label">请再次输入:</td>                
+                <td>
+                  <div class="control-con ">
+                    <input class="form-control  " name="pwdconfirm" id="pwdconfirm" placeholder="请再次输入以确保无误" onblur="checkFormRePw(1)" type="password" value="">
+                    <span class="help-block info-block">请再次输入密码，以确保无误</span> 
+                  </div>
+                </td>
+              </tr>
+             
+            </tbody>
+        </table>
+      </div>
+      <div class="blank20"></div>
+              <button class="btn btn-lg btn-primary  J-btn-submit col-sm-12" type="submit" data-loading-text="提交中" autocomplete="off">提交修改</button>
+              <div class="blank20"></div>
+              <a class="btn btn-lg btn-default   col-sm-12" type="submit" href="javascript:void(0);" onclick="$(this).closest('.modal-content').find('.close').trigger('click')">取消</a>
+              <div class="blank20"></div>
+
+  </div>
+  
+
+
+
+        <script type="text/javascript">
+        $(function(){
+                
+            var RIS_array = ["password","pwdconfirm"]
+            var RIS_array_len = RIS_array.length;
+            for(i=0;i<RIS_array_len;i++){
+                var inputID = RIS_array[i]
+                resetInputStyle(inputID)
+            }
+        })
+
+        </script>

@@ -1,0 +1,73 @@
+<!-- footer -->
+<script type="text/javascript" src="__TPL_JS__/Default/fixtool.js"></script>
+<footer id="footer" class="g-footer">
+    <div class="container-fluid footerBar_1 ">
+        <div class="container">
+                <span class="honner-gd"><img src="__TPL_IMG__/Default/winto_logo_known_fff.png" height="40">广东省著名商标</span>
+                <span><i class="fa fa-map-pin"></i>营销中心地址: ###</span>
+                <span><a href="{:U('Index/contactus')}"><i class="fa fa-map"></i>地图导航</a></span>
+                <span><i class="fa fa-phone"></i>电话：86-88888888</span>
+                <span><i class="fa fa-fax"></i>传真：86-88888888</span>
+        </div>
+    </div>
+	<div class="container ">
+       
+        <div class="footleft">
+        <ul>
+            <li><a href="{:U('Index/about')}">关于#lazyme#</a></li>
+            <li><a href="{:U('Products/lists')}">产品中心</a></li>
+        </ul>
+           
+        <ul>
+            <li><a href="{:U('Index/newslist')}">#lazyme#动态</a></li>
+            <li><a href="{:U('Reseller/lists')}">经销商专区</a></li>
+        </ul>
+           
+        <ul>
+            <li><a href="{:U('Index/cases')}">工程案例</a></li>
+            <li><a href="{:U('Index/contactus')}">联系我们</a></li>
+        </ul>
+           
+        </div>
+        <div class="recommand">
+            <div class="recommand-inner">
+                <h3>推荐我们</h3>
+                <ul class="shareBox">
+                    <li class="a1"><a title="微信" onclick="showWeiXinQrcode();"><i class="fa fa-weixin"></i></a></li>
+                    <li class="a2"><a href="http://weibo.com/#" title="微博" target="_blank"><i class="fa fa-weibo"></i></a></li>
+                    <li class="a3"><a href="javascript:void(0);" title="分享到twitter" ><i class="fa fa-twitter"></i></a></li>
+                    
+                    <li class="a3"><a href="javascript:void(0);" title="分享到朋友圈" style="line-height:30px"><img src="__TPL_IMG__/Default/icon_pyq_966.png" width="22" ></a></li>
+                    <li class="a4"><a href="javascript:void(0);" title="分享到qq" target=""><i class="fa fa-qq"></i></a></li>
+                </ul>
+
+                <div class="bdsharebuttonbox  " >
+                    <a title="分享到twitter" href="#" class="bds_twi" data-cmd="twi"></a>
+                    <a title="分享到微信朋友圈" href="#" class="bds_weixin" data-cmd="weixin"></a>
+                    <a title="分享到QQ好友" href="#" class="bds_sqq" data-cmd="sqq"></a>
+                </div>    
+            </div>           
+        </div>
+        <script>
+        $(function(){
+             with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+        })
+        </script>   
+    </div>
+      <div class="copyright">
+        <img alt="winto" src="/favicon.ico" width="16" height="16"> #lazyme#  &copy; #lazyme#  1999-2017 版权所有 保留所有权利<br> <a target="_blank" href="http://www.miitbeian.gov.cn">备案###</a> 
+        
+        </div>
+         <div id="BDBridgeFixedWrap" style="display:none"></div>
+	<script type="text/javascript">
+    function showWeiXinQrcode(){
+        var content = '<img src="__TPL_IMG__/Default/wintosqr_wechat.png" style="width:100%"><br>#lazyme#陶瓷公众号二维码<br>请打开微信“扫一扫”功能扫描二维码'
+        var modal = $.scojs_modal({title:'<small><i class="fa fa-weixin"></i></small> 欢迎关注我们',content:content,  target:'#wechat_modal'})
+        console.log(modal.m);
+        modal.show();
+    }
+    </script>
+</footer>
+<!-- /footer -->
+
+

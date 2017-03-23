@@ -1,0 +1,93 @@
+<include file="Admin@Common:head" />
+<body >
+
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+    <div class="submenu-bar">
+         <include file="Admin@Common:nav" />
+    </div>
+
+
+      <div class="table_list ">
+        <table width="100%" cellspacing="0" class="table table-hover  table-bordered table-striped">
+          <thead class="thead-default">
+            <tr>              
+              <td  width="70">ID</td>
+              <td width="45">中</td>
+              <td width="45">英</td>
+              <td>标题</td>              
+              
+              <td width="45">排序</td>
+              <td  width="80" >连接类型</td>
+        
+              
+              <td width="140">操作</td>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if($datas){ ?>
+
+            
+            <volist name="datas" id="vo">
+              <tr>
+
+            <td >{$vo.ID}</td>
+
+            <td >
+              <script>              
+                  setBooleanBtn({value:"<?php echo $vo['ViewFlagCH']; ?>",id:"<?php echo $vo['ID']; ?>",url:"<?php echo U('up_status') ;?>",name:'ViewFlagCH'})
+              </script>
+            </td>
+            <td >
+              <script>
+                  setBooleanBtn({value:"<?php echo $vo['ViewFlagEN']; ?>",id:"<?php echo $vo['ID']; ?>",url:"<?php echo U('up_status') ;?>",name:'ViewFlagEN'})
+              </script>
+            </td>
+            <td >{$vo.SortNameCH} <?php if($vo['SortNameEN']){echo '<small> ('.$vo['SortNameEN'].') </small>';} ?></td>
+            
+            <td >{$vo.orders}</td>
+            <td ><?php 
+                  switch ($vo['linktype']) {
+                    case '2':
+                      echo '<span class="text-info" title="'.$vo['linkurl'].'"><i class="fa fa-link"></i>外链</span>';
+                      break;
+                    default:                    
+                      echo '<span class="text-success">内部</span>';
+                      break;
+                  }
+                ?>
+            </td>
+
+            
+                  
+            <td  class="options">
+
+            <a href="{:U('edit',array('id'=>$vo['ID']))}" data-title="編輯：{$vo.SortNameCH}"  data-trigger="modal"  >編輯</a> 
+            | <a onclick="deleteItem(this,{'url':'<?php echo U('delete',array('id'=>$vo['ID'])); ?>'})" href="javascript:void(0);" data-loading-text="刪.." >删除</a>
+
+             
+            </td>
+          </tr>
+            </volist>
+            <?php }else{ ?>
+              <tr >
+                <td align="center" colspan="10">
+                   <?php  '暂无数据'   ; ?>
+                  
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+
+      </div>
+
+
+
+  </div>
+</div>
+
+
+</body>
+</html>

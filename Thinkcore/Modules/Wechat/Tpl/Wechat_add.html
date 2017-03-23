@@ -1,0 +1,53 @@
+<div class="table-edit table-edit-model"> 
+  <div class="common-form">
+    <form class="form" method="post" action="{:U('add')}"  onsubmit="return submit_ajax(this);">
+      <div class="tab-content">
+        <div class=" panel panel-default  ">
+            <div class="panel-heading"><h5>公众号设置</h5></div>          
+            <table class="table table-striped table-bordered ">            
+              <tbody>
+                <tr>
+                  <td class="th-label" width="140">英文简称wid:</td>
+                  <td>
+                    <input type="text" class="form-control" name="wid" value="">
+                    <span class="help-block">唯一值，用于系统识别，只允许英文也（例：lazyme）</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="th-label">公众号名称:</td>
+                  <td><input type="text" class="form-control" name="name" value=""></td>
+                </tr>
+                <tr>
+                  <td class="th-label">微信号:</td>
+                  <td><input type="text" class="form-control" name="wechat" value=""></td>
+                </tr>
+                <tr>
+                  <td class="th-label">appID:</td>
+                  <td><input type="text" class="form-control" name="appid" value="">                    
+                    </td>
+                </tr> 
+                <tr>
+                  <td class="th-label">appsecret:</td>
+                  <td><input type="text" class="form-control" name="appsecret" value="">
+
+                    </td>
+                </tr>
+                <tr>
+                  <td class="th-label">Token:</td>
+                  <td><input type="text" class="form-control" name="token" value="">
+                    </td>
+                </tr>
+                <tr>
+                  <td class="th-label">对应站点nid:</td>
+                  <td><input type="text" class="form-control" name="nid" value="">
+                    <span class="help-block">切置的站点nid，用于读取该站数据</span>
+                  </td>
+                </tr>
+              
+              </tbody>
+          </table>
+        </div>
+      </div>
+      
+    </form>
+</div>

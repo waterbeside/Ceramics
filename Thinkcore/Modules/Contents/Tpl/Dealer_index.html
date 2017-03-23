@@ -1,0 +1,139 @@
+<include file="Admin@Common:head" />
+<body >
+
+
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+    <div class="submenu-bar">
+      <div class="nav">
+        <ul class="nav nav-pills">
+            <li class="active"><a onclick="javascript:void(0)">经销商管理</a></li>
+            <li ><a href="{:U('add',array('nid'=>$siteInfo['nid']))}" data-title="添加经销商" data-trigger="modal" data-width="500">添加经销商</a></li>
+          </ul>
+
+      </div>
+    </div>
+    <div class="search-bar">
+      <form class="form-inline" method="post" action="{:U('index')}">
+        <input type="hidden" name="menuid" value="{$_GET.menuid}">
+        <div  class="panel panel-default" >
+          <div class="panel-heading"  style="cursor:pointer">
+            <h5>筛选器</h5>
+          </div>
+          <table class="table table-bordered in" id="searchContent">
+            <tbody>
+
+              <tr>
+                <td class="th-label" >关键词</td>
+                <td>
+                  <input type="hidden" name="nid" value="{$siteInfo.nid}">
+                  <select name="searchtype" class="form-control input-sm">
+                    <option value="" <eq name="filter.searchtype" value="">selected</eq>>不限</option>
+                    <option value="memname" <eq name="filter.searchtype" value="memname">selected</eq>>帐号</option>
+                    <option value="realname" <eq name="filter.searchtype" value="realname">selected</eq>>姓名</option>
+                    <option value="telephone" <eq name="filter.searchtype" value="telephone">selected</eq>>电话</option>
+                    <option value="address" <eq name="filter.searchtype" value="address">selected</eq>>地址</option>
+                    <option value="code" <eq name="filter.searchtype" value="code">selected</eq>>经销号</option>
+                  </select>
+                  <input class="form-control input-sm" size="30" type="text"  name="keywork" value="{$filter.keywork}">
+                  <button class="btn btn-default btn-sm"><i class="fa fa-search"></i> 檢 索</button>
+                  
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      </form>
+    </div>
+
+      <div class="table_list ">
+        <table width="100%" cellspacing="0" class="table table-hover  table-bordered table-striped">
+          <thead class="thead-default">
+            <tr>              
+              <td  width="70">ID</td>
+              <td>账号</td>
+              <td>代码/编号</td>
+              <td>姓名</td>
+              
+              <td>电话</td>
+              <td>地址</td>
+              
+              <td align="" width="150">加入時間 / 最後登入</td>
+              <td width="45">状态</td>
+              <td width="140">操作</td>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if($datas){ ?>
+
+            
+            <volist name="datas" id="vo">
+              <tr>
+
+            <td >{$vo.id}</td>
+            <td >{$vo.memname}</td>
+            <td >{$vo.code}</td>
+            <td >{$vo.realname}</td>
+            <td >{$vo.phone}</td>
+            <td >{$vo.address}</td>
+            <td >
+              {$vo.addtime}<br>
+              {$vo.lasttime}
+            </td>
+            <td >
+              <script>              
+                  setBooleanBtn({value:"<?php echo $vo[working]; ?>",id:"<?php echo $vo['id']; ?>",url:"<?php echo U('up_status',array('nid'=>$siteInfo['nid'])) ;?>",name:'Working'})
+              </script>
+            </td>
+                  
+            <td  class="options">
+
+            <a href="{:U('edit',array('id'=>$vo['id'],'nid'=>$siteInfo['nid']))}" data-title="編輯：{$vo.MemName}"  data-trigger="modal"  >編輯</a> 
+             | <a href="{:U('edit',array('id'=>$vo['id'],'nid'=>$siteInfo['nid'],'resetpwd'=>1))}" data-title="改密码：{$vo.MemName}"  data-trigger="modal"  >改密</a> 
+            | <a onclick="deleteItem(this,{'url':'<?php echo U('delete',array('id'=>$vo['id'],'nid'=>$siteInfo['nid'])); ?>'})" href="javascript:void(0);" data-loading-text="刪.." >删除</a>
+
+             
+            </td>
+          </tr>
+            </volist>
+            <?php }else{ ?>
+              <tr >
+                <td align="center" colspan="10">
+                   <?php echo $nid ? '暂无数据' : '<b>请先选择站点</b>' ; ?>
+                  
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+        <div class="p10">
+          <div class="pages list-pages"> {$Page} </div>
+        </div>
+      </div>
+
+
+
+  </div>
+</div>
+
+<script type="text/javascript">
+
+
+   $('.form_date').datetimepicker({
+        language:  'zh-TW',
+        weekStart: 0,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        fontAwesome:1
+    });
+
+</script>
+</body>
+</html>

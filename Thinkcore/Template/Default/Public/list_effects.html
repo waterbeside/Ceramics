@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body >
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_effects.jpg);">
+            <div class="m-channel-title"><h2>空间效果图</h2><small>Simulations bild</small></div>
+    </div>
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <li ><a href="{:U('Products/lists')}">产品中心</a></li>
+        <li><a href="{:U('Products/ebooklist')}">产品画册</a></li>
+        <li class="active"><a href="{:U('Products/effects')}">空间效果图</a></li>        
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Products/effects')}">空间效果图</a></li>
+      </ol>
+    </div>
+  </div>
+  
+    <div class="container">
+    <ul class="m-menu-sub">      
+      <li  <?php if(empty($roomtype)){echo 'class="active"';}?>><a href="{:U('effects')}">全部</a></li>
+      <volist name="roomtype_list" id="vo">
+          <li  <if condition='$roomtype eq $vo'>class="active"</if>><a href="{:U('effects',array('roomtype'=>$vo))}">{$vo}</a></li>            
+        </volist>
+    </ul>
+  </div>
+  
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container ">
+      
+      <div class="row">
+          <ul class="m-list-photos">
+            <volist name="datas" id="vo">
+              <li class="col-lg-3 col-sm-4 col-xs-6 " data-id="{$vo.ID}">                
+                    <a  href="{:U('Products/shows',array('id'=>$vo['ProductID']))}" title="{$vo.OthersNameCH}">
+                        <div class="photobox-wrap">
+                            <div class="photobox">
+                                <div class="pic" style="background-image: url('http://#/{$vo.SmallPic}');">
+                                 
+                                </div>
+                            </div>
+                            <div class="info">
+                                <p><?php echo str_replace('_','、',$vo['EffectNameCH']); ?></p>
+                            </div>
+                        </div>
+                    </a>
+              </li>
+            </volist>  
+          </ul>
+          <div class="m-article-footer">
+            <baidushare class="pull-right"/> 
+          </div>
+          <div class="pagenav">
+            <?php echo $showPages; ?>
+          </div>
+      
+
+        </div>
+
+        
+        
+        
+      
+      
+    </div>          
+             
+    
+    
+ 
+     
+  </div>
+  <!--./mainer-->
+
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

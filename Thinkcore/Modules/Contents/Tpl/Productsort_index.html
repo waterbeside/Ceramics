@@ -1,0 +1,542 @@
+<include file="Admin@Common:head" />
+<body >
+
+<link rel="stylesheet" href="__CSS_PATH__/Common/easyui/datagrid.css" />
+<link rel="stylesheet" href="__CSS_PATH__/Common/easyui/tree.css" />
+<link rel="stylesheet" href="__CSS_PATH__/Common/easyui/menu.css" />
+<!--js for treegrid-->
+<script src="__JS_PATH__/Common/easyui/jquery.resizable.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.menu.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.pagination.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.parser.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.panel.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.datagrid.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.treegrid.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.validatebox.js"></script>
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+    <div class="submenu-bar">
+      <div class="nav">
+        <ul class="nav nav-pills">
+            <li class="active"><a onclick="javascript:void(0)">产品分类管理</a></li>
+            
+          </ul>
+
+      </div>
+    </div>
+    <div class="search-bar well">
+      <form class="form-inline" method="post" action="{:U('index')}">
+        <div style="padding:10px">
+                    <?php
+                    foreach ($siteList as $key => $value) {
+                      $activeHTML = $siteInfo['nid'] == $key ? "btn-primary":"btn-link";
+                      echo '<a class="btn btn-sm '.$activeHTML.'" href="'.U('index',array('nid'=>$key)).'">'.$value['name'].' <small>【'.$key.'】</small></a>';
+                       }
+                    ?>  
+                  
+        </div>
+          
+        
+      </form>
+    </div>
+
+      <div class="toolbar toolbar-datagrid-btn-wrap">
+      <span id="J-common-btn-wrap">
+        <span class="btn-group">
+          <a type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            操作 <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" style="font-size:12px">
+            <li><a onclick="reloadData()"><i class="fa fa-refresh"></i>重加載</a></li>
+            <li><a href="{:U('public_cache')}"><i class="fa fa-tree"></i>重構欄目關系</a></li>
+            <li><a onclick="collapse_1_level()" ><i class="fa fa-minus-square-o"></i>摺起全部一級欄目</a></li>
+          </ul>
+        </span>
+        
+        
+        
+        <a type="button" class="btn btn-default btn-sm" onclick="add(0)" ><i class="fa fa-plus"></i>添子欄目</a>
+
+        
+        
+        <a id="tool-btn-edit" class="btn btn-sm btn-default" onclick="edit()" ><i class="fa fa-edit"></i>編輯</a>
+        <a id="tool-btn-save" class="btn btn-sm btn-default" onclick="save()" disabled="disabled"><i class="fa fa-save"></i>保存</a>
+      </span>
+      <span id="J-move-btn-wrap" style="display:none">
+        <b id="J-move-origin" class="move-box" data-id=""></b>將移動到<b id="J-move-target" class="move-box" data-id=""></b>之下
+        <a id="tool-btn-savemove" class="btn btn-sm btn-default" onclick="move_item('submit')"><i class="fa fa-exchange"></i>執行移動</a>
+      </span>
+      <a id="tool-btn-cancel" class="btn btn-sm btn-default" onclick="cancel()" disabled="disabled"><i class="fa fa-undo"></i>取消</a>
+      <span class="toolbar-tips" style="color:#666; margin-left:10px">
+          請在列表上以右鍵取得更多操作。
+      </span>
+    </div>    
+
+    <table id="tg" class="table-hover table-bordered table-condensed" > </table>
+    <div id="mm" class="easyui-menu treegrid-menu" style="width:150px;">
+      <div onclick="edit_priv()"><i class="fa fa-key"></i>權限設置</div>
+      <div class="menu-sep"></div>
+      <div onclick="edit_more()"><i class="fa fa-pencil"></i>詳細修改</div>
+      <div onclick="add()"><i class="fa fa-plus"></i>添子欄目</div>
+      <div onclick="move_item()"><i class="fa fa-exchange"></i>移</div>
+          <div class="menu-sep"></div>
+      <div onclick="edit()" ><i class="fa fa-edit"></i>編輯</div>
+      <div onclick="cancel()" ><i class="fa fa-undo"></i>取消</div>
+      <div onclick="save()" ><i class="fa fa-save"></i>保存</div>
+          <div class="menu-sep"></div>
+          <div class="menu-sep"></div>
+      <div onclick="del()"><i class="fa fa-trash"></i>刪除</div>
+    </div> 
+
+
+
+  </div>
+</div>
+
+<script type="text/javascript">
+
+var GBVAR = [];
+var editingId;
+var menu_move_node = [];
+var jNotify_array = [];
+var $treetable = $('#tg');
+
+$.jNotify.setting({position:{"right":0,"bottom":100}}) 
+var treeOffsetTop = $treetable.offset().top;
+var treegridHeight = document.documentElement.clientHeight-treeOffsetTop-20
+
+//treegrid 初始化
+$treetable.treegrid({
+   iconCls: 'icon-ok',
+  animate:true,
+  collapsible:true,
+  idField:'ID',
+  method:'get',
+  treeField: 'SortNameCH',
+  height:treegridHeight,
+  //fitColumns: true,         
+  url: "{:U('Contents/Productsort/index')}",
+  onContextMenu: onContextMenu,
+  columns:[[
+        {field:'ID',title:'ID',width:60},
+        {field:'SortNameCH',title:'名称',width:290,editor:{type:'text'}},
+        {field:'SortNameEN',title:'名称(英)',width:220,editor:{type:'text'},formatter:formatSortNameEN},
+        {field:'ViewFlagCH',title:'中',width:30,formatter:formatViewFlagCH},
+        {field:'ViewFlagEN',title:'英',width:30,formatter:formatViewFlagEN},
+        {field:'linktype',title:'链接类型',width:80,formatter:formatLinktype},
+        {field:'orders',title:'排序',width:60,editor:{type:'numberbox',options:{required:true,missingMessage:"请输入数字"}}},
+        {field:'ordersEN',title:'排序(英)',width:60,editor:{type:'numberbox',options:{required:true,missingMessage:"请输入数字"}}},
+        {field:'SortPath',title:'SortPath',width:120}
+      ]],
+  
+  onClickRow:function(row){
+    //是否要重写这个方法?
+    if(menu_move_node['origin']!=undefined){
+      $("#J-move-target").attr("data-id",row.ID).html(row.SortNameCH);
+      menu_move_node['target'] = row;
+      move_item("check");
+    }
+  },
+  onLoadSuccess:function(node, data){
+    $('[data-toggle="tooltip"]').tooltip();
+  }
+})
+
+
+function reloadData(){
+  $treetable.treegrid('reload')
+}
+
+
+
+function collapse_1_level(){
+  var datas = $treetable.treegrid('getRoots');
+  
+  
+  $.each(datas[0].children,function(index,item){
+    if(item.children.length>0){
+      $treetable.treegrid('collapse',item.ID);   
+    }
+  })  
+}
+//重置英文名称
+    function formatSortNameEN(value){
+      if (value){
+        if(value=='Not Name'){
+        s = "<span style=\"color:#ccc\">"+value+"</span>"
+          return s;
+        }else{
+          return value; 
+        }
+      }else{
+        return "";
+      }
+    }
+    
+    
+
+    
+    //重置中文显示标识
+    function formatViewFlagCH(value,row){
+        if (value){
+          return setBooleanBtn({returnStr:1,value:value,id:row.ID,url:"<?php echo U('up_status',array('nid'=>$siteInfo['nid'])) ;?>",name:'ViewFlagCH'})
+        } else {
+          return '';
+        }
+    }
+    //重置英文显示标识    
+    function formatViewFlagEN(value,row){
+        if (value){
+          return setBooleanBtn({returnStr:1,value:value,id:row.ID,url:"<?php echo U('up_status',array('nid'=>$siteInfo['nid'])) ;?>",name:'ViewFlagEN'})
+        } else {
+          return '';
+        }
+    }
+    
+    //重置连接类型  
+    function formatLinktype(value,row){
+      if (value==2){
+        s="<font color=\"blue\">外部</font>";
+      }else if (value==3){
+        s="<font color=\"#a66\">聚合</font>";
+      }else{
+        s="<font color=\"green\">内部</font>";
+      }
+      return s ;
+    }
+
+function onContextMenu(e,row){
+  if(row.ID&&menu_move_node['origin']==undefined){
+    e.preventDefault();
+    $(this).treegrid('select', row.ID);
+    $('#mm').menu('show',{
+      left: e.pageX,
+      top: e.pageY
+    });
+  } 
+}
+
+//删除
+function del(){
+  var postData = {};
+  var node = $treetable.treegrid('getSelected');
+  if (node){
+
+    if(confirm("你確定要刪除欄目："+node.ID+"【"+node.SortNameCH+"】 ？")){
+      postData.ID = node.ID;  
+      postData.SortNameCH = node.SortNameCH;  
+
+      postAjax("{:U('delete',array('nid'=>$nid))}",postData,function(json){
+        if(json.status){
+          $.jNotify.add({msg:"刪除成功",type:"success"})
+          $treetable.treegrid('remove', node.ID); 
+          //$treetable.treegrid('reload');
+        }else{
+          $.jNotify.add({msg:json.info,type:"error"})
+        }
+      },"刪除中")
+    }
+  }
+}
+//编辑(重命名和排序)
+function edit(){
+  
+  if (editingId != undefined){
+    $treetable.treegrid('select', editingId);
+    return;
+  }
+  var row = $treetable.treegrid('getSelected');
+  if (row){
+    $("#tool-btn-edit").attr('disabled',"disabled");
+    $("#tool-btn-save").removeAttr('disabled');
+    $("#tool-btn-cancel").removeAttr('disabled');
+    editingId = row.ID
+    if(row.ID>0){
+      $treetable.treegrid('beginEdit', editingId);
+    }else{
+      cancel();
+      $.jNotify.add({msg:"根目錄不能編輯",type:"error",auto_close:"2000"})
+    }
+    
+  }
+}
+//取消當前選定編輯
+function cancel(){
+  $("#tool-btn-save").attr('disabled',"disabled");
+  $("#tool-btn-cancel").attr('disabled',"disabled");
+  $("#tool-btn-edit").removeAttr('disabled');
+  $("#J-common-btn-wrap").show();
+  $("#J-move-btn-wrap").hide();
+  $(".toolbar-tips").show;
+  if (editingId != undefined){
+    $treetable.treegrid('cancelEdit', editingId);
+    editingId = undefined;
+  }
+  if(menu_move_node['origin'] != undefined){
+    menu_move_node['origin'] = undefined;
+    menu_move_node['target'] = undefined;
+    $("#J-move-origin").attr("data-id","").html("");
+    $("#J-move-target").attr("data-id","").html("");
+    $.jNotify.close(jNotify_array['origin'].itemId);
+    jNotify_array['origin']=undefined;
+  }
+}
+//「重命名」保存
+function save(){
+  if (editingId != undefined){
+    var t = $treetable;
+    var valueArr = Array(); 
+      var postData = {}; 
+
+    t.treegrid('select', editingId); 
+
+    row = t.treegrid('getSelected');
+     
+    valueArr['SortNameCH'] = row.SortNameCH;
+    valueArr['catdir'] = row.catdir;
+    valueArr['listorder'] = row.listorder;
+    
+    postData.isfull = 0;
+    
+    postData.ID =  row.ID;
+    postData.SortNameCH = t.treegrid('getEditor', {index:editingId,field:"SortNameCH"}).target.val();
+    postData.SortNameEN = t.treegrid('getEditor', {index:editingId,field:"SortNameEN"}).target.val();
+    postData.orders = parseInt(t.treegrid('getEditor', {index:editingId,field:"orders"}).target.val());
+    postData.ordersEN = parseInt(t.treegrid('getEditor', {index:editingId,field:"ordersEN"}).target.val());
+     console.log(postData)   ;
+
+    if(isNaN(postData.orders)||isNaN(postData.ordersEN)){
+      $.jNotify.add({msg:"排序必須為數字",type:"error"});
+      return false  
+    }
+    
+    if($.trim(postData.SortNameCH)==""){
+      $.jNotify.add({msg:"名稱不能為空",type:"error"});
+      return false  
+    }
+    
+    if(valueArr['SortNameCH']==postData.SortNameCH && valueArr['SortNameEN']==postData.SortNameEN &&  valueArr['orders']==postData.orders &&  valueArr['ordersEN']==postData.ordersEN){
+      $.jNotify.add({msg:"無改變內容",type:"info"})
+      cancel()
+      return false;
+    }
+    postAjax("{:U('edit',array('nid'=>$nid,'issimple'=>1))}",postData,function(json){
+        if(json.status){
+          t.treegrid('endEdit', editingId);
+          editingId = undefined;  
+          cancel();
+          $.jNotify.add({msg:"編輯成功",type:"success"})
+          if(valueArr['orders']!=postData.orders){
+            t.treegrid('reload'); 
+          }
+        }else{
+          $.jNotify.add({msg:json.info,type:"error"})
+        }
+        
+        //
+    })        
+    
+  }
+}
+
+//编辑
+function edit_more(){
+  cancel()
+  var node = $treetable.treegrid('getSelected');
+  if(node){
+    GBVAR['modal'] = $.scojs_modal({title:"編輯&nbsp;<small>"+node.SortNameCH+'（id:'+node.ID+'）</small>',remote: "<?php echo U('edit',array(nid=>$nid)); ?>",data:{ID:node.ID},width:'600'})
+    GBVAR['modal'].show();  
+  }
+  
+}
+
+//编辑
+function edit_priv(){
+  cancel()
+  var node = $treetable.treegrid('getSelected');
+  if(node){
+    if(node.linktype=='2'){
+      $.jNotify.add({msg:"連接型欄目無須設置權限",type:"warning"})
+    }else{
+      GBVAR['modal'] = $.scojs_modal({title:""+node.SortNameCH+'（id:'+node.ID+'）',remote: "{:U('set_priv')}&ID="+node.ID+"",width:'600'})
+      GBVAR['modal'].show();  
+    }
+  }
+  
+}
+
+
+//添加分类
+function add(type){
+  type = typeof(type) == "undefined" ? 0 : type;
+  cancel()
+  var node = $treetable.treegrid('getSelected');
+
+  if(node && node.ID > 0){
+    var title = node.ID+'：在【'+node.SortNameCH+'】下添子分類' ;
+    var pid =node.ID;
+  }else{
+    var title = "0：添加一級分類";
+    var pid = 0 ;
+  }
+  GBVAR['modal'] = $.scojs_modal({title:title,remote: "<?php echo U('add',array('nid'=>$nid));?>",data:{parentid:pid},width:'600'})
+  GBVAR['modal'].show();
+}
+
+
+//展开当前父栏目
+function expand_p(){
+  var node = $treetable.treegrid('getSelected');
+  if (node){
+    node2 = $treetable.treegrid('getParent', node.ID);
+    if(node2){
+      $treetable.treegrid('expand', node2.ID); 
+    }
+  }
+}
+
+//移動菜單
+function move_item(s){
+  var node = $treetable.treegrid('getSelected');
+  var postData = {};
+  s = typeof(s)=="undefined"? "start" : s;
+  if(s=="submit"){
+    if(move_item("check")){
+      postData.parentid = menu_move_node['target'].ID ;
+      postData.ID = menu_move_node['origin'].ID ;
+      if(confirm("你確定要移動欄目【"+menu_move_node['origin'].ID+":"+menu_move_node['origin'].SortNameCH+"】到【"+menu_move_node['target'].ID+":"+menu_move_node['target'].SortNameCH+" 】之下？")){
+        postAjax("{:U('move',array('nid'=>$nid))}",postData,function(json){
+          if(json.status){
+            $.jNotify.add({msg:"菜單移動成功",type:"success"})
+            cancel();
+            reloadData();
+          }else{
+            $.jNotify.add({msg:json.info,type:"error"})
+          }
+        })
+      } 
+    }
+  }else if(s=="check"){
+    if(menu_move_node['target']==undefined){
+      $.jNotify.add({msg:"請選擇移動目標",type:"error"})
+      return false;
+    }
+    if(menu_move_node['origin'].ID==menu_move_node['target'].ID){
+      $.jNotify.add({msg:"不能自攻自受，請重新選擇",type:"error"})
+      return false;
+    }
+    if(menu_move_node['origin'].parentid==menu_move_node['target'].ID){
+      $.jNotify.add({msg:"目標和當前位置一致，請重新選擇",type:"error"})
+      return false;
+    }
+    var children_node_array = $treetable.treegrid("getChildren",menu_move_node['origin'].ID)
+    if(children_node_array.length>0){
+      var isTrue = 1 ;
+      $.each(children_node_array,function(index,item){
+        //console.log(item.id)
+        if(menu_move_node['target'].ID==item.ID){
+          $.jNotify.add({msg:"請不要選擇自己的子菜單",type:"error"})
+          isTrue = 0;
+          return false;
+        }
+      })
+      return isTrue;
+    }
+    return true;
+    
+  }else{
+    if(node){
+      if(jNotify_array['origin']!=undefined){
+        $.jNotify.close(jNotify_array['origin'].itemId);
+      }
+      jNotify_array['origin'] = $.jNotify.add({msg:"你正要移動【"+node.ID+":"+node.SortNameCH+"】，<br>請選擇移動目標",auto_close:0})
+      $("#tool-btn-cancel").removeAttr('disabled');
+      $("#J-common-btn-wrap").hide()
+      $(".toolbar-tips").hide()
+      $("#J-move-btn-wrap").show()
+      $("#J-move-origin").attr("data-id",node.ID).html(node.SortNameCH)
+      menu_move_node['origin'] = node;
+    }
+  }
+  
+}
+
+
+
+//向treegrid插入數據
+function append(data,parentid){
+  $treetable.treegrid('append',{
+    parent: parentid,
+    data: [{
+      ID: data.ID,
+      SortNameCH: data.SortNameCH,
+      SortNameEN: data.SortNameEN,
+      ViewFlagCH: data.ViewFlagCH,
+      ViewFlagEN: data.ViewFlagEN,
+      linktype: data.linktype,
+      SortPath: data.SortPath,
+      orders: data.orders,
+      ordersEN: data.ordersEN,
+    }]
+  })
+}
+
+//提交“編輯”和“添加”表單
+function submitCategoryEditForm(obj){
+  submit_ajax(obj,function(json){
+    if(json.status){
+      $.scojs_modal().close();
+      if(json.action=="add"){
+        append(json.datas,json.datas.ParentID);
+      }else if(json.action=="set_priv"){
+        return false;
+      }else{
+        reloadData();
+      }
+    }
+  })
+  return false;
+}
+
+
+function checkToggle(obj){
+
+  var ischeck = 0;
+  var len = 0;
+  obj.each(function(index){
+    var $checkbox = $(this).find('input');
+    ischeck = $checkbox.is(":checked") ? ischeck+1 : ischeck;
+    var disabledMark = $checkbox.attr("disabled");
+    len = (disabledMark==""||disabledMark=="disabled") ? len : len+1;
+    
+  })
+  var $checkAllBtn = obj.siblings(".checkAllWrap").find('.J-btn-checkall');
+  if(ischeck==len){
+    $checkAllBtn.attr('data-status',"on").html('<i class="fa fa-circle"></i>');
+  }else if(ischeck<len && ischeck >0){
+    $checkAllBtn.attr('data-status',"few").html('<i class="fa fa-dot-circle-o"></i>');
+  }else{
+    $checkAllBtn.attr('data-status',"off").html('<i class="fa fa-circle-o"></i>');
+  }
+}
+
+
+//
+$(function(){
+  $(window).resize(function(){
+    if($(".datagrid").length>0){
+      treegridHeight = document.documentElement.clientHeight-treeOffsetTop-20;
+      $treetable.treegrid('resize',{height:treegridHeight}) 
+    }
+  })
+    
+  
+})
+
+</script>
+<link rel="stylesheet" type="text/css" href="__JS_PATH__/editor/wangeditor/css/wangEditor_my.css">
+<script src="__JS_PATH__/editor/wangeditor/js/wangEditor_my.js"></script>
+
+</body>
+</html>

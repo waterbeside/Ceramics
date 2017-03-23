@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body class="P-productlist" >
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner m-banner-product">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_products.jpg);">
+        <div class="m-channel-title">
+          <h2>产品中心</h2>
+          <small>PRODUCTS</small> 
+        </div>
+    </div>
+  </div>
+  <div class="m-menubar-product">
+    <div class="container">
+      <ul class="m-menu-product-nav ">
+
+        <li  >
+          <a class="inner" href="{:U('Products/ebooklist')}">
+            <span class="menu-icon"><i class="fa fa-book"></i></span><span class="pspan">产品画册</span>
+          </a>
+        </li>
+        <li >
+          <a class="inner" href="{:U('Products/effects')}">
+            <span class="menu-icon"><i class="fa fa-photo"></i></span><span class="pspan">空间效果图</span>
+          </a>
+        </li> 
+        <li class="searchbox"  >
+          <div class="inner">
+            <form action="{:U('Search/index',array('cnl'=>'product'))}"  method="post">
+              <div class="groupWrap">
+                <input placeholder="请输入关键字" name="keyword" class="form-control  " type="text"  value=''>
+                <a onclick="$(this).closest('form').submit();" href="javascript:void(0);" type="submit" class="btn-submit"><span class="menu-icon"><i class="fa fa-search"></i></span></a>  
+              </div>              
+            </form>
+
+          </div>
+        </li>   
+        
+      </ul>
+
+      <ul class="m-menu-product-head pull-left" id="J-menu-tabs">
+        <li class="active" data-target="#J-menu-product">
+          <div class="inner">
+            <span class="menu-icon"><i class="fa fa-th-list"></i></span><span class="pspan">选择系列</span><i class="menu-caret fa fa-caret-down"></i>
+          </div>
+        </li>
+        <li data-target="#J-menu-sizes">
+          <div class="inner">
+            <span class="menu-icon"><i class="fa fa-expand"></i></span><span class="pspan">选择规格</span><i class="menu-caret fa fa-caret-down"></i>
+          </div>
+          </li>      
+      </ul>
+
+      
+    </div>
+  </div>
+  <div class="m-menubar-product-sub">
+    
+      <div class="m-menu-tab" >        
+        <!--s of 选择系列-->
+        <div class="m-menu-tab-item" id="J-menu-product">
+          <template file="Public/block_menu_products.html"/>
+        </div>
+        <!--e of 选择系列-->
+        <!--s of 选择尺寸-->
+        <div class="m-menu-tab-item  hidden" id="J-menu-sizes">
+          <div class="container m-menubar-sizes">
+            <?php 
+            if($catid>0){
+              $filterParam['catid'] = $catid;  
+            }elseif(isset($filterParam['catid'])){
+              unset($filterParam['catid']);
+            }
+            
+            $filterParam['sizes'] = '';
+            foreach ($sizesList as $key => $sizesArray) {
+              echo '<p>';
+              if($key==0){
+                $isOn = !$filter['sizes'] ? ' class="on" ' : '';
+                
+                $url = U('lists',$filterParam);
+                echo '<a href="'.$url.'" '.$isOn.'>全部</a>';
+              }
+              foreach ($sizesArray as $key => $value) {
+                $isOn = $filter['sizes'] == $value ? ' class="on" ' : '';
+                $filterParam['sizes'] = $value;
+                $url = U('lists',$filterParam);
+                echo '<a href="'.$url.'" '.$isOn.'>'.$value.'</a>';
+              }
+              echo '</p>';
+            }?>  
+          </div>
+          
+                    
+        </div>
+        <!--e of 选择尺寸-->      
+    </div>
+  </div>
+  <script type="text/javascript">
+      $(function(){
+        $('#J-menu-tabs li').click(function(){
+          $(this).addClass('active').siblings('li').removeClass('active');
+          $target = $($(this).data('target'));
+          $target.addClass('show').removeClass('hidden').siblings('.m-menu-tab-item').addClass('hidden').removeClass('show');
+        })
+
+        $filterProductOn = $('#J-menu-product .tab-content .on');
+        if($filterProductOn.closest('.tab-pane').length>0){
+          
+          var $tp = $filterProductOn.closest('.tab-pane');
+          var tid = $tp.prop('id');
+          $tp.addClass('active').siblings('.tab-pane').removeClass('active');
+          var $btnA = $('.m-menu-level-1').find('a[href="#'+tid+'"]');
+          $btnA.parent('li').addClass('active').siblings('li').removeClass('active'); 
+          $btnWrap = $('.m-menu-level-1 ul')
+          if($btnWrap[0].scrollWidth-20 > $btnWrap.width()){
+            $btnWrap.animate({scrollLeft:$btnWrap[0].scrollWidth-$btnWrap.width()},600).animate({scrollLeft:0},600);
+            setTimeout(function(){
+              var scrollLeft = $btnA.offset().left + $btnA.width()+10 - $btnWrap.offset().left - $btnWrap.width() 
+            
+              if(scrollLeft > 0){
+                $btnWrap.animate({scrollLeft:scrollLeft+50},500);
+              }
+            },1300)
+          }
+        }
+
+      })
+  </script>
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container">
+      <div class="m-filterInfo" >
+        <p>当前已选：
+          <?php if($catid>0){ 
+            $url = $filter['sizes'] ? U('lists',array('sizes'=>$filter['sizes'])) : U('lists') ;
+          ?>
+            <a class="item"   data-action="remove" title="系列：{$catInfo.SortNameCH}" href="{$url}">
+              系列<b>{$catInfo.SortNameCH}</b> <i class=" fa fa-times"></i>
+            </a>
+          <?php }else{ ?>
+            <a class="item"  data-action="remove" title="系列：{$catInfo.SortNameCH}" href="javascript:void(0);">
+              系列<b>全部</b>
+            </a>
+          <?php } ?>
+          <?php if($filter['sizes']){ 
+            $url = $catid > 0 ? U('lists',array('catid'=>$catid)) : U('lists') ;
+          ?>
+            <a class="item"  data-value="" data-action="remove" title="规格：{$filter.sizes}" href="{$url}">
+              规格<b><?php echo $filter['sizes'] ;?></b> <i class=" fa fa-times"></i>
+            </a>
+          <?php }else{ ?>
+            <a class="item"  data-value="" data-action="remove" title="规格：{$filter.sizes}" href="javascript:void(0);">
+              规格<b>全部</b>
+            </a>
+          <?php } ?>
+          
+          
+        </p>
+      </div>
+      <div class="row">
+        <ul class="m-list-products ">
+          <volist name="datas" id="vo">
+            <li class="col-lg-3 col-sm-4 col-xs-6 " data-id="{$vo.ID}">
+              <a  href="{$vo.url}" title="{$vo.ProductModel}">
+                  <div class="photobox-wrap">
+                      <div class="photobox photobox-product">
+                        <div class="pic ">
+                          <img src="http://#/{$vo.SmallPic}">
+                        </div>
+                        
+                      </div>
+                      <?php if($vo['haveEffice']){ ?>
+                      <div class="photobox photobox-effect">
+                        <div class="pic">
+                            <img src="http://#/{$vo.effectpic.SmallPic}">
+                        </div>
+                      </div>  
+                      <?php } ?>
+                      <div class="info">
+
+                        <h4 class="proName">{$vo.ProductNameCH}</h4>
+                        <?php if(count($vo['perArrary']) > 1 || (isset($vo['is_ym']) && $vo['is_ym']) ){ ?>
+                        <p class="proModel">
+                          <?php foreach ($vo['perArrary'] as $k => $vl) { ?>
+                            <b <?php if($k==0){echo 'class="first"';}?>>
+                              <span><?php echo $vl['model']; ?></span><small><?php echo $vl['sizes']; ?> mm</small>
+                            </b>
+                          <?php } ?>
+                          
+                        </p>
+                        <?php }else{ ?>
+                        <p class="proModel">
+                            <b class="first"><span>{$vo.ProductModel}</span><small>{$vo.Sizes} mm</small></b>
+                        </p>                        
+                        <?php } ?>                                 
+                      </div>
+                      <?php if($vo['NewFlag']){ ?>
+                        <div class="tag-new"></div>
+                      <?php }?>
+                  </div>
+                  
+              </a>
+            </li>
+          </volist>  
+         
+        </ul>
+      </div>
+      <div class="pagenav">
+          {$showPages}  
+      </div>
+      <div class="blank30"></div>      
+    </div>
+    <script type="text/javascript">
+    GBV = [] ; 
+    $(".m-list-products li a").hover(function(){
+      var $this = $(this);
+      $this.closest('li').addClass('hover');
+      if($this.find('.photobox-effect').length>0){
+        GBV['hover_timer_li'] = setTimeout(function(){
+          $this.find('.photobox-effect').fadeIn();
+          $this.find('.photobox-product').hide();
+        },200)
+      }
+    },function(){
+      var $this = $(this);
+      $this.closest('li').removeClass('hover');
+      if($this.find('.photobox-effect').length>0){
+        clearTimeout(GBV['hover_timer_li'])
+        $this.find('.photobox-product').fadeIn();
+        $this.find('.photobox-effect').hide();
+      }
+    })
+
+    $(".m-list-products li .info").hover(function(){
+        var $this = $(this);
+        var model_len = $(this).find('.proModel b').length;
+        var height = model_len < 3 ? 110 : (model_len > 5  ?  190  : 150 );
+        GBV['hover_timer'] = setTimeout(function(){
+            $this.animate({"height":height,"opacity":0.7},200).addClass('hover');
+        },100)
+    },function(){
+        clearTimeout(GBV['hover_timer'])
+        $(this).animate({"height":110,"opacity":0.95},200).removeClass('hover');
+    })
+    </script>
+        
+     
+  </div>
+  <!--./mainer-->
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

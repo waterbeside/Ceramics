@@ -1,0 +1,168 @@
+<include file="Admin@Common:head" />
+<body >
+<link rel="stylesheet" href="__CSS_PATH__/Common/bootstrap-datetimepicker.css" />
+<script src="__JS_PATH__/Common/bs/bootstrap-datetimepicker.js"></script>
+<script src="__JS_PATH__/Common/bs/locales/bootstrap-datetimepicker.zh-TW.js"></script>
+<script src="__JS_PATH__/Admin/user_select.js"></script>
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+    <div class="submenu-bar">
+
+            
+            <div class="dropdown submenu-wechat-btn" >
+              <a class="btn dropdown-toggle"  id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <?php if(empty($wechatInfo)){echo"请选择微信号";}else{echo $wechatInfo['name'];} ?>
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <?php
+  foreach ($wechatList as $key => $value) {
+    echo '<li><a href="'.U('',array('wid'=>$key)).'">'.$value['name'].' <small>【'.$key.'】</small></a></li>';
+     }
+                ?>
+              </ul>
+            </div>
+            <include file="Admin@Common:nav" />
+
+    </div>
+
+
+
+      <div class="table_list ">
+        <table width="100%" cellspacing="0" class="table table-hover  table-bordered table-striped">
+          <thead class="thead-default">
+            <tr>
+              
+              <td  width="70">微信号</td>
+              <td>暱稱</td>
+              <td align="" width="70">性別</td>
+              <td>地區</td>
+              <td align="" width="150">關注時間</td>              
+              <td width="140">操作</td>
+            </tr>
+          </thead>
+          <tbody id="wechatList-tbody">
+            <?php if($datas){ ?>
+
+            <volist name="datas" id="vo">
+            <tr class="weuser-id-{$vo.openid}">
+
+              <td >{$vo.openid}</td>
+              <td >{$vo.nickname}</td>
+              <td >
+                <?php if($vo['sex']==1){ ?>
+                  <span>男</span>
+                <?php }elseif($vo['sex']==2){ ?>
+                  <span>女</span>
+                <?php }else{ ?>
+                  <span>未知</span>
+                <?php } ?>               
+              </td>
+              
+              <td >{$vo.country}/{$vo.province}/{$vo.city}</td>
+
+              <td >
+                {$vo.subscribe_time}<br>
+              
+              </td>
+
+
+              <td  class="options">
+
+              <a href="{:U('edit',array('id'=>$vo['id'],'nid'=>$siteInfo['nid']))}" data-title="編輯：{$vo.MemName}"  data-trigger="modal"  >加備注</a> 
+               | <a href="{:U('edit',array('id'=>$vo['id'],'nid'=>$siteInfo['nid'],'resetpwd'=>1))}" data-title="改密码：{$vo.MemName}"  data-trigger="modal"  >改密</a> 
+              | <a onclick="deleteItem(this,{'url':'<?php echo U('delete',array('id'=>$vo['id'],'nid'=>$siteInfo['nid'])); ?>'})" href="javascript:void(0);" data-loading-text="刪.." >删除</a>
+
+               
+              </td>
+            </tr>
+            </volist>
+            <?php }else{ ?>
+              <tr >
+                <td align="center" colspan="6">
+ <?php echo $wid ? '暂无数据' : '<b>请先选择站点</b>' ; ?>
+
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+        <div class="">
+          <?php if($userListDatas['total']>$userListDatas['count']){?>
+            <a class="btn btn-default center-block" id="morebtn" data-next-openid="{$userListDatas.next_openid}" data-loading-text="加載中...">加載更多</a>
+          <?php } ?>
+          <div class="text-muted pull-right">共{$userListDatas.total}個用戶，已加載<b class="j-item-count">{$userListDatas.count}</b></div>
+        </div>
+      </div>
+
+
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $("#morebtn").click(function(){
+      var $tbody =  $("#wechatList-tbody");
+      var $btn = $(this);
+      var $itemCount = $('.j-item-count');
+      var next_openid = $(this).attr('data-next-openid');
+      var url = "{:U('index',array('wid'=>$wid))}";
+      var postData={};
+      postData.openid = next_openid;
+      $(this).button('loading');
+      $.ajax({
+          type:"get",
+          dataType:"json",
+          url:url,
+          data:postData,          
+          success:function(json){               
+              if(json.status){
+                var list = json.datas.list 
+                if(json.datas.count>0){
+                  $.each(list,function(i,item){
+                    $tbody.append(createTrItem(item));
+                  })
+                  $btn.attr('data-next-openid',json.datas.next_openid);
+                  var count = parseInt($itemCount.text())+parseInt(json.datas.count);
+                  $itemCount.html(count);
+                  if(json.datas.total<=count){
+                    $btn.hide();
+                  }
+                }else{
+                  $.jNotify.add({msg:'沒有更多',type:"info"}) 
+                }
+              }else{
+                $.jNotify.add({msg:json.info,type:"error"})                
+              }
+              $btn.button('reset');
+          },
+          function(XMLHttpRequest, textStatus, errorThrown) {
+            $btn.button('reset');
+            console.log(XMLHttpRequest);
+            $.jNotify.add({msg:XMLHttpRequest.status+","+textStatus,type:"debug"})
+          }
+      })
+    })
+    
+
+  })
+
+function createTrItem(data){
+  var sex = data.sex ==1 ? "男" : data.sex==2 ? "女" : '未知';
+  var trHtml =  '<tr class="weuser-id-'+data.openid+'">';
+      trHtml += '   <td >'+data.openid+'</td>';
+      trHtml += '   <td >'+data.nickname+'</td>';
+      trHtml += '   <td ><span>'+sex+'</span></td>';
+      trHtml += '   <td >'+data.country+'/'+data.province+'/'+data.city+'</td>';
+      trHtml += '   <td >'+data.subscribe_time+'</td>';
+      trHtml += '   <td ></td>';
+      trHtml += '</tr>';
+  return trHtml;        
+}
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<include file="Admin@Common:head" />
+<body >
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+    <div class="submenu-bar">
+         <include file="Admin@Common:nav" />
+    </div>
+    <div class="table_list">
+    <form name="myform" action="{:U("listorders")}" method="post">
+      <table width="100%" cellspacing="0" class="table table-hover table-striped ">
+        <thead class="thead-default">
+          <tr>
+            <td width="80" >排序</td>
+            <td width="60" align="right">ID</td>
+            <td width="80"  align="left" >wid</td>
+            <td width="80"  align="left" >nid</td>
+            <td align="left" >名称</td>
+            <td align="left" >token</td>
+            
+            <td width="300">管理操作</td>
+          </tr>
+        </thead>
+        <tbody>
+          <foreach name="datas" item="vo">
+          <tr>
+            <td><input type="text" name="listorders[{$vo.id}]" class="form-control field_listorders" value="{$vo.listorder}"  /></td>
+            <td  align="right">{$vo.id}</td>
+            <td  >{$vo.wid}</td>
+            <td  >{$vo.nid}</td>
+            <td >{$vo.name}</td>
+            <td >{$vo.token}</td>
+            
+            <td  class="options">
+
+            <a href="{:U("edit",array("id"=>$vo["id"]))}" data-title="編輯站点：{$vo.name}"  data-trigger="modal"  >編輯站点</a> 
+
+            | <a onclick="deleteItem(this,{'url':'<?php echo U('delete',array('id'=>$vo['id'])); ?>'})" href="javascript:void(0);" data-loading-text="刪.." >删除</a>
+
+             
+            </td>
+          </tr>
+          </foreach>
+        </tbody>
+      </table>
+      <button class="btn btn-default btn-sm" type="submit"><i class="fa fa-sort-numeric-asc"></i>&nbsp;&nbsp;更新排序</button>
+    </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

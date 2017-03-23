@@ -1,0 +1,314 @@
+<div class="table-edit table-edit-model"> 
+  <div class="common-form">
+    <form class="form form-inline" method="post" action="{:U('add',array('nid'=>$nid))}"  onsubmit="return submit_ajax(this);">
+      <a class="btn btn-default btn-xs " style="position:absolute; top:15px; right:15px" title="自动填写上一次录入的其本信息" onclick="setPrevDatas();"><i class="fa fa-edit"></i>&nbsp;取前回</a>
+      <ul class="nav nav-tabs " role="tablist">
+        <li  class="active"><a href="#t-ch"   data-toggle="tab" >中文</a></li>
+        <li><a href="#t-en"  data-toggle="tab">EN</a></li>      
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class=" panel panel-default tab-pane active" id="t-ch" style=" border-top:none;border-radius:0 0 4px 4px ">
+            <div class="panel-heading"><h5>中文信息</h5></div>
+            <table class="table table-striped table-bordered ">            
+              <tbody>
+                <tr>
+                  <td class="th-label" width="90">名称:</td>
+                  <td>
+                    <input type="text" class="form-control input_ruler" id="ProductNameCH" name="ProductNameCH" value="{$datas.ProductNameCH}" style="width:100%">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="th-label">关键词:</td>
+                  <td>
+                    <input type="text" class="form-control input-sm" id="SeoKeywordsCH" name="SeoKeywordsCH" size='60'>
+                    <a class="btn btn-default btn-sm "  onclick="copyToMeta($('#ProductNameCH').val(),'CH');">自动取</a>
+                    <a class="btn btn-default btn-xs pull-right"  onclick="showAndHide(this,'.tr-showmore-con')"><i class="fa fa-angle-double-down"></i></a>
+                  </td>
+                </tr>
+                <tr class="tr-showmore-con hidden">
+                  <td class="th-label">描述:</td>
+                  <td><input type="text" class="form-control" id="SeoDescriptionCH" name="SeoDescriptionCH" size='60'></td>
+                </tr>
+                <tr class="tr-showmore-con hidden">
+                  <td class="th-label">详情:</td>
+                  <td>
+                    <textarea class="form-control" id="edit-ContentCH" name="ContentCH" style="width:100%; height:150px"></textarea>
+                  </td>
+                </tr>
+               
+              </tbody>
+          </table>
+        </div>
+        <div class=" panel panel-default tab-pane " id="t-en" style=" border-top:none;border-radius:0 0 4px 4px">
+            <div class="panel-heading"><h5>英文信息</h5></div>
+            <table class="table table-striped table-bordered ">            
+              <tbody>
+                
+                <tr>
+                  <td class="th-label" width="90">Name:</td>
+                  <td>
+                    <input type="text" class="form-control input_ruler" id="ProductNameEN" name="ProductNameEN" value="{$datas.ProductNameEN}" style="width:100%">
+                   
+                  </td>
+                </tr>
+                <tr>
+                  <td class="th-label">Keywork:</td>
+                  <td><input type="text" class="form-control  input-sm" id="SeoKeywordsEN" name="SeoKeywordsEN" size='60'>
+                    <a class="btn btn-default btn-sm "  onclick="copyToMeta($('#ProductNameEN').val(),'EN');">自动取</a>
+                    <a class="btn btn-default btn-xs pull-right"  onclick=" showAndHide(this,'.tr-showmore-con')"><i class="fa fa-angle-double-down"></i></a> 
+                  </td>
+                </tr>
+                <tr class="tr-showmore-con hidden">
+                  <td class="th-label">descript:</td>
+                  <td><input type="text" class="form-control" id="SeoDescriptionEN" name="SeoDescriptionEN" size='60'></td>
+                </tr>
+                <tr class="tr-showmore-con hidden">
+                  <td class="th-label">content:</td>
+                  <td>
+                    <textarea  class="form-control" id="edit-ContentEN" name="ContentEN" style="width:100%; height:150px"></textarea>
+                  </td>
+                </tr>
+               
+              </tbody>
+          </table>
+        </div>
+      </div>
+
+      
+      <div class=" panel panel-default ">
+          <div class="panel-heading"><h5>砖块信息</h5></div>          
+          <table class="table table-striped table-bordered ">            
+            <tbody>
+              
+              <tr>
+                <td class="th-label" width="90">分類類型:</td>
+                <td>
+                  <?php if(is_array($products_cate_field)){
+                    foreach ($products_cate_field as $key => $value) {
+                      $field_sortid = $value;
+                      $field_sign = str_replace('SortID', '', $value);
+                      $field_sortpath = 'SortPath'.$field_sign;
+                      $field_sortname = 'SortNameCH'.$field_sign;
+                    ?>
+                      <div class="well" style="padding:5px 15px; margin-bottom:5px">
+                        <div style="display:inline-block; width:60px"><?php echo  '分类'.$field_sign."：";?></div>
+                      <input class="form-control input-sm J-input-SortID"  type="number"  style='width:78px; display:inline-block' name="<?php echo $field_sortid; ?>" value="<?php echo $datas[$field_sortid]; ?>">
+                      <input class="form-control input-sm J-input-SortPath"  type="text" style='width:120px; display:inline-block' name="<?php echo $field_sortpath; ?>" value="<?php echo $datas[$field_sortpath]; ?>">
+                      <input class="form-control input-sm J-input-SortNameCH"  type="text"  style='width:120px; display:inline-block' name="<?php echo $field_sortname; ?>" value="">
+                      <a href="javaScript:void(0);" onclick="selectSort(this)" data-url="{:U('Contents/Productsort/public_selectsort',array('nid'=>$nid))}" class="btn btn-sm btn-default" >选择类别 </a>
+                    </div>
+                    
+                    <?php }
+                  }else{ ?>
+                    <div class="well" style="padding:5px 15px;margin-bottom:5px">
+                      <input class="form-control input-sm J-input-SortID"  type="number"  style='width:78px; display:inline-block' name="SortID" value="{$datas.SortID}">
+                      <input class="form-control input-sm J-input-SortPath"  type="text" style='width:120px; display:inline-block' name="SortPath" value="{$datas.SortPath}">
+                      <input class="form-control input-sm J-input-SortNameCH"  type="text"  style='width:120px; display:inline-block' name="SortNameCH" value="">
+                      <a href="javaScript:void(0);" onclick="selectSort(this)" data-url="{:U('Contents/Productsort/public_selectsort',array('nid'=>$nid))}" class="btn btn-sm btn-default" >选择类别 </a>
+                    </div>
+                  <?php }?>
+                </td>
+                </td>
+              </tr>
+    
+              <tr>
+                <td class="th-label">砖块</td>
+                <td>
+                  
+                  <span class="smode">
+                  &nbsp;&nbsp;小图路径方式：
+                  <label class="label_radio"><input name="smode" type="radio" value="1" />small文件夹</label>
+                  <label class="label_radio"><input name="smode" type="radio" value="0" checked="checked" />_s.jpg</label>
+                  <div class="blank10"></div>
+                  <table class="table table-bordered table-condensed " style="margin-bottom:5px">
+                    <thead class="thead-default">
+                      <tr>
+                        <td>型号</td>
+                        <td >规格</td>
+                        <td >小图</td>
+                        <td >大图</td>
+                        <td width="130">操作</td>
+                      </tr>
+                    </thead>
+                    <tbody id="pro_1_str">
+                      <tr class="dl_1">
+                        <td>
+                          <input type="hidden" name="model_num" class="model_num" value="1"/>
+                          <input class="ProductModel form-control input-sm " id="Model_1" size="16" value="" name="ProductModel[]" type="text"> 
+                        </td>
+                        <td>
+                          <input class="sizeInput form-control input-sm " id="Sizes_1" size="5" value=""  name="ProductSizes[]"  type="text" onfocus="gg_list(this)">
+                        </td>
+                        <td>
+                          
+                          <input class="form-control input-sm " id="SizeSmallpic_1" size="8" value=""  type="text" name="SizeSmallpic[]"  ondblclick="showpic($('#SizeSmallpic_1').val(),1);">
+
+                        </td>
+                        <td>
+                          <input class="form-control input-sm " id="SizeBigpic_1" size="10" value=""  type="text" name="SizeBigpic[]"  ondblclick="showpic($('#SizeBigpic_1').val(),1);">
+                        </td>
+                        <td>
+                          <a class="btn btn-sm btn-default" onclick="aj_searchImg($('#Model_1').val(),1,'<?php echo U('Contents/Products/public_search',array('nid'=>$nid)); ?>');" value="取图片地址" type="button">取图</a>
+                          <a class="btn btn-sm btn-default" onclick="copyPic('SizeBigpic_1','SizeSmallpic_1');" ><i class="fa fa-copy"></i></a>
+                          <a class="btn btn-sm btn-default" onclick="delModel(1);" value="删除" ><i class="fa fa-times"></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr style="background:#F5F0E8">
+                        <td colspan="5">
+                          <div class="pull-left">
+                            <select class="form-control input-sm" name="add_multiple">
+                              <option value="0">单套模式（可单砖多砖）</option>
+                              <option value="1">批量多套单砖上传</option>
+                            </select>
+                          </div>
+                          <div class="pull-right">
+                            <div class="input-group">
+                              <input type="text" class="form-control input-sm " id="pro_1" value="2" style="width:50px">
+                              <span class="input-group-btn">
+                                <a class="btn btn-sm btn-default" onclick="setLenModel('<?php echo U('Contents/Products/public_search',array('nid'=>$nid)); ?>')" >添&nbsp;N&nbsp;个</a>
+                              </span>
+                            </div>
+                          
+                            <a class="btn btn-sm btn-default" onclick="addModel('<?php echo U('Contents/Products/public_search',array('nid'=>$nid)); ?>')" ><i class="fa fa-plus"></i>&nbsp;&nbsp;添1个</a>
+                          </div>
+                        </td>
+                      </tr>  
+                    </tfoot>
+                  </table>
+                  
+                    
+                  
+                </td>
+              </tr>
+              <tr>
+                <td class="th-label">默认小图 </td>
+                <td ><input type="text" class="form-control" id="SmallPic" name="SmallPic" value="{$datas.SmallPic}" style="width:100%"></td>
+              </tr>
+              <tr>
+                <td class="th-label">默认大图 </td>
+                <td ><input type="text" class="form-control" id="BigPic" name="BigPic" value="{$datas.BigPic}" style="width:100%"></td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+
+      <div class=" panel panel-default " >
+          <div class="panel-heading"><h5>其它</h5></div>
+          <table class="table table-striped table-bordered ">            
+            <tbody>
+              <tr >
+                <td class="th-label" width="90">站點:</td>
+                <td>
+                  {$siteInfo.name} <small>【{$siteInfo.nid}】</small>
+                  <a class="btn btn-default btn-xs pull-right"  onclick=" showAndHide(this,'.tr-showmore-con')"><i class="fa fa-angle-double-down"></i></a> 
+                </td>
+              </tr>
+              <tr >
+                <td class="th-label" width="90">状态:</td>
+                <td>
+                  <label class="label_checkbox" ><input type="checkbox" name="ViewFlagCH" value="1"> 中</label> 
+                  <label class="label_checkbox" ><input type="checkbox" name="ViewFlagEN" value="1"> 英</label> 
+                  <label class="label_checkbox" ><input type="checkbox" name="NewFlag" value="1"> 新</label> 
+                  <label class="label_checkbox" ><input type="checkbox" name="CommendFlag" value="1"> 热</label> 
+                </td>
+              </tr>
+              
+
+              <tr class="tr-showmore-con hidden">
+                <td class="th-label">权限</td>
+                <td>
+                  <select class="form-control input-sm" name="GroupID">
+                    <?php foreach ($memgroups as $key => $value) {
+                      echo '<option value="'.$value['GroupID'].'" >'.$value['GroupNameCH'].'</option>';
+                    }?>
+
+                  </select>
+                  <select class="form-control input-sm" name="Exclusive">
+                    <option value=">=" >&gt;=</option>
+                    <option value="=" >=</option>
+                  </select>
+                  
+
+                  
+                  
+                </td>
+              </tr>
+              
+             
+            </tbody>
+        </table>
+      </div>
+      
+    </form>
+</div>
+
+<script type="text/javascript">
+  loadCss("__JS_PATH__/editor/wangeditor/css/wangEditor_my.css")
+  
+  if(typeof(wangEditor)!="function"){
+    loadJs("__JS_PATH__/editor/wangeditor/js/wangEditor_my.js")  
+  }
+  
+   GV.VAR['webDomain'] = '<?php echo $siteInfo["domain"]; ?>';
+
+  var addEditorCH = new wangEditor('edit-ContentCH');
+  formatProsortEditor(addEditorCH);
+  var addEditorEN = new wangEditor('edit-ContentEN');
+  formatProsortEditor(addEditorEN);
+  // 表情显示项
+  //editor.config.emotionsShow = 'value';
+  
+
+  function formatProsortEditor(obj){
+    obj.config.menus = [
+    'source','bold','underline','italic', 'strikethrough', 'eraser', 'forecolor',
+    'link','unlink','table','quote','|','fullscreen'
+    //'img','video','location'
+    ];
+    obj.create();
+    obj.$editorContainer.css({'border':'none'})
+    //obj.$txt.html('<p class="J-editor_content_tips" ><span style="color:#aaa">请在此输入内容</span></p>');
+    obj.$txt.click(function(){
+      if($(this).find('.J-editor_content_tips').length>0){
+         $(this).find('.J-editor_content_tips').html('').removeClass('J-editor_content_tips');
+      }
+    })
+
+  }
+
+  function showAndHide(btn,target){
+    if($(btn).data('show')){
+      $(btn).closest('div').find(target).addClass('hidden');
+      $(btn).html('<i class="fa fa-angle-double-down"></i>');
+      $(btn).data('show',0);
+    }else{
+      $(btn).closest('div').find(target).removeClass('hidden');
+      $(btn).html('<i class="fa fa-angle-double-up"></i>')
+      $(btn).data('show',1);
+    }
+  }
+
+
+  function setPrevDatas(){
+    var prDatas = [<?php echo $pvDatas;  ?>]
+    var prevDatas = prDatas[0];
+    //console.log(prevDatas)
+    if(typeof(prevDatas.noDatas)!='undefined' && prevDatas.noDatas==1){
+      alert('无数据');
+    }else{
+      var $wraper = $('.table-edit-model');
+      $.each(prevDatas,function(key,value){
+        //console.log(key+':'+value);
+        $wraper.find('input[name="'+key+'"]').val(value);
+      })
+      $.jNotify.add({msg:'自动填写完成',type:"warning"})
+    }
+    
+  
+  }
+
+</script>

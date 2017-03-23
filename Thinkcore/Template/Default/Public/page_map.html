@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body >
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+
+
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div id="bdMap" class="bdMapConWrap"></div>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=D5de918363bcb2c73bbde5da986a593c"></script>
+              <script type="text/javascript">
+              $(function(){
+                  var w_info_html = "<div class='bdMapMyTag'>"
+                  
+                  w_info_html += "<div class=\"title\"><h2>联系我们</h2></div>"
+                  w_info_html += "<div class=\"row\">"
+                  w_info_html += "<div class=\"pic\" ><a href=\"{:U('room',array('catid'=>51))}\"><img src=\"__TPL_IMG__/Default/pic_store.jpg\"></a></div>";
+                  w_info_html += "<div class=\"txt\">"
+                  w_info_html += "<div class=\"brand\" >#lazyme#陶瓷</div>"
+                  w_info_html += "<p>地址：## <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（）</p>"
+                  w_info_html += "<p>邮编：《/p>"
+                  w_info_html += "<p>电话：</p>"
+                  w_info_html += "<p>传真：</p>"
+                  w_info_html += "</div>"
+                  w_info_html += "</div>"
+                  w_info_html += "</div>"
+                  
+                  
+                  
+
+
+
+                  var map = new BMap.Map("bdMap");
+                  map.centerAndZoom(new BMap.Point(113.085821, 23.145081), 12);      // 初始化地图,设置城市和地图级别。
+                  map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT,offset: new BMap.Size(50, 150)}));  //添加默认缩放平移控件
+                   
+
+                  map.enableScrollWheelZoom();                            //启用滚轮放大缩小
+                  var marker1 = new BMap.Marker(new BMap.Point(113.085585, 23.017450));  // 创建标注
+                  map.addOverlay(marker1);              // 将标注添加到地图中
+                  var infoWindow1 = new BMap.InfoWindow(w_info_html,{
+                    width:480,height:230,
+                    //title:"Contact us",
+
+                  });//创建信息窗口
+                  marker1.openInfoWindow(infoWindow1);
+                  marker1.addEventListener("click", function(){this.openInfoWindow(infoWindow1);});
+                   $(".BMap_stdMpCtrl").css({"left":"auto","right":50})
+              })
+              </script>
+             
+    
+    
+ 
+     
+  </div>
+  <!--./mainer-->
+  
+</div>
+</body>
+</html>

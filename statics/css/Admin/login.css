@@ -1,0 +1,8 @@
+/*登录*/
+.g-header { height: 40px;margin-bottom: 100px; border-top: #0D678B solid 2px; background:#fff  url(../../images/Common/gd_gray.png)  center 10px repeat-x ; box-shadow: 0 5px 5px rgba(0,0,0,0.2) }
+.g-header .brand { padding:0 5px; font:bold 20px/40px  "Microsoft YaHei","微软雅黑"; color: #AAA}
+#login .form-signin {   width: 400px;   padding: 19px 29px 29px;  margin: 0 auto 20px;   background-color: #fff;   border: 1px solid #e5e5e5;   border-radius: 5px;   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05); -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05); box-shadow: 0 1px 2px rgba(0,0,0,.05);}
+#login .form-signin .form-signin-heading {  margin:10px 0 30px;  font-size:26px; font-family:"Microsoft YaHei","微软雅黑"; color:#ccc}
+#login .form-signin input[type="text"],#login .form-signin input[type="password"] { font-size: 16px; height: auto; padding: 7px 9px; display:inline-block; width:80%; vertical-align:middle}
+#login .form-signin label { width:20%; color:#999}	
+#login button[type="submit"] { width:100%; margin-top:20px}

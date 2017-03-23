@@ -1,0 +1,135 @@
+<div id="modal-selectuser-content" style="min-height:250px">
+  <form name="searchform" class="form-inline" onsubmit="return false;">
+        <select class="form-control input-sm" name="searchtype" style="width:90px;">
+          <option value='username' <if condition=" $_GET['field']=='username' ">selected</if>>用戶名</option>
+          <option value='realname'  >真實名</option>
+          <option value='remark' >描述</option>
+          <option value='userid' >ID</option>
+        </select>
+        <?php if(!$basefilter && !$showpriv){?>
+
+        
+        <select name="role_id" class="form-control input-sm">
+          <option value="">請選擇</option>
+          <volist name="roles" id="vo">
+            <option value="{$vo.id}" <eq name="vo.id" value="$datas.role_id">selected</eq>>{$vo.name}</option>
+          </volist>
+        </select>
+        <?php } ?>
+        关键字：
+        <input type="text" class="form-control input-sm" name="keywords" style="width:120px;" value="" placeholder="请输入关键字...">
+        <a class="btn btn-default btn-sm" onclick="searchUser(this)"><i class="fa fa-search"></i>&nbsp;搜索</a>
+  </form>
+  <div class="blank10"></div>
+  <div class="table_list">
+    <table id="user_select_list" class="table table-condensed table-datagrid table-hover" width="100%"></table>
+    <div class="pages"></div> 
+  </div>
+  <!-- <div class="dividing-line"></div>
+  <div class=" pull-right">
+    <a href="javascript:void(0);" onclick="GV.MODAL['selectuser'].close()" class="btn btn-primary"><i class="fa fa-check"></i> 完成</a>
+  </div>
+  <div class="blank10"></div> -->
+</div>
+
+<script type="text/javascript">
+  if(typeof($.fn.jDatagrid)=="undefined"){
+    $.ajax({url: GV.JS_ROOT+"/Common/jfuc.datagrid.js",dataType: "script",async:false,cache:true})  
+  }
+  var $targetTable = $('#user_select_list');
+  var isMultiple = '{$multiple}';
+  
+    $targetTable.jDatagrid({
+        idField:'id'
+        ,url:'<?php echo $url; ?>'
+        ,cache:true
+        ,columns:[[
+          {field:'id',title:'ID',width:'10%'}
+          ,{field:'realname',title:'用戶名'}
+          ,{field:'username',title:'帐号名'}
+          <?php if($showpriv){?>
+            ,{field:'rolename',title:'權限'}
+          <?php }?>
+          ,{field:'status',title:'狀態',width:'10%',formatter:formatStatus}
+          
+        ]]
+        ,onBeforeLoad:function(){GV.VAR['loadmark'] = $.jNotify.add({'msg':'加載中'})}
+        ,onLoadSuccess:function(datas){
+            $.jNotify.close(GV.VAR['loadmark'].itemId);
+            var $pages = $(datas.Page);
+            $targetTable.siblings(".pages").html($pages);
+            if($pages.children().length==1){
+              $pages.children().addClass('only');
+            }
+            $pages = $targetTable.siblings(".pages");
+            $pages.find('.all').remove();
+            $pages.find('.pageindex').remove();
+            $pages.find('a').each(function(){
+
+              $(this).click(function(e){
+                e.preventDefault();
+                e.stopPropagation();
+
+                var href = $(this).attr("href");
+                 $targetTable.jDatagrid('load',href);
+                return false;
+              })
+
+            })
+            var defaultsID = 0 ;
+
+            <?php if($loadsuccess!=""){ ?>
+              if(typeof(<?php echo $loadsuccess; ?>)=="function"){
+                <?php 
+                $param  = str_replace("&quot;", '"', $param);
+                echo $loadsuccess."(".$param.");"; 
+                ?>
+              }
+            <?php } ?>
+            if(isMultiple){
+              
+            }else{
+              
+            }
+
+        }
+        ,onClickRow:function(node){
+          
+        }
+    });
+
+ 
+
+    
+    
+  
+
+ 
+
+
+  function searchUser(obj){
+    var $form = $(obj).closest("form");
+    var data = {}
+    data.searchtype = $form.find("select[name=searchtype]").val();
+    data.role_id = $form.find("select[name=role_id]").val();
+    data.keywords = $form.find("input[name=keywords]").val();
+    
+    $targetTable.jDatagrid('reload',data);
+    
+  }
+
+
+
+
+  //重置狀態
+  function formatStatus(value,row){
+    if(value=="1"){
+      s = "<span class=\"text-success\">啟用</span>"
+    }else{
+      s ="<span class=\"text-danger\">禁用</span>";
+    }
+    return s;
+  }
+  
+
+</script>

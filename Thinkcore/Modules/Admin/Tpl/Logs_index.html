@@ -1,0 +1,100 @@
+<include file="Admin@Common:head" />
+<body >
+<link rel="stylesheet" href="__CSS_PATH__/Common/bootstrap-datetimepicker.css" />
+<script src="__JS_PATH__/Common/bs/bootstrap-datetimepicker.js"></script>
+<script src="__JS_PATH__/Common/bs/locales/bootstrap-datetimepicker.zh-TW.js"></script>
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+    <div class="submenu-bar">
+      <include file="Admin@Common:nav" />
+    </div>
+      <div class="search-bar well">
+        <form class="form-inline" method="post" action="{:U('index')}">
+            <input type="hidden" name="menuid" value="{$_GET.menuid}">
+            <input type="hidden" name="field_a" value="{$_GET.field_a}">
+            成敗:
+            <select class="form-control input-sm" name="status" >
+              <option value='' <if condition="$_GET['status'] eq ''">selected</if>>不限</option>
+              <option value="1" <if condition="$_GET['status'] eq '1'">selected</if>>成</option>
+              <option value="0" <if condition="$_GET['status'] eq '0'">selected</if>>敗</option>
+            </select>
+            &nbsp;&nbsp;用户ID：<input type="text" class="form-control input-sm" name="uid" size='10' value="{$_GET.uid}" placeholder="用户ID">
+            &nbsp;&nbsp;IP：<input type="text" class="form-control input-sm" name="ip" size='12' value="{$_GET.ip}" placeholder="IP">
+            &nbsp;&nbsp;时间：
+            <div class="input-group btn-group-sm date form_date" id="datetimepicker" data-date="{$_GET.start_time}" data-date-format="yyyy-mm-dd">
+            <input class="form-control input-sm" size="14" type="text"  name="start_time" value="{$_GET.start_time}">
+            <span class="input-group-addon"><i class="fa fa-times"></i></span>
+            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+            </div>-
+            <div class="input-group btn-group-sm date form_date" id="datetimepicker" data-date="{$_GET.end_time}" data-date-format="yyyy-mm-dd">
+            <input class="form-control input-sm" size="14" type="text"  name="end_time" value="{$_GET.end_time}">
+            <span class="input-group-addon"><span class="fa fa-times"></span></span>
+            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+            </div>
+
+            <button class="btn btn-default btn-sm">搜索</button>
+        </form>
+      </div>
+
+      <div class="table_list">
+        <table width="100%" cellspacing="0" class="table table-hover  table-bordered table-striped">
+          <thead class="thead-default">
+            <tr>
+              <th align="center" width="30">ID</th>
+              <th align="center" width="80" ><if condition="$_GET['field_a'] eq 'login'">登入名<else/>操作人</if></th>
+              <th>說明</th>
+              <th>請求方式</th>
+              <th>query_string</th>
+              <th align="center" width="150">時間</th>
+              <th align="center" width="120">IP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <volist name="data" id="vo">
+              <tr>
+                <td align="center">{$vo.logid}</td>
+                <td align="center">{$vo.username}<br>({$vo.uid})</td>
+                <td>
+                  <if condition="$vo['status'] eq '1'">
+                    <span style="color:#246F12; font-size:14px"><i class="fa fa-check-circle-o"></i></span>
+                  <else/>
+                    <span style="color:#931717; font-size:14px"><i class="fa fa-times-circle-o"></i></span>
+                  </if>
+                  {$vo.info}<br>
+                  g:{$vo.g} m:{$vo.m} a:{$vo.a} <br>
+                </td>
+                <td>
+                  {$vo.request_type} 
+                </td>
+                <td>{$vo.query_string}</td>
+                <td align="center">{$vo.time|date="Y-m-d H:i:s",###}</td>
+                <td align="center">{$vo.ip}</td>
+              </tr>
+            </volist>
+          </tbody>
+        </table>
+        <div class="p10">
+          <div class="pages list-pages"> {$Page} </div>
+        </div>
+      </div>
+
+
+
+  </div>
+</div>
+<script type="text/javascript">
+   $('.form_date').datetimepicker({
+        language:  'zh-TW',
+        weekStart: 0,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        fontAwesome:1
+    });
+</script>
+</body>
+</html>

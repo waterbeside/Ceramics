@@ -1,0 +1,121 @@
+<div class="table-edit table-edit-model"> 
+  <div class="common-form">
+    <form class="form" method="post" action="{:U('edit',array('nid'=>$nid))}"  onsubmit="return submitCategoryEditForm(this);">
+      <input type="hidden"  name="ID"   value="{$datas.ID}">
+      
+      <div class=" panel panel-default ">
+          <div class="panel-heading"><h5>中文信息</h5>
+            <label class="rightbox label_checkbox" ><input type="checkbox" name="ViewFlagCH" value="1" <if condition="$datas['ViewFlagCH']">checked</if> > 啟用</label>
+          </div>
+          <table class="table table-striped table-bordered ">            
+            <tbody>
+              
+              <tr>
+                <td class="th-label" width="120">分类名称:</td>
+                <td>
+                  <input type="text" class="form-control" name="SortNameCH" value="{$datas.SortNameCH}">
+                </td>
+              </tr>
+              <tr>
+                <td class="th-label">分类排序:</td>
+                <td><input type="number" class="form-control" name="orders" value="{$datas.orders}"></td>
+              </tr>
+              <tr>
+                <td class="th-label">描述:</td>
+                <td>
+                  <textarea id="edit-SortDescCH" name="SortDescCH" style="width:100%; height:120px">{$datas.SortDescCH}</textarea>
+                </td>
+              </tr>
+             
+            </tbody>
+        </table>
+      </div>
+      <div class=" panel panel-default ">
+          <div class="panel-heading"><h5>英文信息</h5>
+            <label class="rightbox label_checkbox" ><input type="checkbox" name="ViewFlagEN" value="1" <if condition="$datas['ViewFlagEN']">checked</if>> 啟用</label>
+          </div>
+          <table class="table table-striped table-bordered ">            
+            <tbody>
+              
+              <tr>
+                <td class="th-label" width="120">Name:</td>
+                <td>
+                  <input type="text" class="form-control" name="SortNameEN" value="{$datas.SortNameEN}">
+                </td>
+              </tr>
+              <tr>
+                <td class="th-label">List order:</td>
+                <td><input type="number" class="form-control" name="ordersEN" value="{$datas.ordersEN}"></td>
+              </tr>
+              <tr>
+                <td class="th-label">Description:</td>
+                <td>
+                  <textarea id="edit-SortDescEN" name="SortDescEN" style="width:100%; height:120px">{$datas.SortDescEN}</textarea>
+                </td>
+              </tr>
+             
+            </tbody>
+        </table>
+      </div>
+
+      <div class=" panel panel-default ">
+          <div class="panel-heading"><h5>其它信息</h5></div>          
+          <table class="table table-striped table-bordered ">            
+            <tbody>
+              <tr>
+                <td class="th-label" width="120">站點:</td>
+                <td>
+                  {$siteInfo.name} <small>【{$siteInfo.nid}】</small>
+                </td>
+              </tr>
+              <tr>
+                <td class="th-label" width="120">分類類型:</td>
+                <td>
+                  <label class="label_radio"><input  type="radio" value="1" name="linktype" <if condition=" $datas['linktype'] eq 1" >checked</if>>內部</label>&nbsp;&nbsp;&nbsp;
+                  <label class="label_radio"><input  type="radio" value="2" name="linktype"  <if condition=" $datas['linktype'] eq 2">checked</if>>外链</label>&nbsp;&nbsp;&nbsp;
+                  <label class="label_radio"><input type="radio" value="3" name="linktype"  <if condition=" $datas['linktype'] eq 3">checked</if>>聚合</label>
+                </td>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="th-label">URL/聚合规则:</td>
+                <td>
+                  <input type="text" class="form-control" name="linkurl"  value="{$datas.linkurl}">
+                  <span class="help-block">【內部】類型不用填寫，【外鏈】類請填寫連接地址，【聚合】類請以連接參數方式填寫規則</span>
+                </td>
+              </tr>
+             <tr>
+                <td class="th-label">產品分類圖:</td>
+                <td>
+                  <input type="text" class="form-control" name="SortPic"  value="{$datas.SortPic}">
+                </td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+      
+      
+    </form>
+</div>
+<script type="text/javascript">
+  
+  var addEditorCH = new wangEditor('edit-SortDescCH');
+  formatProsortEditor(addEditorCH);
+  var addEditorEN = new wangEditor('edit-SortDescEN');
+  formatProsortEditor(addEditorEN);
+  // 表情显示项
+  //editor.config.emotionsShow = 'value';
+  
+
+  function formatProsortEditor(obj){
+    obj.config.menus = [
+    'source','bold','underline','italic', 'strikethrough', 'eraser', 'forecolor',
+    'link','unlink','quote','|','fullscreen'
+    //'img','video','location'
+    ];
+    obj.create();
+    
+
+  }
+</script>

@@ -1,0 +1,130 @@
+<include file="Admin@Common:head" />
+<body >
+<link rel="stylesheet" href="__CSS_PATH__/Common/bootstrap-datetimepicker.css" />
+<script src="__JS_PATH__/Common/bs/bootstrap-datetimepicker.js"></script>
+<script src="__JS_PATH__/Common/bs/locales/bootstrap-datetimepicker.zh-TW.js"></script>
+<script src="__JS_PATH__/Admin/user_select.js"></script>
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+    <div class="submenu-bar">
+
+            
+            <div class="dropdown submenu-wechat-btn" >
+              <a class="btn dropdown-toggle"  id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <?php if(empty($wechatInfo)){echo"请选择微信号";}else{echo $wechatInfo['name'];} ?>
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <?php
+                    foreach ($wechatList as $key => $value) {
+                      echo '<li><a href="'.U('',array('wid'=>$key)).'">'.$value['name'].' <small>【'.$key.'】</small></a></li>';
+                       }
+                ?>                  
+              </ul>
+            </div>
+            <include file="Admin@Common:nav" />
+
+    </div>
+
+    <ul class="nav nav-tabs ">
+        
+        <li <?php if($type=='image'){echo 'class="active"'; } ?> ><a href="{:U('index',array('type'=>image,'wid'=>$wid))}"  >图片素材 <b class="badge bg-info">{$total_array.image_count}</b></a></li>
+        <li <?php if($type=='voice'){echo 'class="active"'; } ?>><a href="{:U('index',array('type'=>voice,'wid'=>$wid))}"  >语音素材 <b class="badge">{$total_array.voice_count}</b></a></li>
+        <li <?php if($type=='video'){echo 'class="active"'; } ?>><a href="{:U('index',array('type'=>video,'wid'=>$wid))}"  >视频素材 <b class="badge">{$total_array.video_count}</b></a></li>
+        <li <?php if($type=='news'){echo 'class="active"'; } ?>><a href="{:U('index',array('type'=>news,'wid'=>$wid))}"  >图文素材 <b class="badge">{$total_array.news_count}</b></a></li>
+    </ul>
+    <div class="blank10"></div>
+    <a class="btn btn-success" href="{:U('add',array('type'=>$type,''))}"><i class="fa fa-plus"></i> 添加素材</a>
+    <div class="blank10"></div>
+
+    <div class="row">
+      <ul class="material-list material-list-{$type}">
+          <li class="col-xs-6 col-md-4 col-lg-3">
+              <div class="thumbnail">
+                <div class="pic">
+                  <a target="_blank" href="http://#/CH/ebookView.php?id=2392"><img title="2016抛光砖大画册" src="http://#/upload/ebook/2016/2016_pg/p_0.jpg"></a>  
+                </div>
+                <div class="caption">
+                  <h4>2016抛光砖大画册</h4>
+                  <p>是否不希望在小屏幕设备上所有列都堆叠在一起？那就使用针对超小屏幕和中等屏幕设备所定义的类吧，即 .col-xs-* 和 .col-md-*。请看下面的实例，研究一下这些是如何工作的。</p>
+                  <div class="btnbar">
+                    <a data-trigger="modal" data-title="編輯素材" href="{:U('edit',array('type'=>$type,'wid'=>$wid))}"><i class="fa fa-pencil"></i> 修 </a>
+                    <a data-trigger="modal" data-title="删除素材"  href="{:U('delete',array('type'=>$type,'wid'=>$wid))}"><i class="fa fa-trash"></i> 删 </a>
+                  </div>
+                </div>
+              </div>
+          </li>
+          <li class="col-xs-6 col-md-4 col-lg-3">
+              <div class="thumbnail">
+                <div class="pic">
+                  <a target="_blank" href="http://#/CH/ebookView.php?id=2392"><img title="2016抛光砖大画册" src="http://#/upload/ebook/2016/2016_pg/p_0.jpg"></a>  
+                </div>
+                <div class="caption">
+                  <h4>2016抛光砖大画册</h4>
+                  <div class="btnbar">
+                    <a data-trigger="modal" data-title="編輯素材" href="{:U('edit',array('type'=>$type,'wid'=>$wid))}"><i class="fa fa-pencil"></i> 修 </a>
+                    <a data-trigger="modal" data-title="删除素材"  href="{:U('delete',array('type'=>$type,'wid'=>$wid))}"><i class="fa fa-trash"></i> 删 </a>
+                  </div>
+                </div>
+              </div>
+          </li>
+          <li class="col-xs-6 col-md-4 col-lg-3">
+              <div class="thumbnail">
+                <div class="pic">
+                  <a target="_blank" href="http://#/CH/ebookView.php?id=2392"><img title="2016抛光砖大画册" src="http://#/upload/ebook/2016/2016_pg/p_0.jpg"></a>  
+                </div>
+                <div class="caption">
+                  <h4>2016抛光砖大画册</h4>
+                  <div class="btnbar">
+                    <a data-trigger="modal" data-title="編輯素材" href="{:U('edit',array('type'=>$type,'wid'=>$wid))}"><i class="fa fa-pencil"></i> 修 </a>
+                    <a data-trigger="modal" data-title="删除素材"  href="{:U('delete',array('type'=>$type,'wid'=>$wid))}"><i class="fa fa-trash"></i> 删 </a>
+                  </div>
+                </div>
+              </div>
+          </li>
+          <li class="col-xs-6 col-md-4 col-lg-3">
+              <div class="thumbnail">
+                <div class="pic">
+                  <a target="_blank" href="http://#/CH/ebookView.php?id=2392"><img title="2016抛光砖大画册" src="http://#/upload/ebook/2016/2016_pg/p_0.jpg"></a>  
+                </div>
+                <div class="caption">
+                  <h4>2016抛光砖大画册</h4>
+                  <div class="btnbar">
+                    <a data-trigger="modal" data-title="編輯素材" href="{:U('edit',array('type'=>$type,'wid'=>$wid))}"><i class="fa fa-pencil"></i> 修 </a>
+                    <a data-trigger="modal" data-title="删除素材"  href="{:U('delete',array('type'=>$type,'wid'=>$wid))}"><i class="fa fa-trash"></i> 删 </a>
+                  </div>
+                </div>
+              </div>
+          </li>
+      </ul>
+    </div>    
+        <?php echo $wid ? '暂无数据' : '<b>请先选择站点</b>' ; ?>
+        <div class="p10">
+          <div class="pages list-pages"> {$Page} </div>
+        </div>
+      
+
+
+
+  </div>
+</div>
+
+<script type="text/javascript">
+
+
+   $('.form_date').datetimepicker({
+        language:  'zh-TW',
+        weekStart: 0,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        fontAwesome:1
+    });
+
+</script>
+</body>
+</html>

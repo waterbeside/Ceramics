@@ -1,0 +1,106 @@
+<include file="Admin@Common:head" />
+
+<body>
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+      <div class="submenu-bar">
+        <ul class="nav nav-pills">
+          <li class="active"><a href="javascript:void(0);">修改密碼</a></li>
+        </ul>
+      </div>
+      <div class="content-wrap">
+        <form class="form-inline" id="J-myinfo-form"  method="post" action="{:U('chanpass')}" onsubmit="return formSubmit();">
+
+
+      <table class="table table-striped table-bordered m-edit-table"> 
+        <tbody>
+          <tr>
+            <th width="100">用戶名</th>
+            <td><?php echo $data['username']?></td>
+          </tr>
+          <tr>
+            <th>旧密碼</th>
+            <td >
+              <input class="form-control input-sm" id="password" type="password" value="" name="password" style="width:200px" data-tip="請輸入原密碼" onblur="checkTheLen(this,0,'原密碼不能為空',1)">
+              <span  class="help-inline">請輸入原密碼</span>
+            </td>
+          </tr>
+          <tr>
+            <th>新密碼</th>
+            <td>
+              <input class="form-control input-sm" id="new_password" type="password" value="" name="new_password" style="width:200px" data-tip="請输入新密码" onblur="checkTheLen(this,6,'新密碼不能少于6位')">
+            </td>
+          </tr>
+          <tr>
+            <th>重复新密碼</th>
+            <td>
+              <input class="form-control input-sm" id="new_pwdconfirm" type="password" value="" name="new_pwdconfirm" style="width:200px" onblur="checkRePw()">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> 保存提交</button>
+    </form>
+      </div>
+        
+  </div>
+  
+</div>
+<script>
+$(function(){
+  $(".m-edit-table .form-control").keyup(function(){
+    var input_name = $(this).attr("name");
+    if(input_name == "new_pwdconfirm"){
+      checkRePw()
+    }else{
+      $(this).inputFeedback('reset')  
+      
+    }
+    
+  })
+})
+
+//验证不能为空
+function checkTheLen(obj,len,errorMsg,successType,successMsg,returnTrue){
+  returnTrue = returnTrue || false;
+  successType = successType || 1;
+  successMsg = successMsg || '';
+  if(checkLen(obj,len,"").status==0){
+    $(obj).inputFeedback({'status':0,'msg':errorMsg});
+    return  returnTrue ;  
+  }else{
+    $(obj).inputFeedback({status:successType,msg:successMsg});
+    return  1 ;
+  }   
+}
+
+function checkRePw(){
+  var val_pwd_n = $.trim($("input[name=new_password]").val());
+  var val_pwd_c = $.trim($("input[name=new_pwdconfirm]").val());
+  if(val_pwd_c==""){
+    $('input[name=new_pwdconfirm]').inputFeedback({'status':0,'msg':'請再次輸入新密碼'});
+    return 0 ;
+  }
+  if(val_pwd_n!=val_pwd_c){
+    $('input[name=new_pwdconfirm]').inputFeedback({'status':0,'msg':'兩次輸入的新密碼不一致'});
+    return 0 ;
+  }else{
+    $('input[name=new_pwdconfirm]').inputFeedback({'status':1,'msg':''});
+    return 1 ;
+  }   
+}
+function formSubmit(){
+  var val_pwd_o = $.trim($("input[name=password]").val());
+  var val_pwd_n = $.trim($("input[name=new_password]").val());
+  var val_pwd_c = $.trim($("input[name=new_pwdconfirm]").val());
+  var returnTrue = 1;
+  returnTrue = returnTrue==0 ? 0 : checkTheLen("input[name=password]",0,'原密碼不能為空');
+  returnTrue = returnTrue==0 ? 0 : checkTheLen("input[name=new_password]",6,'新密碼不能少于6位');
+  returnTrue = returnTrue==0 ? 0 : checkRePw();
+  //$.jNotify.add({'msg':"原密碼不能為空",type:"error"});
+  return returnTrue ? true : false;
+}
+
+</script>
+</body>
+</html>

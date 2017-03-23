@@ -1,0 +1,224 @@
+<include file="Admin@Common:head" />
+<body >
+
+<link rel="stylesheet" href="__CSS_PATH__/Common/easyui/datagrid.css" />
+<link rel="stylesheet" href="__CSS_PATH__/Common/easyui/tree.css" />
+<link rel="stylesheet" href="__CSS_PATH__/Common/easyui/menu.css" />
+<!--js for treegrid-->
+<script src="__JS_PATH__/Common/easyui/jquery.resizable.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.menu.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.pagination.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.parser.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.panel.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.datagrid.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.treegrid.js"></script>
+<script src="__JS_PATH__/Common/easyui/jquery.validatebox.js"></script>
+<script src="__JS_PATH__/Contents/choseSort.js"></script>
+<script src="__JS_PATH__/Contents/admin_product.js"></script>
+
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+    <div class="submenu-bar">
+      <div class="nav">
+        <ul class="nav nav-pills">
+            <li class="active"><a onclick="javascript:void(0)">产品管理</a></li>
+            <li ><a href="{:U('add',array('nid'=>$siteInfo['nid']))}" data-title="添加产品" data-trigger="modal" data-width="720">添加产品</a></li>
+          </ul>
+
+      </div>
+    </div>
+    <div class="search-bar">
+      <form class="form-inline" method="post" action="{:U('index')}">
+        <input type="hidden" name="menuid" value="{$_GET.menuid}">
+        <div  class="panel panel-default" >
+          <div class="panel-heading"  style="cursor:pointer">
+            <h5>筛选器 <small>【<a href="{$siteInfo.domain}" target="_blank">{$siteInfo.name}</a>】</small></h5>
+          </div>
+          <table class="table table-bordered in" id="searchContent">
+            <tbody>
+              
+              <tr>
+                <td class="th-label" >状态：</td>
+                <td>
+                  <select class="form-control input-sm" name="status_ch" >
+                    <option value="0"  <if condition="($ViewFlagCH neq 1) AND ($ViewFlagCH neq 2) ">selected</if> >中：不限</option>
+                    <option value="1" <eq name="filter.ViewFlagCH" value="1">selected</eq> >中：是</option>
+                    <option value="2" <eq name="filter.ViewFlagCH" value="2">selected</eq> >中：否</option>
+                  </select>
+                  <select class="form-control input-sm" name="status_en" >
+                    <option value="0"  <if condition="($ViewFlagEN neq 1) AND ($ViewFlagEN neq 2) ">selected</if> >英：不限</option>
+                    <option value="1" <eq name="filter.ViewFlagEN" value="1">selected</eq> >英：是</option>
+                    <option value="2" <eq name="filter.ViewFlagEN" value="2">selected</eq> >英：否</option>
+                  </select>
+                  <select class="form-control input-sm" name="status_new" >
+                    <option value="0" <if condition="($NewFlag neq 1) AND ($NewFlag neq 2) ">selected</if> >新：不限</option>
+                    <option value="1" <eq name="filter.NewFlag" value="1">selected</eq> >新：是</option>
+                    <option value="2" <eq name="filter.NewFlag" value="2">selected</eq> >新：否</option>
+                  </select>
+                  <select class="form-control input-sm" name="status_hot" >
+                    <option value="0" <if condition="($CommendFlag neq 1) AND ($CommendFlag neq 2) ">selected</if> >热：不限</option>
+                    <option value="1" <eq name="filter.CommendFlag" value="1">selected</eq> >热：是</option>
+                    <option value="2" <eq name="filter.CommendFlag" value="2">selected</eq> >热：否</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="th-label" width="70">分类</td>
+                <td>
+  
+                    <input class="form-control input-sm J-input-SortID"  type="text"  style='width:60px' name="catid" value="{$cateInfo.ID}">
+                    <input class="form-control input-sm J-input-SortPath"  type="hidden" style='width:120px' name="SortPath" value="{$cateInfo.SortPath}">
+              
+                    <a href="javaScript:void(0);" onclick="selectSort(this)" data-url="{:U('Contents/Productsort/public_selectsort',array('nid'=>$nid))}" class="btn btn-sm btn-default J-input-SortNameCH"><?php echo !$cateInfo['SortNameCH']|| $catid==0 ? '选择类别' :$cateInfo['SortNameCH'] ;?> </a>
+                    <span class="help-inline">点击按钮选择栏目</span>
+                    
+                </td>
+              </tr>
+              <tr>
+                <td class="th-label" >关键词</td>
+                <td>
+                  <input type="hidden" name="nid" value="{$siteInfo.nid}">
+                  
+                  <select name="searchtype" class="form-control input-sm">
+                    <option value="" <eq name="filter.searchtype" value="">selected</eq>>不限</option>
+                    <option value="productmodel" <eq name="filter.searchtype" value="productmodel">selected</eq>>型号</option>
+                    <option value="productnamech" <eq name="filter.searchtype" value="productnamech">selected</eq>>名称</option>
+                    <option value="productnameen" <eq name="filter.searchtype" value="productnameen">selected</eq>>Name</option>
+                    
+                    <option value="sizes" <eq name="filter.searchtype" value="sizes">selected</eq>>规格</option>
+                  </select>
+                  <input class="form-control input-sm" size="30" type="text"  name="keywork" value="{$filter.keywork}">
+                  <button class="btn btn-default btn-sm"><i class="fa fa-search"></i> 檢 索</button>
+                  <span class="help-inline">以上所有选项，点击【檢 索】按鈕後才會生效</span>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      </form>
+    </div>
+
+      <div class="table_list ">
+        <table width="100%" cellspacing="0" class="table table-hover  table-bordered table-striped">
+          <thead class="thead-default">
+            <tr>              
+              <td  width="70">ID</td>
+              <td width="140">品名</td>
+              <td width="30">中</td>
+              <td width="30">英</td>
+              <td >型號</td>
+              <td width="130">分类</td>
+              <td width="30">新</td>
+              <td width="30">热</td>
+              <td width="40">效</td>
+              
+              
+              <td align="" width="150">加入時間 / 修改時間</td>
+              
+              <td width="100">操作</td>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if($datas){ ?>      
+            <volist name="datas" id="vo">
+            <tr>
+
+            <td >{$vo.ID}</td>
+            <td >
+              <div class="j-changeName"  onclick='changeName(this,{url:"<?php echo U('rename',array('id'=>$vo['ID'],'nid'=>$siteInfo['nid'])); ?>",name:"ProductNameCH"})'>
+                <span class="txt"> {$vo.ProductNameCH}</span>
+              </div>
+              <div class="j-changeName" onclick='changeName(this,{url:"<?php echo U('rename',array('id'=>$vo['ID'],'nid'=>$siteInfo['nid'])); ?>",name:"ProductNameEN"})'>
+                <span class="txt text-muted"> {$vo.ProductNameEN}</span>
+              </div>
+            </td>
+            <td >
+              <script>              
+                  setBooleanBtn({value:"<?php echo $vo[ViewFlagCH]; ?>",id:"<?php echo $vo['ID']; ?>",url:"<?php echo U('up_status',array('nid'=>$siteInfo['nid'])) ;?>",name:'ViewFlagCH'})
+              </script>
+            </td>
+            <td >
+              <script>              
+                  setBooleanBtn({value:"<?php echo $vo[ViewFlagEN]; ?>",id:"<?php echo $vo['ID']; ?>",url:"<?php echo U('up_status',array('nid'=>$siteInfo['nid'])) ;?>",name:'ViewFlagEN'})
+              </script>
+            </td>
+            <td style="word-break:break-all">{$vo.ProductModel}</td>
+            
+            <td style="white-space: nowrap;">
+              <div style="overflow:hidden; width:113px">
+              {$vo.cateInfo.SortNameCH}
+              <?php 
+                echo $vo['cateInfo']['SortNameEN'] ? "<br><small class='text-muted'>(".$vo['cateInfo']['SortNameEN'].")</small>" : "" ;
+                echo $vo['cateInfo_EN'] && $vo['cateInfo_EN']['SortNameCH'] ? "<div class='blank5'></div>".$vo['cateInfo_EN']['SortNameCH'] : "" ; 
+                echo $vo['cateInfo_EN'] && $vo['cateInfo_EN']['SortNameEN'] ? "<br><small class='text-muted'>(".$vo['cateInfo_EN']['SortNameEN'].")</small>" : "" ;
+
+              ?>
+              </div>
+            </td>
+            <td >
+              <script>              
+                  setBooleanBtn({value:"<?php echo $vo[NewFlag]; ?>",id:"<?php echo $vo['ID']; ?>",url:"<?php echo U('up_status',array('nid'=>$siteInfo['nid'])) ;?>",name:'NewFlag'})
+              </script>
+            </td>
+            <td >
+              <script>              
+                  setBooleanBtn({value:"<?php echo $vo[CommendFlag]; ?>",id:"<?php echo $vo['ID']; ?>",url:"<?php echo U('up_status',array('nid'=>$siteInfo['nid'])) ;?>",name:'CommendFlag'})
+              </script>
+            </td>
+            <td >
+              {$vo.effect_count}
+            </td>
+            <td >
+              {$vo.AddTime}<br>
+              {$vo.UpdateTime}
+            </td>
+            
+                  
+            <td  class="options">
+
+            <a href="{:U('edit',array('id'=>$vo['ID'],'nid'=>$siteInfo['nid']))}" data-title="編輯：{$vo.MemName}"  data-trigger="modal" data-width="720" >編輯</a> 
+            | <a onclick="deleteItem(this,{'url':'<?php echo U('delete',array('id'=>$vo['ID'],'nid'=>$siteInfo['nid'])); ?>'})" href="javascript:void(0);" data-loading-text="刪.." >删除</a>
+
+             
+            </td>
+          </tr>
+            </volist>
+            <?php }else{ ?>
+              <tr >
+                <td align="center" colspan="12">
+                   <?php echo $nid ? '暂无数据' : '<b>请先选择站点</b>' ; ?>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+        <div class="p10">
+          <div class="pages list-pages"> {$Page} </div>
+        </div>
+      </div>
+
+
+
+  </div>
+</div>
+
+<script type="text/javascript">
+
+$('.search-bar .panel-heading').click(function(){
+    var $this = $(this);
+    var $searchContent = $('#searchContent');
+    if($this.data('close')){
+      $searchContent.show(500);
+      $this.data('close',0);
+    }else{
+      $searchContent.hide(500);
+      $this.data('close',1);
+    }
+  })
+
+</script>
+</body>
+</html>

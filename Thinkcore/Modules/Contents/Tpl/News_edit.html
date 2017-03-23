@@ -1,0 +1,311 @@
+<include file="Admin@Common:head" />
+<body >
+<link rel="stylesheet" href="__CSS_PATH__/Common/bootstrap-select.min.css">
+<script src="__JS_PATH__/Common/bootstrap-select.min.js"></script>
+<script src="__JS_PATH__/Editor/kindeditor/kindeditor.js"></script>
+<script src="__JS_PATH__/Editor/kindeditor/lang/zh_CN.js"></script>
+
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+
+        <form name="myform" id="myform" action="{:U("edit")}" method="post" onsubmit="return submitContentForm(this);" class="form" enctype="multipart/form-data"  >
+          <div class="row">
+            <div class="col-md-8">
+              <ul class="nav nav-tabs " role="tablist">
+                <li  class="active"><a href="#t-ch"   data-toggle="tab" >中文</a></li>
+                <li><a href="#t-en"  data-toggle="tab">EN</a></li>      
+              </ul>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div class=" panel panel-default tab-pane active" id="t-ch" style=" border-top:none;border-radius:0 0 4px 4px ">
+                    <div class="panel-heading"><h5>中文信息</h5></div>
+                    <table class="table table-striped table-bordered ">            
+                      <tbody>
+                        <tr>
+                          <td class="th-label" width="90"><span class="text-danger">*</span>标题:</td>
+                          <td>
+                            <input type="text" class="form-control input-lg input_ruler" id="NewsNameCH" name="NewsNameCH" value="{$datas.NewsNameCH}" >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="th-label">关键词:</td>
+                          <td>
+                            <input type="text" class="form-control form-control input-sm" id="SeoKeywordsCH" name="SeoKeywordsCH"   value="{$datas.SeoKeywordsCH}">
+                            
+                            
+                          </td>
+                        </tr>
+                        <tr >
+                          <td class="th-label">描述:</td>
+                          <td>
+                            <textarea name="SeoDescriptionCH" class="form-control" id="SeoDescriptionCH" style="height:100px">{$datas.SeoDescriptionCH}</textarea>              
+                            <a class="btn btn-info btn-sm " onclick="getDesFromCon('#SeoDescriptionCH')">点击获取正文前250字</a>
+                            <span class="help-inline">自动获取后，请再按实际情况添删</span>
+                          </td>
+                        </tr>
+                        <tr >
+                          <td class="th-label">详情:</td>
+                          <td>
+                            <textarea class="form-control" id="edit-ContentCH" name="ContentCH" style="width:100%; height:550px">{$datas.ContentCH}</textarea>
+                          </td>
+                        </tr>
+                        <tr class="J-tr-sr J-tr-sr-c">
+                            <td class="th-label">新闻来源 </td>
+                            <td  ><input name="SourceCH" id="SourceCH" class="form-control" value="{$datas.SourceCH}" type="text"> <span class="help-block"><a onclick="document.myform.SourceCH.value='#Lazyme#';" href="javascript:void(0);">#Lazyme#市场部</a> </span></td>
+                        </tr>
+                       
+                      </tbody>
+                  </table>
+                </div>
+                <div class=" panel panel-default tab-pane " id="t-en" style=" border-top:none;border-radius:0 0 4px 4px">
+                    <div class="panel-heading"><h5>英文信息</h5></div>
+                    <table class="table table-striped table-bordered ">            
+                      <tbody>
+                        
+                        <tr>
+                          <td class="th-label" width="90">title:</td>
+                          <td>
+                            <input type="text" class="form-control input-lg input_ruler" id="NewsNameEN" name="NewsNameEN" value="{$datas.NewsNameEN}"  >
+                           
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="th-label">Keywork:</td>
+                          <td><input type="text" class="form-control  form-control input-sm" id="SeoKeywordsEN" name="SeoKeywordsEN" size='60' value="{$datas.SeoKeywordsEN}">
+                            
+                            
+                          </td>
+                        </tr>
+                        <tr >
+                          <td class="th-label">descript:</td>
+                         <td>
+                           <textarea name="SeoDescriptionEN" class="form-control" id="SeoDescriptionEN" style="height:100px">{$datas.SeoDescriptionEN}</textarea>              
+                           <a class="btn btn-info btn-sm " onclick="getDesFromCon('#SeoDescriptionEN',1)">点击获取正文前250字</a>
+                           <span class="help-inline">自动获取后，请再按实际情况添删</span>
+                         </td>
+                        </tr>
+                        <tr >
+                          <td class="th-label">content:</td>
+                          <td>
+                            <textarea  class="form-control" id="edit-ContentEN" name="ContentEN" style="width:100%; height:550px">{$datas.ContentEN}</textarea>
+                          </td>
+                        </tr>
+                        <tr class="J-tr-sr J-tr-sr-e">
+                            <td class="th-label">Source </td>
+                            <td class="hback"><input name="SourceEN" id="SourceEN" class="form-control" value="{$datas.SourceEN}" type="text">  <span class="help-block"><a onclick="document.myform.SourceEN.value='#Lazyme#';" href="javascript:void(0);">#Lazyme#</a> | <a onclick="document.myform.SourceEN.value='跳转';" href="javascript:void(0);">跳转</a>  </span></td>
+                        </tr>
+                       
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 ">
+                <div class=" panel panel-info"  style=" margin-top:35px ">
+                  <div class="panel-heading "><h5>其它设置</h5></div>
+                  
+                  <table class="table table-striped table-bordered ">            
+                    <tbody>
+                      <tr >
+                        <td class="th-label" width="90">状态:</td>
+                        <td>
+                          <label class="label_checkbox" ><input type="checkbox" name="ViewFlagCH" value="1" <if condition=" $datas['ViewFlagCH'] eq 1" >checked</if>> 中</label> 
+                          <label class="label_checkbox" ><input type="checkbox" name="ViewFlagEN" value="1" <if condition=" $datas['ViewFlagEN'] eq 1" >checked</if>> 英</label> 
+                          <label class="label_checkbox" ><input type="checkbox" name="HotFlag" value="1" <if condition=" $datas['HotFlag'] eq 1" >checked</if>> 热</label> 
+                          <label class="label_checkbox" ><input type="checkbox" name="NoticeFlag" value="1" <if condition=" $datas['NoticeFlag'] eq 1" >checked</if>> 头条</label> 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="th-label"  >资讯分类 <span class='text-danger'>*</span></td>
+                        <td   >
+                          
+                            <select name="SortID" class="form-control selectpicker" autocomplete="off">
+                              <volist name='catelist' id='vo'>
+                                <option <?php if($datas['SortID'] ==  $vo['ID']){echo 'selected';} ?> value="{$vo.ID}" <?php if(!$vo["ViewFlagCH"] && !$vo["ViewFlagEN"]){echo "disabled";} ?> data-subtext="<?php echo $vo['SortNameEN'].'&nbsp;&nbsp;';if(!$vo["ViewFlagCH"]){echo "CH:× &nbsp;&nbsp;";} if(!$vo["ViewFlagEN"]){echo "EN:×";} ?>" >{$vo.SortNameCH}</option>
+                              </volist>
+                            </select>
+                            
+
+                            <script type="text/javascript">
+                            $('.selectpicker').selectpicker({
+                              liveSearch: true,
+                              maxOptions: 1
+                            });
+
+                            </script>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="th-label" >跳转  </td>
+                        <td  >
+                          <div class="input-group">
+                            <span class="input-group-addon">
+                              <input  name="isjump" type="checkbox" value="1" <?php if($datas['SourceEN'] == 1 || $datas['SourceEN'] == '跳转'){echo 'checked';}?> >
+                            </span>
+                            <input type="text" name="url" id="url" class="form-control " value="<?php if($datas['SourceEN'] == 1 || $datas['SourceEN'] == '跳转'){echo $datas['SourceCH'];}?>"  />
+                          </div>
+                          <span class='help-block'>若此文章要作跳转，如专题等，请勾选此项并填写要跳转的完整地址</span>
+                        </td>
+                      </tr>
+                      <tr>
+                          <td class="th-label" width="90">新闻缩略图</td>
+                          <td >
+                            <div class="thumbpic" style="overflow:hidden; width:99%; text-align:center">
+                              <img id="J-thumb-pic" src="<?php if($datas['thumb']){echo $datas['thumb'];}else{echo '/statics/images/Common/nopic.png';} ?>" height='150' onclick="$('#J-thumb-btn').trigger('click')" onerror="onerror=null;src='/statics/images/Common/errorpic.jpg'">
+                            </div>
+                            <div class="input-group">
+                              <input type="text" id="J-thumb-input" name="thumb"   class="form-control form-control input-sm" value="{$datas.thumb}" />
+                              <span class="input-group-btn">
+                                <a class="btn btn-info btn-sm" id="J-thumb-btn"   onclick="imgUpload({target:'#J-thumb-input',targetImage:'#J-thumb-pic'})" href="javascript:void(0)">上传图片</a>
+                              </span>
+                            </div><!-- /input-group -->
+                            <div class="radio">
+                              <label > <input type="radio" name="auto_thumb" value="1" checked>若为空，取正文第一幅图</label>
+                            </div>
+                            <div class="radio">
+                              <label > <input type="radio" name="auto_thumb"  value="0">不自取也</label>
+                            </div>
+            
+                            <script type="text/javascript">
+                              $(function(){
+                                $('#J-thumb-input').change(function(){
+                                  var val_thumb = $(this).val();
+                                  $('#J-thumb-pic').attr('src',val_thumb);
+                                })
+                              })
+                            </script>
+                          </td>
+                      </tr>
+                      
+                      <tr>
+                        <td class="th-label"  >添加时间</td>
+                        <td  >
+                             {$datas.AddTime}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="th-label" >浏览次数 <span class="text-danger"></span> </td>
+                        <td >
+                          <div class="input-group">
+                            <input type="number" name="ClickNumber" id="ClickNumber" class="form-control input-sm" value="{$vo.ClickNumber}"  /> 
+                            <span class="input-group-btn"><a class="btn btn-info btn-sm" onClick="document.myform.ClickNumber.value=Math.ceil(Math.random()*1000);" href="javascript:void(0);">生成随机3位数</a></span>
+                          </div>
+                        </td>
+                      </tr>
+
+                
+
+                      <tr>
+                        <td class="th-label" >TAGS </td>
+                        <td ><input type="text" name="tag" id="tag" class="form-control input-sm" value="{$datas.tag}" />  <span   class='help-block'>(多个请用英文,号隔开)</span></td>
+                      </tr>
+            
+                     
+                    </tbody>
+                </table>
+              </div>
+              
+            </div>
+            <input type="hidden"  name="ID"   value="{$datas.ID}">
+            <div class=" col-md-4" style="text-align:center" >
+              <button type="submin" class="btn btn-primary navbar-btn btn-lg" style="width:100%"><i class="fa fa-save" ></i>&nbsp;&nbsp;<b>提 交</b></button>
+            </div>
+            
+          </div>
+          
+          <div class="blank50"></div>
+
+          
+   
+          
+          
+          
+        </form>
+
+
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  KindEditor.options.filterMode = false;
+  editor = KindEditor.create('#edit-ContentCH',{allowFileManager : true,cssData: 'body {font-size: 16px;line-height:1.8}'});
+  editor2 = KindEditor.create('#edit-ContentEN',{allowFileManager : true,cssData: 'body {font-size: 16px;line-height:1.8}'});
+
+  function imgUpload(options){
+    defaults = {
+      uploader:'KindEditor'
+      ,allowFileManager: false
+    }
+    var options = $.extend({},defaults,options);
+    if(options.uploader=='KindEditor' && typeof(KindEditor)!="undefined"){
+      var upEditor = KindEditor.editor({
+        allowFileManager : options.allowFileManager
+      })            
+      var $targetInput = $(options.target); 
+      upEditor.loadPlugin('image', function() {
+        upEditor.plugin.imageDialog({
+          imageUrl : $targetInput.val(),
+          clickFn : function(url, title, width, height, border, align) {
+            $targetInput.val(url);
+            if(typeof(options.targetImage)!="undefined" && $(options.targetImage).length>0){
+              $(options.targetImage).attr('src',url);
+            }
+            if(typeof(options.success)=="function"){
+              var callbackData = {url:url,title:title,width:width,height:height,border:border,align:align}
+              success(callbackData);
+            }
+            upEditor.hideDialog();
+          }
+        });
+      });   
+    }
+  }
+
+  function submitContentForm(obj){
+    
+    editor.sync();  
+    editor2.sync(); 
+    if($("input[name=SortID]").val()==''){
+      alert('请选择分类');
+    }
+    if($.trim($("input[name=NewsNameCH]").val())=='' && $.trim($("input[name=NewsNameEN]").val())==''){
+      alert('标题不能为空');
+    }
+    submit_ajax(obj,function(json){
+      if(json.status){
+        alert('修改成功');
+        reloadPage(window.opener);
+        window.close();         
+      }
+      return false;
+    });
+  
+    return false;
+  }
+
+  function getDesFromCon(target,lang){
+      lang = lang || 0 ;
+      var str = lang ? editor2.text() : editor.text();
+      var $div = $('<div></div>').html(str);
+      str = $div.text()
+
+      str = str.replace(/\s+/g, "  ")
+      str = str.replace(/[\r\n\s]/g, "，")
+      str = str.replace(/\，，/g, "")
+      str = str.replace(/\？，/g, "")
+      str = str.replace(/\。，/g, "")
+      str = str.replace(/\！，/g, "")
+      str = str.replace(/\，，/g, "")
+    
+      //console.log(str)
+      str = subString(str,500,0);
+      $(target).val(str); 
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body >
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_marketing.jpg);">
+            <div class="m-channel-title"><h2>营销中心</h2><small>Marketing</small></div>
+    </div>
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <volist name="catList" id="vo">
+          <li  <if condition='$vo["a"] eq "cases"'>class="active"</if>><a href="{:U($vo['a'],array('catid'=>$vo['ID']))}">{$vo.SortNameCH}</a></li>            
+        </volist>
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="javascript:void(0);">营销中心</a></li>
+        <li class="active">工程案例</li>
+      </ol>
+    </div>
+  </div>
+  
+    <div class="container">
+    <ul class="m-menu-sub">
+      <li class="labelItem">地区：</li>
+      <volist name="subCatList" id="vo">
+        <li  <if condition='$catid eq $vo["ID"]'>class="active"</if>><a href="{:U('cases',array('catid'=>$vo['ID']))}">{$vo.SortNameCH|str_replace='地区','',###}</a></li>            
+      </volist>
+    </ul>
+  </div>
+  
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container   m-about-wraper">
+      <div class="row">
+      
+          <ul class="m-list-photos J-rebox-wrap">
+            <volist name="datas" id="vo">
+              <li class="col-lg-3 col-sm-4 col-xs-6 " data-id="{$vo.ID}">                
+                    <a  href="http://#/{$vo.BigPic}" title="{$vo.OthersNameCH}">
+                        <div class="photobox-wrap">
+                            <div class="photobox">
+                                <div class="pic" style="background-image: url('http://#/{$vo.SmallPic}');"></div>
+                            </div>
+                            <div class="info">
+                                <p>{$vo.OthersNameCH}</p>
+                            </div>
+                        </div>
+                    </a>
+              </li>
+            </volist>  
+          </ul>
+          <div class="m-article-footer">
+            <baidushare class="pull-right"/> 
+          </div>
+          <div class="pagenav">
+            <?php echo $showPages; ?>
+          </div>
+      
+
+        </div>
+
+        
+        
+        
+      
+      
+    </div>          
+             
+    
+    
+ 
+     
+  </div>
+  <!--./mainer-->
+  <link rel="stylesheet" href="__CSS_PATH__/Common/jquery-rebox.css" >
+  <script src="__JS_PATH__/Common/jquery-rebox.js"></script>
+  
+
+  <script type="text/javascript">
+  $(function(){
+    $('.J-rebox-wrap').rebox({ selector: 'a' });     
+  })
+    
+  </script>
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body  >
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner"  >
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_search.jpg); <?php if($keyword==''){ ?>height:400px<?php }?>">
+      <div class="m-channel-title" style="margin-top:-45px">
+        <div class="m-search-wrap ">
+
+            <form action="{:U('Search/index')}" method="post" >
+            <div class="input-group">
+             
+              <input placeholder="请输入关键字" name="keyword" class="form-control input-lg" type="text" style="border-radius:0" value='{$keyword}'>
+              <span class="input-group-btn" ><a onclick="$(this).closest('form').submit();" type="submit" class="  btn btn-danger btn-lg" style="border-radius:0"><i class="fa fa-search"></i> 搜索</a></span>
+            </div><!-- /input-group -->
+            <div class="radioBar form-inline">
+              <label class="radio"><input name="chl" type="radio" value="product" <if  condition="$chl eq 'product'">checked</if> >搜产品</label> 
+              <label class="radio"><input name="chl" type="radio" value="news" <if  condition="$chl eq 'news'">checked</if>>搜新闻</label> 
+              <label class="radio"><input name="chl" type="radio" value="effect" <if  condition="$chl eq 'effect'">checked</if> >搜效果图</label> 
+              <!-- <label class="radio"><input name="chl" type="radio" value="down" <if  condition="$chl eq 'down'">checked</if>>搜物料</label>  --> 
+            </div>
+            
+            </form>
+
+         
+        </div>
+        
+      </div>
+        
+
+      
+     
+    </div>
+    
+
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <div class="m-search-info pull-left">
+        <?php if($keyword){ ?> 
+          “<b>{$keyword}</b>” 的搜索结果  ：  <b>{$count}</b>条
+        <?php }else{ ?>
+          请输入关键词
+        <?php } ?>
+      </div>
+      <ol class="breadcrumb  hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Search/index')}">搜索</a></li>
+      </ol>
+    </div>
+  </div>
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container">
+      <?php if($keyword && empty($datas)){ ?> 
+
+      <div style="margin-top:90px;  text-align:center">
+        <h3>没找到关键词“<b>{$keyword}</b>” 的数据，请尝试其它关键词。</h3>
+      </div>
+          
+      <?php } ?>
+      <?php if($chl=='effect'){ ?>
+      <ul class=" m-list-photos">
+        
+        <volist name="datas" id="vo">
+          <li class="col-lg-3 col-sm-4 col-xs-6 " data-id="{$vo.ID}">                
+                <a  href="{:U('Products/shows',array('id'=>$vo['ProductID']))}" title="{$vo.OthersNameCH}">
+                    <div class="photobox-wrap">
+                        <div class="photobox">
+                            <div class="pic" style="background-image: url('{$vo.SmallPic}');">                        
+                            </div>
+                        </div>
+                        <div class="info">
+                            <p><?php echo $vo['title']; ?></p>
+                        </div>
+                    </div>
+                </a>
+          </li>
+        </volist>  
+      </ul>
+      <?php }else{ ?>
+      <ul class="m-searchLis m-searchLis-{$chl}">
+        <volist name="datas" id="vo">
+          <li  class="list-item">
+            <h4 class='t'><a target="_blank" href="{$vo.url}">{$vo.title}</a></h4>
+            <?php if($chl=='news'){ ?>
+              <?php if($vo['thumb']!=''){ ?>
+                <div class="thumb"><div class="pic" style="background-image: url('{$vo.thumb}')"></div></div>
+              <?php }?>  
+            <div class="desc">{$vo.SeoDescriptionCH}</div>
+            <?php } ?>
+            <?php if($chl=='product'){ ?>
+            <div class="desc">分类：{$vo.catInfo.SortNameCH} / {$vo.bigCate.SortNameCH} &nbsp;&nbsp;&nbsp; 品名：{$vo.ProductNameCH}&nbsp;&nbsp;&nbsp; 主要型号：{$vo.model_list.0.model}&nbsp;&nbsp;&nbsp; 主要规格：{$vo.model_list.0.size}&nbsp;&nbsp;&nbsp;本套产品包含：</div>
+            <ul class="m-list-products">
+              <volist name="vo.model_list" id="mo">
+                <li class='item'>
+                  <a target="_blank" href="{$vo.url}">
+                    <div class="photobox-wrap">
+                        <div class="photobox photobox-product">
+                          <div class="pic ">
+                            <img src="{$mo.thumb}" >
+                          </div>
+                        </div>
+                        
+                    </div>
+                    <div class="info">
+                      <p class="proModel">
+                          <span>型号：{$mo.model}</span>&nbsp;&nbsp;&nbsp;<span>规格：{$mo.size} mm</span> 
+                      </p> 
+                    </div>
+                  </a>
+                  
+                </li>
+              </volist>
+              
+            </ul>
+              
+            <?php } ?>
+            <a target="_blank" href="{$vo.url}" class="url">{$vo.url}</a>
+          </li>
+        </volist>  
+      </ul>
+      <?php } ?>
+      <div class="pagenav">
+        {$showPages}  
+      </div>
+      
+    </div>
+    
+ 
+     
+  </div>
+  <!--./mainer-->
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

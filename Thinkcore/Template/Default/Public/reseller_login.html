@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body >
+<div class="g-all" >
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_reseller.jpg);">
+            <div class="m-channel-title"><h2>经销商专区</h2><small>Reseller</small></div>
+    </div>
+    
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <volist name="catList" id="vo">    
+          <if condition='$vo["a"] eq "lists"'> 
+            <li><a href="<?php echo U($vo['a']); ?>">{$vo.name}</a></li> 
+          </if>  
+        </volist>
+        <li class="active"><a href="{:U('login')}">登入</a></li> 
+        <li ><a href="{:U('Reseller/register')}">注册</a></li>
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Reseller/index')}">经销商专区</a></li>
+        <li class="active">登入</li>
+       
+      </ol>
+    </div>
+  </div>
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container">
+      <div class="m-dealer-login">
+        <h2 class="heading">经销商登录</h2>
+        <ul id="J-dealer-logintype" class="nav nav-tabs" role="tablist">
+          <li data-value='1' class="active"><a href="javascript:void(0);">以用户名登入</a></li>
+          <li data-value='2'><a href="javascript:void(0);">以客户号登入</a></li>      
+        </ul>
+        <form id="form-login" class="form" action="{:U('login')}" method="post" onsubmit="return submit_login(this);">
+            <input id="input-logintype" type='hidden' name="type" value='1'> 
+            <div class="form-group" id="row-username"><label>用户名</label><input name="username" class="form-control input-lg input-block-level" placeholder="用户名" type="text"></div>
+            <div class="form-group"><label>密码</label><input name="password" class="form-control  input-lg input-block-level" placeholder="密码" autocomplete="off" type="password"></div>
+            <div class="form-group"><label>验证码</label><input class="form-control input-lg " id="code_gg" name="verify" maxlength="4" style="width:65%;  margin-right:10px" placeholder="验证码" autocomplete="off" type="text"> <img   src="{:U('Api/Checkcode/index',array('height'=>46,'width'=>110,'font_size'=>'20', 'mode'=>1,'code_len'=>4))}" id="code_img" title="看不清，点击换一张" onclick="refreshs()" align="absmiddle"></div>
+            <div class="help-block">若看不清验证码图片，可点击图片或<a onclick="refreshs();" href="javascript:void(0);">这里</a>换一幅</div>
+            <div class="help-block" id="J-callback"></div>
+            <button class="btn btn-lg btn-primary J-btn-submit" type="submit" data-loading-text="正在登入" autocomplete="off">登 入</button>   
+        </form>
+        <div class="tips_register"><a class="btn btn-danger" href="{:U('register')}">未有帐号？点击注册-></a></div>
+        
+      </div>
+      <div class="blank50"></div>
+
+      <div role="alert" class="alert alert-warning  fade in" id="od-tips-save" style="margin:15px 0 0; font-size:14px">
+        <button data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
+
+        <h4 style="padding-top:15px">提示</h4><p style="padding-top:5px; line-height:1.8;  ">
+        如果您还未注册#lazyme#经销商，请先 <a class="btn btn-default" href="{:U('register')}">注册</a>，注册时“经销商客户号”由#lazyme#营销中心统一提供。如果忘记了你的“客户号”，可向#lazyme#区域经理/业务员帮忙查询。如有帐号问题，可询 #lazyme#网站管理员：0757&mdash;82729091<!-- 详情可咨询市场部，电话：0757-82260461 -->。 </p>
+      </div>
+
+      
+
+        
+      
+      
+    </div>                  
+             
+    
+    
+ 
+     
+  </div>
+  <!--./mainer-->
+  <script type="text/javascript">
+  $(function(){
+
+    $('#J-dealer-logintype li').click(function(){  
+      
+        var val_type = $(this).data('value');
+        
+        var $input = $('#row-username input[name=username]');
+        var $label = $('#row-username label');
+        if(val_type==2){
+          $label.html('客户号'); 
+          $input.attr('placeholder','客户号').focus();
+        }else{
+          $label.html('用户名');
+          $input.attr('placeholder','用户名').focus();
+
+        }  
+        if(!$(this).hasClass('active')){
+          $input.val('')
+        }
+        $(this).addClass('active').siblings('li').removeClass('active').blur();
+        $('#input-logintype').val(val_type);
+    });
+
+    $('#J-dealer-logintype li').eq(0).trigger('click');
+
+
+    $('#form-login').find('input').change(function(){
+      if($('#J-callback').is(':visible')){
+        $('#J-callback').hide();
+      }
+    })
+  })
+  //刷新驗證碼
+  function refreshs(){
+    document.getElementById('code_img').src="{:U('Api/Checkcode/index',array('height'=>46,'width'=>110,'font_size'=>'20', 'mode'=>1,'code_len'=>4))}&"+Math.random();void(0);
+  }
+
+
+  function submit_login(obj){
+    submit_ajax(obj,function(json){
+      if(json.status){
+        return true;
+      }else{
+        $("#J-callback").html('<i class="fa fa-times-circle"></i>'+json.info).show();
+        if(typeof(json.input)!='undefined'){
+          $(obj).find('input[name='+json.input+']').focus();
+        }        
+        refreshs();
+      }
+      return false;
+    },0)
+    return false;
+
+  }
+  </script>
+
+
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

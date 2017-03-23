@@ -1,0 +1,46 @@
+<include file="Admin@Common:head" />
+<body>
+
+
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+    <div class="submenu-bar">
+         <include file="Admin@Common:nav" />
+    </div>
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">获取新文章缩略图</div>
+        <div class="panel-body">
+        <p>共<b>{$count}</b>条信息无缩略图</p>
+        <div class="alert alert-danger">
+          <p></p>
+        </div>
+        </div>
+        <!-- Table -->
+        <table class="table">
+        <tr>
+            <th>取得缩略图</th>
+            <td>
+            <form class=" form-inline" action="{:U('create_thumb')}" method="post" >
+              <input type="hidden" name="dosubmit" value="1">
+              <input type="hidden" name="type" value="all">
+              ID从<input class="form-control input-sm"  type="number" name="startid" value="{$startid}" >
+              到<input class="form-control input-sm" type="number" name="endid" value="{$endid}">
+  
+              <input type="submit" class="btn btn-default btn-sm" value="开始生成" >
+            </form>
+              
+            </td>
+            <td><div class="help-block">选择无缩略图的文章，把中文内容的第一张图作为缩略图，</div></td>
+          </tr>
+       
+        </table>
+      </div>
+
+
+
+
+  </div>
+</div>
+</body>
+</html>

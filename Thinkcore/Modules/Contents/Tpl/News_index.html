@@ -1,0 +1,131 @@
+<include file="Admin@Common:head" />
+<body >
+
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+    <div class="submenu-bar">
+         <include file="Admin@Common:nav" />
+    </div>
+    <div class="search-bar">
+      <form class="form-inline" method="post" action="{:U('index')}">
+        <input type="hidden" name="menuid" value="{$_GET.menuid}">
+        <div  class="panel panel-default" >
+          <div class="panel-heading"  style="cursor:pointer">
+            <h5>筛选器</h5>
+          </div>
+          <table class="table table-bordered in" id="searchContent">
+            <tbody>
+             
+              
+              <tr>
+                <td class="th-label" width='120' >关键词</td>
+                <td>
+                  <select name="searchtype" class="form-control input-sm">
+                    <option value="title" <eq name="filter.searchtype" value="memname">selected</eq>>标题</option>
+                    <option value="content" <eq name="filter.searchtype" value="realname">selected</eq>>内容</option>
+                  </select>
+                  <input class="form-control input-sm" size="30" type="text"  name="keywork" value="{$filter.keywork}">
+                  <button class="btn btn-default btn-sm"><i class="fa fa-search"></i> 檢 索</button>
+                  <a class="btn btn-success pull-right" href="javascript:openwinx('{:U('add')}');"><i class="fa fa-plus"></i> 添加新闻</a>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      </form>
+    </div>
+      
+      <div class="blank10"></div>
+      <div class="table_list ">
+        <table width="100%" cellspacing="0" class="table table-hover  table-bordered table-striped">
+          <thead class="thead-default">
+            <tr>              
+              <td  width="70">ID</td>
+              <td>缩备图</td>
+              <td width="45">中</td>
+              <td width="45">英</td>
+              <td>标题</td>
+              
+              <td width="45">置顶</td>
+              <td width="45">热</td>
+              <td width="100">分类</td>
+              <td width="100">阅</td>
+
+              <td align="" width="150">添加時間</td>
+              
+              <td width="140">操作</td>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if($datas){ ?>
+
+            
+            <volist name="datas" id="vo">
+              <tr>
+
+                <td >{$vo.ID}</td>
+                <td ><?php if($vo['thumb']){?><img src="http://#<?php echo $vo['thumb'];?>" onerror="onerror=null;src='__IMAGES_PATH__/Common/errorpic.jpg'" height="40"> <?php }else{echo '-';} ?></td>
+                <td >
+                  <script>              
+                      setBooleanBtn({value:"<?php echo $vo['ViewFlagCH']; ?>",id:"<?php echo $vo['ID']; ?>",url:"<?php echo U('up_status') ;?>",name:'ViewFlagCH'})
+                  </script>
+                </td>
+                <td >
+                  <script>
+                      setBooleanBtn({value:"<?php echo $vo['ViewFlagEN']; ?>",id:"<?php echo $vo['ID']; ?>",url:"<?php echo U('up_status') ;?>",name:'ViewFlagEN'})
+                  </script>
+                </td>
+                <td >{$vo.NewsNameCH} <?php if($vo['NewsNameEN']){echo '<br><small> ('.$vo['NewsNameEN'].') </small>';} ?></td>
+                
+                <td >
+                  <script>
+                      setBooleanBtn({value:"<?php echo $vo['NoticeFlag']; ?>",id:"<?php echo $vo['ID']; ?>",url:"<?php echo U('up_status') ;?>",name:'NoticeFlag'})
+                  </script>
+                </td>
+                <td >
+                  <script>
+                      setBooleanBtn({value:"<?php echo $vo['HotFlag']; ?>",id:"<?php echo $vo['ID']; ?>",url:"<?php echo U('up_status') ;?>",name:'HotFlag'})
+                  </script>
+                </td>
+                <td ><?php echo $catelist[$vo['SortID']]['SortNameCH'];?></td>
+                <td >{$vo.ClickNumber}</td>
+       
+                <td >
+                  {$vo.AddTime}
+                </td>
+            
+                  
+              <td  class="options">
+                <a onclick="openwinx('{:U('edit',array('id'=>$vo['ID']))}');" href="javascript:void(0);" >編輯</a> 
+              | <a onclick="deleteItem(this,{'url':'<?php echo U('delete',array('id'=>$vo['ID'])); ?>'})" href="javascript:void(0);" data-loading-text="刪.." >删除</a>
+
+               
+              </td>
+          </tr>
+            </volist>
+            <?php }else{ ?>
+              <tr >
+                <td align="center" colspan="10">
+                   <?php  '暂无数据'   ; ?>
+                  
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+        <div class="p10">
+          <div class="pages list-pages"> {$Page} </div>
+        </div>
+      </div>
+
+
+
+  </div>
+</div>
+
+
+</body>
+</html>

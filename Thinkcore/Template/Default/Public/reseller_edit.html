@@ -1,0 +1,96 @@
+<div class="table-edit table-edit-model"> 
+  <div class="common-form">
+    <form class="form  " action="{:U('edit')}" method="post" onsubmit="return submit_edit(this);">
+              <div class="form-group ">
+                <label class="control-label" for="name"><span class="red">*</span>用户名:</label>
+                <div class="control-con">
+                  <input class="form-control"  type="text" value="{$data.name}" disabled readonly>
+                </div>
+
+                
+              </div>
+              
+              <div class="clearfix"></div>
+              <div class="form-group ">
+                <label class="control-label"><span class="red">*</span>客户号:</label>
+                <?php if($data['flag']){?>
+                  <div class="control-con ">
+                    <input class="form-control   " value="<?php echo $data['code'];?>" disabled readonly>
+                  </div>
+                  
+                <?php }else{ ?>
+                <div class="row">
+                  <div class="control-con col-sm-8" style="padding-right:0">
+                    <input class="form-control   " name="code" id="code" placeholder="请输入客户号" onblur="checkFormJxCode(1)" type="text" value="{$data.code}">
+                    <span class="help-block info-block"><span class="red">*</span> 客户号是由#lazyme#公司提供的9位数字，请填写正确，如忘记自己的客户号，请联系你的区域经理或业务</span> 
+                  </div>
+                  <div class="col-sm-4 ">
+                   <a class="btn btn-default  checkBtn " href="javascript:void(0)" onclick="checkUnique(this,'code','<?php echo U('check_unique',array('isedit'=>1));?>')" data-loading-text="检查中...">检查是否已被注册</a>
+                  </div>
+                </div>
+
+                <?php }?>
+                
+                
+              </div>
+              
+              <div class="clearfix"></div>
+              <div class="form-group ">
+                <label class="control-label"><span class="red">*</span>经销地区/地址:</label>
+                <div class="control-con">
+                  <input class="form-control  " name="address" id="address" placeholder="请填写你所在地址" onblur="checkTheLen('address',6,'地址字数过短',3,'',1)" type="text" value="{$data.address}">
+                </div>
+              </div>
+            
+              <div class="form-group ">
+                <label class="control-label "><span class="red">*</span>姓名:</label>
+                <div class="row">
+                  <div class="control-con col-sm-8" style="padding-right:0">
+                    <input class="form-control  " name="realname" id="realname" placeholder="请填写您的姓名" onblur="checkTheLen('realname',0,'姓名不能为空',3,'',1)" type="text" value="{$data.realname}">
+                  </div>
+                  <div  class="col-sm-4">
+                    <label class="label_radio"><input <?php echo $data['sex']=="先生" ?'checked':''; ?> type="radio" value="先生" name="sex">男</label>&nbsp;&nbsp;&nbsp;
+                    <label class="label_radio"><input <?php echo $data['sex']=="女士" ?'checked':''; ?> type="radio"  value="女士" name="sex">女</label>
+                </div>
+                </div>
+              </div>
+              
+              
+              <div class="form-group ">
+                <label class="control-label"><span class="red">*</span>联系电话:</label>
+                <div class="control-con ">
+                  <input class="form-control  " name="phone" id="phone" placeholder="请填写联系电话" onblur="checkTheLen('phone',6,'请输入正确的电话号码',3,'',1)" type="text"  value="{$data.phone}">
+                </div>
+              </div>
+              <div class="form-group ">
+                <label class="control-label ">电子邮箱:</label>
+                <div class="control-con ">
+                  <input class="form-control  " name="email" id="email" placeholder="请填写电子邮箱" type="text"  value="{$data.email}">
+                </div>
+              </div>
+              
+              <div class="blank20"></div>
+              <button class="btn btn-lg btn-primary  J-btn-submit col-sm-12" type="submit" data-loading-text="提交中" autocomplete="off">提交修改</button>
+              <div class="blank20"></div>
+              <a class="btn btn-lg btn-default   col-sm-12" type="submit" href="javascript:void(0);" onclick="$(this).closest('.modal-content').find('.close').trigger('click')">取消</a>
+              <div class="blank20"></div>
+              
+            </form>
+
+  </div>
+  
+
+
+
+        <script type="text/javascript">
+        $(function(){
+                
+            var RIS_array = ["code", "address","realname","phone","verify"]
+            var RIS_array_len = RIS_array.length;
+            for(i=0;i<RIS_array_len;i++){
+                var inputID = RIS_array[i]
+                resetInputStyle(inputID)
+            }
+        })
+
+        </script>

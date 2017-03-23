@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body >
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_ebook.jpg);">
+      <div class="m-channel-title"><h2>产品画册</h2><small>Ecatalogue</small></div>
+    </div>
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <li ><a href="{:U('Products/lists')}">产品中心</a></li>
+        <li class="active"><a href="{:U('Products/ebooklist')}">产品画册</a></li>
+        <li ><a href="{:U('Products/effects')}">空间效果图</a></li>        
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Products/effects')}">产品画册</a></li>
+      </ol>
+    </div>
+  </div>
+  
+  
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container  ">
+      
+      <div class="row">
+          <ul class="m-list-photos m-list-ebook ">
+            <volist name="datas" id="vo">
+              <li class=" col-sm-4 col-xs-6 " data-id="{$vo.ID}">                
+                    <a  href="{:U('Products/ebookshow',array('id'=>$vo['ID']))}" title="{$vo.OthersNameCH}">
+                        <div class="photobox-wrap">
+                            <div class="photobox">
+                                <div class="pic" style="background-image: url('http://#/{$vo.SmallPic}');">
+                                 
+                                </div>
+                            </div>
+                            <div class="info">
+                                <p>{$vo.OthersNameCH}</p>
+                            </div>
+                        </div>
+                    </a>
+              </li>
+            </volist>  
+          </ul>
+
+          <div class="pagenav">
+            <?php echo $showPages; ?>
+          </div>
+      
+
+        </div>
+
+        
+        
+        
+      
+      
+    </div>          
+             
+    
+    
+ 
+     
+  </div>
+  <!--./mainer-->
+
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<include file="Admin@Common:head" />
+<body >
+<link rel="stylesheet" href="__CSS_PATH__/Common/bootstrap-datetimepicker.css" />
+<script src="__JS_PATH__/Common/bs/bootstrap-datetimepicker.js"></script>
+<script src="__JS_PATH__/Common/bs/locales/bootstrap-datetimepicker.zh-TW.js"></script>
+<script src="__JS_PATH__/Admin/user_select.js"></script>
+<div class="g-all"> 
+  <div class="container-fluid g-show-wrap">
+
+    <div class="submenu-bar">
+         <Admintemplate file="Common_Nav"/>
+      </div>
+      <div class="search-bar well">
+        <form class="form-inline" method="post" action="{:U('index')}">
+            <input type="hidden" name="menuid" value="{$_GET.menuid}">
+            
+            状态：
+            <select class="form-control input-sm" name="status" >
+              <option value='' <if condition="$filter['status'] eq ''">selected</if>>不限</option>
+              <option value="1" <if condition="$filter['status'] eq '1'">selected</if>>已使用</option>
+              <option value="0" <if condition="$filter['status'] eq '0'">selected</if>>未使用</option>
+            </select>
+            &nbsp;&nbsp;用户ID：<input type="text" class="form-control input-sm" name="userid" size='8' value="{$filter.userid}" placeholder="用户ID">
+
+            &nbsp;&nbsp;後綴：<input type="text" class="form-control input-sm" name="fileext" size='5' value="{$filter.fileext}" placeholder="後綴">
+            <div class="visible-sm blank10"></div>
+            &nbsp;&nbsp;時間：
+            <div class="input-group btn-group-sm date form_date" id="datetimepicker" data-date="{$filter.start_uploadtime}" data-date-format="yyyy-mm-dd">
+            <input class="form-control input-sm" size="14" type="text"  name="start_uploadtime" value="{$filter.start_uploadtime}">
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>-
+            <div class="input-group btn-group-sm date form_date" id="datetimepicker" data-date="{$filter.end_uploadtime}" data-date-format="yyyy-mm-dd">
+            <input class="form-control input-sm" size="14" type="text"  name="end_uploadtime" value="{$filter.end_uploadtime}">
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+
+            <button class="btn btn-default btn-sm">搜索</button>
+        </form>
+      </div>
+
+      <div class="table_list">
+        <form  method="post" action="{:U('delete')}">
+        <table width="100%" cellspacing="0" class="table table-hover  table-bordered table-striped">
+          <thead class="thead-default">
+            <tr>
+              <th width="20"><input type="checkbox"  onClick="selectall(this,'aid[]');"></th>
+              <th class="center" >ID</th>
+              <th class="center" width="80" >操作人</th>
+              <th width="120" >栏目名称</th>
+              <th>附件名称</th>
+              <th width="100" style="text-align:right">大小</th>
+              <th width="80">上載IP</th>
+              <th width="130">時間</th>
+              <th width="120">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <volist name="datas" id="vo">
+              <tr data-id="{$vo.aid}">
+                <td ><input type="checkbox" value="{$vo.aid}" name="aid[]"></td>
+                <td align="center">{$vo.aid}</td>
+                <td align="center"><if condition=" $vo['isadmin'] ">[后台]</if><if condition=" !$vo['userid'] ">游客<else/>{$vo.userid}</if></td>
+                <td>{$vo.catname} </td>
+                <td>
+                  <img src="__IMAGES_PATH__/Common/ext/{$vo.fileext}.gif" />
+                  <span style="font-size:14px; display:none" >
+                  <switch name="vo.fileext">
+                    <case value="rar|zip"><i class="fa fa-file-zip-o" style="color:#bf9d54"></i></case>
+                    <case value="doc|docx|wps"><i class="fa fa-file-word-o" style="color:#5281bf"></i></case>
+                    <case value="pdf"><i class="fa fa-file-pdf-o" style="color:#a61e32"></i></case>
+                    <case value="xls|xlsx"><i class="fa fa-file-excel-o" style="color:#137a11"></i></case>
+                    <case value="gif|png|jpg"><i class="fa fa-file-image-o" style="color:#bf7050" ></i></case>
+                    <case value="txt"><i class="fa fa-file-text-o" style="color:#787857"></i></case>
+                    <case value="ppt|pptx"><i class="fa fa-file-powerpoint-o" style="color:#ba4506"></i></case>
+                    <case value="flv|mp4|3GP|avi|rmvb|wma|rm|mov|wmv"><i class="fa fa-youtube-play" style="color:#8a1111"></i></case>
+                    <default />
+                 </switch>
+                  </span>
+                  &nbsp;<span data-toggle="tooltip" data-placement="right" title="路徑：{$Config.CFG_FILE_URL}{$vo.filepath}">{$vo.filename}</span>
+                  <if condition=" $vo['thumb'] ">
+                  <a href="javascript:void(0);" title="管理缩略图" onClick="showthumb({$vo.aid}, '{$vo.filename}')"><i class="fa fa-image"  style="color:#b54316; font-size:14px"></i></a>
+                  </if>
+                  <if condition=" $vo['status']">
+                    <i class="fa fa-link" style="color:#888"  title="该附件已被使用"></i>
+                  </if>
+                </td>
+                <td align="right">{$vo.filesize} KB</td>
+                <td >{$vo.uploadip}</td>
+                <td>{$vo.uploadtime|date="Y-m-d H:i",###}</td>
+                <td class="options">
+                  <a href="javascript:void(0);" onclick="pic_preview('{$vo.filename}','{$Config.CFG_FILE_URL}{$vo.filepath}')"><i class="fa fa-eye"></i>預覽</a> | <a onclick="deleteItem(this,{url:'<?php echo U('delete',array('aid'=>$vo['aid'])) ;?>'})" href="javascript:void(0);" data-loading-text="刪.."><i class="fa fa-trash"></i>删除</a>
+                </td>
+              </tr>
+            </volist>
+          </tbody>
+        </table>
+        <a class="btn btn-danger btn-sm" onclick="deleteItem(this,{url:'{:U('delete',array('batch'=>1))}',batch:true})" data-loading-text="正在刪除.."><i class="fa fa-trash"></i>&nbsp;&nbsp;批量刪除</a>
+        </form>
+        <div class="pages list-pages"> {$Page} </div>
+      </div>
+
+
+
+  </div>
+</div>
+
+<script type="text/javascript">
+   $('.form_date').datetimepicker({
+        language:  'zh-TW',
+        weekStart: 0,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        fontAwesome:1
+    });
+
+   function pic_preview(title,picPath){
+      if(typeof(GV)=="undefined"){var GV={};}
+      if(typeof(GV.MODAL)=="undefined"){ GV.MODAL=[];}
+      GV.MODAL['picpriview'] = $.scojs_modal({
+        target:"#modal-picpriview"
+        ,title:"<div style='white-space:nowrap;padding-right:30px'>預覽："+title+"</div>"
+        ,content: "<img src='"+picPath+"' style='max-width:480px;margin:0 auto;display:block'>"
+        ,width:"500"
+        ,btns:[{id:'close',title:'关闭'}]
+      })
+      GV.MODAL['picpriview'].show();  
+   }
+   $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+</body>
+</html>

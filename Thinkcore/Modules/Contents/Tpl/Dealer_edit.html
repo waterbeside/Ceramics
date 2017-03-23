@@ -1,0 +1,58 @@
+<div class="table-edit table-edit-model"> 
+  <div class="common-form">
+    <form class="form" method="post" action="{:U('edit',array('nid'=>$nid))}"  onsubmit="return submit_ajax(this);">
+      <input type="hidden" name="id" value="{$data.id}">
+      <div class=" panel panel-default active">
+          <div class="panel-heading"><h5>基本信息</h5></div>          
+          <table class="table table-striped table-bordered ">            
+            <tbody>
+              <tr>
+                <td class="th-label" width="120">站點:</td>
+                <td>
+                  {$siteInfo.name} <small>【{$siteInfo.nid}】</small>
+                </td>
+              </tr>
+              <tr>
+                <td class="th-label" width="120">用户名:</td>
+                <td>
+                  <input type="text" class="form-control" name="name" value="{$data.name}">
+                  <span class="help-block"></span>
+                </td>
+              </tr>
+              <tr>
+                <td class="th-label">客户号/区域代码:</td>
+                <td><input type="text" class="form-control" name="code" value="{$data.code}"></td>
+              </tr>
+              <tr>
+                <td class="th-label">地址:</td>
+                <td><input type="text" class="form-control" name="address" value="{$data.address}"></td>
+
+              </tr>
+              <tr>
+                <td class="th-label">真实姓名:</td>
+                <td><input type="text" class="form-control" name="realname"  value="{$data.realname}"></td>
+              </tr>
+              <tr>
+                <td class="th-label">性别:</td>
+                <td>
+                  <label class="label_radio"><input <?php echo $data['sex']=="先生" ?'checked':''; ?> type="radio" value="先生" name="sex">男</label>&nbsp;&nbsp;&nbsp;
+                  <label class="label_radio"><input <?php echo $data['sex']=="女士" ?'checked':''; ?> type="radio"  value="女士" name="sex">女</label>
+                </td>
+              </tr>
+              <tr>
+                <td class="th-label">电话:</td>
+                <td><input type="text" class="form-control" name="phone"  value="{$data.phone}"></td>
+              </tr>
+              <tr>
+                <td class="th-label">邮箱:</td>
+                <td><input type="text" class="form-control" name="email"  value="{$data.email}"></td>
+              </tr>
+             
+            </tbody>
+        </table>
+      </div>
+
+      
+      
+    </form>
+</div>

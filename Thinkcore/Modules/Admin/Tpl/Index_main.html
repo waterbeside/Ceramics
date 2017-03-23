@@ -1,0 +1,63 @@
+<include file="Admin@Common:head" />
+<body class="m-wellcome">
+  <script type="text/javascript">
+  if(getBrowserVersion()!=""&&getBrowserVersion()<=8){
+      loadJs('__JS_PATH__/Common/chart/Chart_0.js');
+    }else{
+      loadJs('__JS_PATH__/Common/chart/Chart.min.js');
+    }
+  </script>
+<div class="g-all "> 
+  <div class="container-fluid g-show-wrap ">
+   
+      <div class=" panel panel-default ">
+        <div class="panel-heading">
+          <h5><i class="fa fa-user"></i> 用户信息</h5>
+        </div>
+        <div class="panel-body">
+          <div class="col-sm-4 m-user-box" >
+            <table class="table table-bordered ">
+              <tbody>
+                <tr>
+                  <td>用戶</td>
+                  <td class="usernmame"><b >{$User.realname}</b><small>({$User.username})</small></td>
+                </tr>
+                <tr>
+                  <td>電話</td>
+                  <td class="phone"><b >{$User.mobile}</td>
+                </tr>
+                <tr>
+                  <td>郵箱</td>
+                  <td ><b >{$User.email}</td>
+                </tr>
+                <tr>
+                  <td>最新登入時間</td>
+                  <td ><b >{$User.last_login_time|date="Y-m-d H:i",###}</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            
+          </div>
+          <div class="col-sm-4">
+            
+          </div>
+          <div class="col-sm-4">
+            <div class="m-date-box <?php if(!date('w',$today)){echo 'm-date-box-w0'; } ?>" >
+            <p>今天是: <b class="y" >{$today|date="Y-m",###}</b></p>
+            <p style="text-align:center"><b class="d">{$today|date="d",###}</b>日</p>
+            <p><b class="w" ><?php echo formatWeek(date('w',$today)); ?></b></p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    
+
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body class="P-ebookview">
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+   
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <li ><a href="{:U('Products/lists')}">产品中心</a></li>
+        <li class="active"><a href="{:U('Products/ebooklist')}">产品画册</a></li>
+        <li ><a href="{:U('Products/effects')}">空间效果图</a></li>        
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Products/effects')}">产品画册</a></li>
+      </ol>
+    </div>
+  </div>
+  
+  
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container">
+          <h1>{$datas.OthersNameCH}</h1>
+          <div  id="J-pic-wrap">
+              <div class="thumbnail" data-pages="0">
+                  <img src="{$datas.BigPic}p_0.jpg" >
+                  <span>0<span>
+              </div>
+              <div class="thumbnail" data-pages="1">
+                  <img src="{$datas.BigPic}p_1.jpg" >
+                  <span>1<span>
+              </div>
+          </div>
+          <!--./pic-wrap-->
+          
+          <div class="btn btn-danger" id="J-loadMore"><b>加载更多</b></div>
+      </div>
+    
+    
+ 
+     
+  </div>
+  <!--./mainer-->
+  <script type="text/javascript">
+      
+      $(function(){
+          var total = parseInt("{$datas.pages}") ;
+          var current = 1 ;
+          var picUrl = "{$datas.BigPic}"
+          $(window).scroll(function () {
+              var scrollTop = $(this).scrollTop();
+              var scrollHeight = $(document).height();
+              var windowHeight = $(this).height();
+
+              if(scrollTop + windowHeight  == scrollHeight) {
+                  
+                 current = loadMore(current,total,picUrl)
+                 // console.log(2)
+              }
+          })   
+          $("#J-loadMore").click(function(){
+              current = loadMore(current,total,picUrl);
+              current = loadMore(current,total,picUrl);
+              if(current >= total-1){
+                   $("#J-loadMore").hide();
+              }
+          }) 
+      })
+      
+      function loadMore(current,total,picUrl){
+          current = current + 1 ;
+          if(current < total){
+              var picHtml = "<div class=\"thumbnail\" data-pages=\""+current+"\"><img src=\""+picUrl+"p_"+current+".jpg\" /><span>"+current+"</span></div>";
+              $("#J-pic-wrap").append(picHtml);
+          }else{
+              current = current - 1;
+              $("#J-loadMore").hide();
+
+          }
+          return current;
+      }
+  </script>
+
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

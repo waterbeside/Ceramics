@@ -1,0 +1,36 @@
+<?php 
+$getMenu = AdminbaseAction::getMenu(); 
+if($getMenu) {
+ ?>
+<div class="nav">
+	<?php
+  if(!empty($menuReturn)){
+	  echo '<div class="submenu-return"><a href="'.$menuReturn['url'].'"><i class="fa fa-reply"></i>&nbsp;'.$menuReturn['name'].'</a></div>';
+  }
+  ?>
+  <ul class="nav nav-pills">
+    <?php
+	foreach($getMenu as $r){
+		$app = $r['app'];
+		$model = $r['model'];
+		$action = $r['action'];
+	?>
+  
+	<?php if(is_numeric($r['function'])){ 
+     $model_width = $r['function'] < 600 ? 600 : $r['function'] ;
+  ?>  
+
+    <li ><a data-width="<?php echo $model_width; ?>" data-trigger="modal" data-title="<?php echo $r['name'];?>" href="<?php echo U("".$app."/".$model."/".$action."",$r['data']);?>" ><?php echo $r['name'];?></a></li>
+
+  <?php }elseif($r['function']!=""){  ?>
+      <li <?php echo $action==ACTION_NAME ?'class="active"':""; ?>><a data-action="<?php echo U("".$app."/".$model."/".$action."",$r['data']);?>" onclick="<?php echo $r['function']; ?>"><?php echo $r['name'];?></a></li>
+  <?php }else{ ?>
+    <li <?php echo $action==ACTION_NAME ?'class="active"':""; ?>><a href="<?php echo U("".$app."/".$model."/".$action."",$r['data']);?>" ><?php echo $r['name'];?></a></li>
+  <?php }?>  
+    <?php
+	}
+	?>
+  </ul>
+
+</div>
+<?php } ?>

@@ -1,0 +1,10 @@
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.zip
+/#runtime/
+/Api/
+/upload/
+/statics/fonts/
+/statics/images/Tpl/
+/Thinkcore/Conf/dataconfig.php

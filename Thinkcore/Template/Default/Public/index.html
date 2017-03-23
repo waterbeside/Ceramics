@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body id="P-index">
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="owl-carousel">
+      <div class='item' style='background-image: url(__TPL_IMG__/Default/banner/banner_2017_vp_series.jpg);'><a class='adlink' href="{:U('Products/lists',array('catid'=>181))}" ></a></div>
+      <div class='item' style='background-image: url(__TPL_IMG__/Default/banner/banner_2017_newyear.jpg);'><a class='adlink' href='javascript:void(0);' ></a></div>
+      <div class='item' style='background-image: url(__TPL_IMG__/Default/banner/banner_2017_TPGM.jpg);'><a class='adlink' href="{:U('Products/lists',array('catid'=>177))}" ></a></div>
+      <div class='item' style='background-image: url(__TPL_IMG__/Default/banner/banner_2017_TPAC.jpg);'><a class='adlink' href="{:U('Products/lists',array('catid'=>172))}" ></a></div>
+      <div class='item' style='background-image: url(__TPL_IMG__/Default/banner/banner_2017_bw.jpg);'><a class='adlink' href="javascript:void(0);" ></a></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(function() {
+        $('.m-banner .owl-carousel').owlCarousel({
+          items: 1,
+          autoplay: true,           
+          lazyLoad: true,
+          loop: true,          
+        });
+    });
+</script> 
+  <!--./banner-->
+  <div class="g-mainer ">
+    <div class="container">
+      <div class="m-chbox m-chbox-indexPro">
+        <div class="hd">
+          <h3><a href="{:U('Products/lists')}"><i class="fa fa-cube"></i>新品推荐<small>New Product</small></a></h3>
+        </div>
+        <div id="proCarousel" class="bd carousel slide" >
+          <ol class="carousel-indicators  ">
+            <li data-target="#proCarousel" data-slide-to="0" class="active">自然之美 大理石</li>
+            <li data-target="#proCarousel" data-slide-to="1">原石瓷抛砖</li>
+            <li data-target="#proCarousel" data-slide-to="2">900X900规格</li>
+          </ol>
+          <div class=" carousel-inner listbox">
+            <div class='item active row' >
+              <div class="col-sm-6 hidden-xs ">
+                <div class='m-pic'><a href="{:U('Products/lists',array('catid'=>177))}"><img src="__TPL_IMG__/Default/pic/pic_TPGM.jpg" /></a></div>
+              </div>
+              <div class="col-sm-6  ">
+                <div class="m-txt">
+                  <h2><a href="{:U('Products/lists',array('catid'=>177))}">自然之美 大理石</a></h2>
+                  <ul class="proUl">
+                    <mylist model="products" id='vo' return="plist" catid="177" num="5"   where="ViewFlagCH = 1 and NewFlag = 1" order="ID DESC" >
+                      <li <?php if($i==5){echo 'class="hidden-xs"';}?>><a href="{:U('Products/shows',array('id'=>$vo['ID']))}" title="{$vo.ProductModel}"><img src="{$vo.SmallPic}" alt="{$vo.ProductModel}"></a></li>
+                    </mylist>
+                    <li class="more"><a href="{:U('Products/lists',array('catid'=>177))}" class="proBtn btn btn-default">更多 <i class="fa fa-angle-right"></i></a></li>
+                  </ul>
+                  <div class="proInfo">#lazyme#陶瓷研发团队走访世界名贵石材产地取得灵感，并将石头引入到 设计之中，打造出与天然大理石相媲美的瓷砖，并为这一系列重返自然的产品命名：自然之美。
+【真如原石】高清喷墨技术复制原石神韵，线条饱满，纹理连贯不断层，铺贴效果更自然。【坯釉相融】精细全立体多次布料，坯釉相融，表里如一，拉槽、倒角、磨边等应用更出色。【自然色彩】特殊着色工艺，纹理色彩丰富，色泽柔和，全方位更逼真……
+ </div>
+                </div>
+              </div>
+            </div>
+            <!--./item-->
+            <div class='item  row' >
+              <div class="col-sm-6 hidden-xs">
+                <div class='m-pic'><a href="{:U('Products/lists',array('catid'=>172))}"><img src="__TPL_IMG__/Default/pic/pic_TPAC.jpg" /></a></div>
+              </div>
+              <div class="col-sm-6  ">
+                <div class="m-txt">
+                  <h2><a href="{:U('Products/lists',array('catid'=>172))}">原石瓷抛砖</a></h2>
+                  <ul class="proUl">
+                    <mylist model="products" id='vo' return="plist" catid="172" num="5"   where="ViewFlagCH = 1 and NewFlag = 1" order="ID DESC" >
+                      <li <?php if($i==5){echo 'class="hidden-xs"';}?>><a href="{:U('Products/shows',array('id'=>$vo['ID']))}" title="{$vo.ProductModel}"><img src="{$vo.SmallPic}" alt="{$vo.ProductModel}"></a></li>
+                    </mylist>
+                    <li class="more"><a href="{:U('Products/lists',array('catid'=>172))}" class="proBtn btn btn-default">更多 <i class="fa fa-angle-right"></i></a></li>
+                  </ul>
+                  <div class="proInfo"> #lazyme#陶瓷独特设计的原石瓷抛砖系列，图案纹理由内而外，更加贴近原石材，开辟了一条通往自然的时光隧道，让大家回到那段与自然无比亲近的时光，回归最原始的感动。
+经过1200°高温完全烧透，砖体全瓷硬度高，密度更大，吸水率超低，防污易清洁。立体布料一体成型，瓷质砖面无釉层，通体耐磨。采用进口渗透墨水，立体喷墨技术，纹理立体逼真颜色更鲜靓。广东#lazyme#100%原厂出品，数十道严苛工序……
+ </div>
+                </div>
+              </div>
+            </div>
+            <!--./item-->
+            <div class='item  row' >
+              <div class="col-sm-6 hidden-xs">
+                <div class='m-pic'><a href="{:U('Products/lists',array('sizes'=>'900X900'))}"><img src="__TPL_IMG__/Default/pic/pic_900.jpg" /></a></div>
+              </div>
+              <div class="col-sm-6 ">
+                <div class="m-txt">
+                  <h2><a href="{:U('Products/lists',array('sizes'=>'900X900'))}">900X900</a></h2>
+                  <ul class="proUl">
+                    <mylist model="products" id='vo' return="plist" catid="0" num="5"   where="  ViewFlagCH = 1 and NewFlag = 1 and FIND_IN_SET('900X900',Sizes)" order="ID DESC" >
+                      <li <?php if($i==5){echo 'class="hidden-xs"';}?>><a href="{:U('Products/shows',array('id'=>$vo['ID']))}" title="{$vo.ProductModel}"><img src="{$vo.SmallPic}" alt="{$vo.ProductModel}"></a></li>
+                    </mylist>
+                    <li class="more"><a href="{:U('Products/lists',array('sizes'=>'900X900'))}" class="proBtn btn btn-default">更多 <i class="fa fa-angle-right"></i></a></li>
+                    
+                  </ul>
+                  <div class="proInfo"> 突破传统规格，采用900*900大尺寸设计，打造大气舒展皇家臻品；铺就家居空间，融和九五至尊之象，尽享华贵不凡。 </div>
+                </div>
+              </div>
+            </div>
+            <!--./item--> 
+          </div>
+          <!--./carousel-inner--> 
+          <a class="left carousel-control" href="#proCarousel" role="button" data-slide="prev"> <span class="fa fa-chevron-left  "></span> <span class="sr-only">Previous</span> </a> <a class="right carousel-control" href="#proCarousel" role="button" data-slide="next"> <span class="fa fa-chevron-right  "></span> <span class="sr-only">Next</span> </a> </div>
+        <script type="text/javascript">
+        $('#proCarousel').carousel({
+          interval: 7000
+        })
+        $('#proCarousel').on('slide.bs.carousel', function () {                
+          var $btnCtr  = $(this).find('.carousel-indicators');
+          $btnCtr.addClass('going');
+          setTimeout(function(){
+            $btnCtr.removeClass('going');
+          },600);
+        })
+      </script> 
+      </div>
+    </div>
+    <!--./container of 新品推荐--> 
+    <!--  <div class="container-fluid">
+      <div></div>
+    </div> -->
+    <div class="m-GaRow">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 m-chbox m-chbox-indexNews">
+            <div class="hd">
+              <h3><a href="{:U('newslist')}"><i class="fa fa-newspaper-o"></i>品牌资讯<small>The Hot News</small></a></h3>
+            </div>
+            <div class="hotNews">
+              <div class="hotRecommand"> <a href="{:U('newsshow',array('id'=>$topNews['ID']))}"   title="{$topNews.NewsNameCH}" ><img src="{$topNews.thumb}" alt="{$topNews.NewsNameCH}">
+                <div class="hotText">
+                  <h3>{$topNews.NewsNameCH}</h3>
+                  <p>{$topNews.SeoDescriptionCH}</p>
+                </div>
+                </a> </div>
+              <ul class="indexNewsUl ">
+                <volist name="indexNews" id="vo">
+                  <li><a href="{:U('newsshow',array('id'=>$vo['ID']))}"  title="{$vo.NewsNameCH}">{$vo.NewsNameCH}</a></li>
+              
+                </volist>
+              </ul>
+            </div>
+          </div>
+          <!--./品牌资讯-->
+          
+          <div class="col-md-6 m-groupbox-indexNews">
+            <div class="col-xs-6 "> <a href="{:U('Reseller/lists')}" class="row m-coverPicWrap m-cover-red">
+                <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_btn_reseller.jpg)"></div>
+                <div class="coverBg"></div>
+                <div class="coverTxt">
+                  <h3>经销商专区</h3>
+                </div>
+                </a> </div>
+                <div class="col-xs-6 "> <a href="{:U('Products/lists')}" class="row m-coverPicWrap">
+                <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_btn_pro.jpg)"></div>
+                <div class="coverBg"></div>
+                <div class="coverTxt">
+                  <h3>产品中心</h3>
+                </div>
+                </a> </div>
+                <div class="col-xs-6 "> <a class="row m-coverPicWrap m-cover-vedioBox" href="{:U('Public/Statics/index_video')}"  data-title="品牌视频" data-trigger="modal">
+                <div class="coverPic" style='background-image: url(__TPL_IMG__/Default/vedioCover_30.jpg);'></div>
+                <div class="coverBg"></div>
+                  
+                  <div class="coverTxt">
+                    <i class="fa fa-play-circle u-btn-play"></i>
+                  </div>
+                  <h3>品牌视频</h3>
+                </a></div>
+                <div class="col-xs-6 "> <a href="{:U('Products/ebooklist')}" class="row m-coverPicWrap m-cover-red">
+                <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_btn_ebook.jpg)"></div>
+                <div class="coverBg"></div>
+                <div class="coverTxt">
+                  <h3>产品画册</h3>
+                </div>
+                </a> </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <!--./ 行 of 品牌资讯&&品牌视频-->
+    
+    <div class="container">
+      <div class="m-chbox m-chbox-indexEffect">
+        <div class="hd ">
+          <h3><a href="{:U('Products/effects')}"><i class="fa fa-building"></i>空间效果案例<small>Simulations bild</small></a></h3>
+        </div>
+        <div class="bd ">
+          <div class="col-sm-6 col-xs-12"> <a href="{:U('Products/effects',array('roomtype'=>'客厅'))}" class="row m-coverPicWrap">
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_e1.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>客厅</h3>
+            </div>
+            </a> </div>
+          <div class="col-sm-3 col-xs-6"> <a href="{:U('Products/effects',array('roomtype'=>'厨房'))}" class="row m-coverPicWrap">
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_e2.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>厨房</h3>
+            </div>
+            </a> </div>
+          <div class="col-sm-3 col-xs-6"> <a href="{:U('Products/effects',array('roomtype'=>'卫浴'))}"  class="row m-coverPicWrap">
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_e3.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>卫浴</h3>
+            </div>
+            </a> </div>
+          <div class="col-sm-3 col-xs-6"> <a href="{:U('Products/effects',array('roomtype'=>'书房'))}"  class="row m-coverPicWrap">
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_e4.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>书房</h3>
+            </div>
+            </a> </div>
+          <div class="col-sm-3 col-xs-6"> <a href="{:U('Products/effects',array('roomtype'=>'卧室'))}"  class="row m-coverPicWrap">
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_e5.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>卧室</h3>
+            </div>
+            </a> </div>
+          <div class="col-sm-3 col-xs-6"> <a href="{:U('Products/effects',array('roomtype'=>'餐厅'))}"  class="row m-coverPicWrap">
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_e6.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>餐厅</h3>
+            </div>
+            </a> </div>
+          <div class="col-sm-3 col-xs-6"> <a href="{:U('Products/effects',array('roomtype'=>'走廊'))}"  class="row m-coverPicWrap">
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_e7.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>走廊</h3>
+            </div>
+            </a> </div>
+        </div>
+      </div>
+    </div>
+    <!--./ 行 of 效果图-->
+    
+    <div class="container">
+      <div class="m-chbox m-chbox-indexAbout">
+        <div class="hd">
+          <h3><a href="{:U('about')}"><i class="fa fa-flag"></i>关于#lazyme#<small>About Us</small></a></h3>
+        </div>
+        <div class="bd ">
+          <div class="row">
+            <div class="col-xs-3"> </div>
+          </div>
+          <p style="text-in"> 广东#lazyme#陶瓷有限公司成立于1999年，是广东省佛山市一家专业生产、销售瓷质抛光砖、釉面砖、全抛釉陶瓷砖、仿古砖、广场砖和超市砖的现代化大型企业。公司参与了7项国家标准和2项行业标准的制修订，是“国家标准制定企业”、“国家高新技术企业”。 ...<a class="btn-viewMore" href="{:U('about')}">查看更多 <i class="fa fa-arrow-circle-right"></i></a></p>
+        </div>
+      </div>
+    </div>
+    <!--./ 行 of 关于#lazyme#-->
+    <div class="blank10"></div>
+    <div class="container">
+      <div class="m-chbox m-chbox-indexCase">
+        <div class="bd ">
+          <div class="col-sm-3 col-xs-6"> <a href="{:U('cases')}" class="row m-coverPicWrap">
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_cases.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>工程案例</h3>
+            </div>
+            </a> </div>
+          <div class="col-sm-3 col-xs-6"> <a href="{:U('about',array('id'=>4))}" class="row m-coverPicWrap">
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_factory.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>生产基地</h3>
+            </div>
+            </a> </div>
+          
+          
+          <div class="col-sm-3 col-xs-6"> <a href="{:U('room')}"  class="row m-coverPicWrap">
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_room.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>营销中心</h3>
+            </div>
+            </a> </div>
+
+          <div class="col-sm-3 col-xs-6"> <a href="{:U('about',array('id'=>3))}"  class="row m-coverPicWrap"> 
+            <div class="coverPic" style="background-image:url(__TPL_IMG__/Default/pic_index_honner.jpg)"></div>
+            <div class="coverBg"></div>
+            <div class="coverTxt">
+              <h3>荣誉资质</h3>
+            </div>
+            </a> </div>
+          
+        </div>
+      </div>
+    </div>
+    <!--./ 行 of 工程案例-->
+
+    <div class="">
+      
+    </div>
+     
+  </div>
+  <!--./mainer-->
+  <template file="Public/block_footer.html"/>
+  <script type="text/javascript">
+  $(function(){
+    //$('.m-chbox-indexNews a').tooltip()
+    if(typeof(JS_wtool)!="undefined"){
+      //$("#"+JS_wtool.id).find(".li_notice").children(".toolbtn").trigger("click");
+    }  
+  })
+  
+  </script>
+</div>
+</body>
+</html>

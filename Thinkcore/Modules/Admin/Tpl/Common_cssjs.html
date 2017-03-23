@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="__CSS_PATH__/Common/bootstrap.min.css" >
+<link rel="stylesheet" href="__CSS_PATH__/Common/reset.css" >
+<link rel="stylesheet" href="__CSS_PATH__/Common/font-awesome.min.css" />
+<link rel="stylesheet" href="__CSS_PATH__/Admin/Admin.css" >
+
+<script src="__JS_PATH__/Common/jquery-1.11.2.min.js"></script>
+<script src="__JS_PATH__/Common/bootstrap-3.3.5.min.js"></script>
+<script src="__JS_PATH__/Common/sco.modal.min.js"></script>
+<script src="__JS_PATH__/Admin/base.js"></script>
+<!--[if lt IE 9]>
+  <script src="__JS_PATH__/Common/html5shiv.js"></script>
+  <script src="__JS_PATH__/Common/respond.min.js"></script>
+  <script src="__JS_PATH__/Common/excanvas.js"></script>
+
+<![endif]-->
+<script type="text/javascript">
+//全局变量
+var GV_a= {
+    DIMAUB: "",
+	JS_ROOT: "__JS_PATH__/",
+	MODAL:[],
+	VAR:[]
+};
+if(GV){
+	 GV =  $.extend(GV, GV_a);
+}else{
+	var GV = GV_a;
+}
+window.UMEDITOR_HOME_URL = GV.JS_ROOT+'Common/umeditor/'
+</script>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>系统后台 - {$Config.CFG_SITE_TITLE} </title>
+<link rel="stylesheet" href="__CSS_PATH__/Common/reset.css" >
+<link rel="stylesheet" href="__CSS_PATH__/Common/bootstrap.min.css" >
+
+<link rel="stylesheet" href="__CSS_PATH__/Common/font-awesome.min.css" />
+<link rel="stylesheet" href="__CSS_PATH__/Admin/index.css" >
+<script src="__JS_PATH__/Common/jquery-1.11.2.min.js"></script>
+<script src="__JS_PATH__/Admin/base.js"></script>
+<script src="__JS_PATH__/Admin/index.js"></script>
+
+<style type="text/css">
+/*
+
+*/
+</style>
+<script type="text/javascript">
+if (window.parent !== window.self) {
+	document.write = '';
+	window.parent.location.href = window.self.location.href;
+	setTimeout(function () {
+		document.body.innerHTML = '';
+	}, 0);
+}
+</script>
+</head>
+<body id="index">
+<div class="g-all">
+	<!--navbar-->
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<div class="navbar-header">
+			
+			      <a class="brand" href="{:U('index/index')}">#lazyme#後台管理<small></small></a>
+			    </div>
+				<div class="pull-left nav_shortcuts">
+			          <!-- 菜单异步获取，采用json格式，由js处理菜单展示结构 -->
+			          <ul id="J-nav" class="nav navbar-nav"></ul>
+				</div>
+				<div class="login_info pull-right">
+					<span class="mr5"><i class="fa fa-user"></i> {$User.realname}<small>({$User.username})</small></span><a class="mr5 btn" href="{:U('Admin/Public/logout')}"><i class="fa fa-sign-out"></i> 登出</a>
+					<a class="btn " href="javascript:void(0);" onclick='runAction($(this), "<?php echo U('Index/public_main')?>")'><i class="fa fa-home"></i>  後臺首页</a>
+					<a class="btn " id="deletecache" href="javascript:void(0);" onclick='runAction($(this), "<?php echo U('public_cache')?>")'><i class="fa fa-eraser"></i> 緩存更新</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--./navbar-->
+	<!--g-mainer-->
+	<div class="g-mainer container-fluid">
+	
+		<!--sidebar-->
+		<div class="g-sidebar">
+			<div class="menu">
+				<dl id="J-menu" data-mid=""></dl>				
+			</div>
+		</div>
+		<!--./sidebar-->
+		<!--mainbar-->
+		<div class="g-mainbar">
+			<div class="g-mainbar-inner">
+				<div class="options">
+					<a href="javascript:void(0);" class="refresh" id="J-refresh" title="刷新"><i class="fa fa-refresh"></i></a>
+					<a href="javascript:void(0);" id="J-fullScreen" class="full_screen" title="全屏/退出全屏"><i class="fa fa-arrows-alt"></i></a>
+				</div>
+			    <div class="main-loading" id="J-main-loading"><div class="inner"><i class="fa fa-spinner fa-spin"></i>加载中...</div></div>
+				<div class="show" id="J-mainshow">
+					<iframe frameborder="0" style="height: 100%; width: 100%; display: inline;" scrolling="auto" id="J-ishow" src="
+					{:U('Index/public_main')}" data-mid="default"></iframe>
+				</div>
+			</div>
+			
+		</div>
+		<!--./mainbar-->
+
+	</div>
+	<!--./g-mainer-->
+
+	
+</div>	
+<script type="text/javascript">
+	var MenuJson  = <?php echo $ADMIN_MENU_JSON ?>;
+	//一级菜单展示
+	$(function () {
+	    var html = [];
+		//iframe_height();
+	    //console.log(SUBMENU_CONFIG);
+	    $.each(MenuJson, function (i, o) {
+	    	var iconHtml = typeof(o.icon)!="undefined" && $.trim(o.icon)!="" ? "<i class=\"fa fa-"+o.icon+"\"></i>&nbsp;" : "";
+	        html.push('<li><a href="" title="' + o.name + '" data-mid="' + o.id + '">' +iconHtml+ o.name + '</a></li>');
+	    });
+	    $('#J-nav').html(html.join(''));
+	    
+	    //一级导航点击
+		$('#J-nav').on('click', 'a', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			$(this).parent().addClass('active').siblings().removeClass('active');
+			var data_id = $(this).attr('data-mid'),
+			data_list = MenuJson[data_id],
+			html = [],
+			child_html = [],
+			child_index = 0,
+			J_menu = $('#J-menu');
+
+			if (J_menu.attr('data-mid') == data_id) {
+				return false;
+			};
+			//显示左侧菜单
+			show_left_menu(data_list['items']);
+			J_menu.html(html.join('')).attr('data-mid', data_id);
+			//左侧导航复位
+			//$("#J-menu").css({"margin-top":"0px"});
+			//检查是否应该出现上一页、下一页
+			//checkMenuNext();
+			//显示左侧菜单
+			function show_left_menu(data) {
+				for (var attr in data) {
+					if (data[attr] && typeof (data[attr]) === 'object') {
+						//循环子对象
+						if(!data[attr].url && attr === 'items') {
+						//子菜单添加识别属性
+							$.each(data[attr], function(i, o) {
+								child_index++;
+								o.isChild = true;
+								o.child_index = child_index;
+							});
+						}
+						show_left_menu(data[attr]); //继续执行循环(筛选子菜单)
+					}else{
+						if (attr === 'name') {
+							data.url = data.url ? data.url : '#';
+							if (!(data['isChild']) ) {
+								//一级菜单
+								var iconHtml = typeof(data.icon)!="undefined" && $.trim(data.icon)!="" ? "<i class=\"icon fa fa-"+data.icon+"\"></i>" : "";
+								html.push('<dt><a href="' + data.url + '" data-mid="' + data.id + '"><b>' + iconHtml + data.name + '</b><i class="j-caret fa fa-caret-down"></i></a></dt>');
+							} else {
+								//二级菜单
+								var iconHtml = typeof(data.icon)!="undefined" && $.trim(data.icon)!="" ? "<i class=\"icon fa fa-"+data.icon+"\"></i>" : "";
+								child_html.push('<li><a href="' + data.url + '" data-mid="' + data.id + '">' + iconHtml + data.name + '</a></li>');
+								//二级菜单全部push完毕
+								if (data.child_index == child_index) {
+									html.push('<dd style="display: block; "><ul>' + child_html.join('') + '</ul></dd>');
+									child_html = [];
+								}
+							}
+						}
+					}
+				}
+			};
+		});
+
+
+
+
+
+		//后台位在第一个导航
+		$('#J-nav li:first a').click();
+		//檢查在线
+		online()
+	});
+	//用于维持在线
+	function online(){
+		$.getJSON('<?php echo U("Admin/Index/index");?>',function(json){
+	    	if(!json.status){
+	    		alert("登入超時");
+	    		redirect(json.url);
+	    	}else{
+	    		setTimeout(function(){
+	    			online();
+	    		}, 60000)
+	    	}
+	    });
+	    /*$.ajax({
+	    	url:'<?php echo U("Admin/Index/index");?>'
+	    	,dataType:'json'
+	    	,success:function(json){
+		    	if(json.status!='1'){
+		    		alert("登入超時");
+		    		redirect(json.url);
+		    	}
+	    	}
+	    });*/
+	}
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body class="P-downview">
+<div class="g-all" >
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_reseller.jpg);">
+      <div class="m-channel-title">
+        <h2>经销商专区</h2>
+        <small>Reseller</small></div>
+    </div>
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <volist name="catList" id="vo">
+          <li <?php if($vo['a']=='lists'){ ?> class="active" <?php } ?> ><a href="<?php echo U($vo['a']); ?>">{$vo.name}</a></li>
+        </volist>
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Reseller/index')}">经销商专区</a></li>
+        <li class="active">资料下载</li>
+      </ol>
+    </div>
+  </div>
+  <div class="container">
+    <ul class="m-menu-sub">
+      <li  <?php if(empty($catid)){echo 'class="active"';}?>><a href="{:U('lists')}">全部</a></li>
+      <volist name="subCatList" id="vo"> <li  <if condition='$catid eq $vo["ID"]'>class="active"</if>
+        ><a href="{:U('lists',array('catid'=>$vo['ID']))}">{$vo.SortNameCH}</a>
+        </li>
+      </volist>
+    </ul>
+  </div>
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="blank20"></div>
+    <div class="container">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1>{$datas.DownNameCH}</h1>
+          <div class="info  pull-left"><i class="fa fa-clock-o"></i>{$datas.AddTime|strtotime|date="Y-m-d",###} / <i class="fa fa-eye"></i>浏览：<span id="clickNum"><script src="{:U('Index/hits',array('channel'=>'down',type=>'show','id'=>$datas['ID']))}"></script></span> / <i class="fa fa-bullseye"></i>来源：
+            <?php if($datas['SourceCH']){echo $datas['SourceCH'];}else{echo '#lazyme#陶瓷';}?>
+          </div>
+          <div class="blank5"></div>
+        </div>
+
+        <div class="downBtnWrap panel-body">
+        
+        <?php if(trim($datas['yun']['url'])!='' && $datas['yun']['status']){ ?>
+
+          <?php if($datas['yun']['status']=='1' || ($datas['yun']['status']=='2' && $islogged) ){ ?>
+            <a href="{:U('download',array('id'=>$datas['ID'],'yun'=>1))}" target="_blank" class="btn btn-danger btn-lg"> <i class="fa fa-cloud-download"></i>&nbsp;<b>云盘下载</b> <small>(推荐) {$datas.yun.size}</small> </a> &nbsp;&nbsp;<b>提取码: </b>
+            <input class="form-control input-lg " value="{$datas.yun.code}" style=" display:inline-block; width:150px; background:#EEE; cursor:text" readonly>
+          <?php }  ?>
+          <?php if($islogged && $datas['FileUrl']!=''){ ?>
+            <a href="{:U('download',array('id'=>$datas['ID']))}" target="_blank" class="btn btn-default btn-sm downBtn-sm" ><i class="fa fa-download"></i> <span>本地下载</span></a>
+          <?php }  ?>
+          <?php if($islogged){ ?>
+          <div role="alert" class="alert alert-info  in" id="od-tips-save" style="margin:15px 0 0; font-size:14px; text-align:left"  >
+            <h4><i class="fa fa-warning"></i>&nbsp;提示：</h4>
+            <p> 推荐使用【云盘下载】,以获得更好的下载速度和体验。 </p>
+          </div>
+          <?php }  ?>
+        <?php }else{ ?>
+          <?php if($islogged){ ?>
+            <a href="{:U('download',array('id'=>$datas['ID']))}" target="_blank" class="downBtn"><i class="fa fa-download"></i>本站下载<small>{$datas.FileSize}</small></a>
+          <?php }  ?>
+        <?php }  ?>
+        </div>
+
+        <?php if(!$islogged){ ?>
+        <div role="alert" class="alert alert-warning  fade in" id="od-tips-save" style="margin:15px 0 0; font-size:1.2em"  >
+          <h4><i class="fa fa-warning"></i>&nbsp;提示：</h4>
+          <?php if($datas['yun']['url'] && $datas['yun']['status']=='1'){ ?>
+          <p> 本资源使用网盘下载可免登录本站。 <a class="btn btn-default btn-sm" href="{:U('login')}">登入</a> </p>
+          <?php }else{ ?>
+          <p> 您还未登录，请 <a href="{:U('login')}" style="color:blue">登录</a> 后再进行下载。
+            <?php if($datas['yun']['url'] && $datas['yun']['status']){ ?>
+            推荐使用网盘下载本资源。
+            <?php }  ?>
+          </p>
+          <?php }  ?>
+        </div>
+        <?php }  ?>
+
+
+        <article class="m-article"> {$datas.ContentCH} </article>
+        <div class="panel-footer">
+          <baidushare class="pull-left"/>
+          <div class="pull-right"> <a href="{:U('lists',array('catid'=>$catInfo['ID']))}" class="btn btn-default btn-sm"><i class="fa fa-list"></i>&nbsp;回列表</a> </div>
+          <div class="clearfix"></div>
+        </div>
+        
+      </div>
+        
+    </div>
+  </div>
+  <!--./mainer-->
+  
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

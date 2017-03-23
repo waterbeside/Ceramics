@@ -1,0 +1,95 @@
+.mr10 { margin-right: 10px}
+.mr5 { margin-right: 5px}
+body { font-size: 14px; font-family: Helvetica,Arial,SimSun,SimSun-ExtB,"Microsoft Yahei",'Microsoft JhengHei',"WenQuanYi Micro Hei",PMingLiU,PMingLiu-ExtB,HanaMinA,HanaMinB,sans-serif}
+
+/*替代bootstarp*/
+* ,*:after, *:before {box-sizing: border-box;}
+.pull-left { float: left;}
+.pull-right { float: right;}
+.container-fluid { padding: 0 15px}
+.container-fluid > .navbar-header  { margin: 0}
+/** navbar **/
+.navbar-fixed-top { position: fixed; top: 0; left: 0; right: 0; z-index: 1030;}
+.navbar {min-height: 40px; margin-bottom: 0; border: none; /* border-bottom: 1px solid #ccc; */  border-radius: 0}
+.navbar-nav { float: left; margin: 0 ; display: inline-block;}
+.navbar-inner { height: 40px;}
+.navbar-inner .brand .logo { height: 36px}
+.navbar-inner .navbar-header { display: inline; float: left;}
+.navbar-nav > li { display: inline-block;}
+.navbar-nav > li > a { display: inline-block; padding:0 10px; line-height: 40px ; height: 40px\9; line-height: 45px\9; outline:none; }
+.navbar-inverse { background:#fff  url(../../images/Common/gd_gray.png)  center 10px repeat-x ; box-shadow: 0 5px 5px rgba(0,0,0,0.2); border-bottom:1px solid #ccc\9;}
+/*.navbar-inverse { background: #2c3e50; background-image:-moz-linear-gradient(top,#2c3e50,#2c3e50);background-image:-webkit-gradient(linear,0 0,0 100%,from(#2c3e50),to(#2c3e50));background-image:-webkit-linear-gradient(top,#2c3e50,#2c3e50);background-image:-o-linear-gradient(top,#2c3e50,#2c3e50);background-image:linear-gradient(to bottom,#2c3e50,#2c3e50)}*/
+.navbar-inverse .navbar-nav > li > a { color: #888}
+.navbar-inverse .navbar-nav > li > a:hover { color:#526262;background: #D8E5E5}
+.navbar-inverse .navbar-nav > .active > a ,.navbar-inverse .navbar-nav > .active > a:hover,.navbar-inverse .navbar-nav > .active > a:focus{ background: #586467}
+
+
+.navbar-inner .brand { display:block; float:left; padding:8px 20px 7px; margin-left:-20px;  color:#777; text-shadow:0 1px 0 #fff; font: bold 20px/20px  "Microsoft YaHei","微软雅黑";}
+
+
+.login_info { color: #888; line-height: 40px; font-size: 12px}
+.login_info a { color: #888}
+.login_info a:hover { color: #666}
+.login_info .btn { font-size: 12px; padding:  2px 10px; margin: 0 0 0 5px; background: #f0f0f0; border: none; }
+.login_info .btn:hover , .login_info .btn:focus  {  color: #666}
+
+
+/** tab-bar **/
+.tab-bar { position: fixed; top: 41px; right: 0; left: 152px; height: 26px; background: #5A5F62; border-bottom: 1px solid #ccc;/*  box-shadow: inset 0 -2px 3px rgba(0,0,0,0.1) */ }
+.tab-bar .move-btn { position: absolute; top: 0; height: 25px; width: 20px; line-height: 24px; text-align: center;border-right:1px solid  #888;border-right:1px solid  #444; background: #5A5F62 ; color: #ADB2B2}
+.tab-bar #J-move-left { left: 0}
+.tab-bar #J-move-right { right: 0;border-left: 1px solid #444;}
+.tab-bar-con { position: relative; height: 26px; margin:0 20px; overflow: hidden; }
+.tab-bar-con-inner { position: absolute; left: 0;  padding:0; margin: 0; width: 5000px}
+.j-tab {display: inline-block; }
+.j-tab li { position: relative; float: left; padding: 0 22px 0 10px; height: 25px; line-height: 26px; line-height: 30px\9; font-size: 12px; color:#FFF; background: #717679; border-left: 1px solid #5D6264; border-right:1px solid  #767C7E; cursor:pointer;}
+ .j-tab li.noclose { padding: 0 10px}
+.j-tab li.hover ,.j-tab li:hover { background-color: #444; color: #fff}
+.j-tab li.active { color: #444; background: #fcfcfc; height: 26px;}
+.j-tab .j-close { color: #FFF; position: absolute; right: 5px; top:5px; font-size: 16px; line-height: 1;font-weight: bold; }
+.j-tab .j-close:hover { color: #EAF5F5}
+.j-tab li.active .j-close { color: #444}
+
+
+/** mainer **/
+.g-mainer { position: relative; padding:0; z-index: 100}
+
+.g-sidebar:before { position: fixed;  bottom: 0; top: 0; z-index: -1; display: block; content: ''; width: 152px;  background-color:#586467; border-right: 1px solid #ccc;}
+.g-sidebar { overflow-y: auto; position: fixed; top: 40px; bottom: 0; width: 152px; left: 0; background-color: #586467; border-right: 1px solid #586467;}
+.g-sidebar .menu { padding:  0; font-weight: 100; }
+.g-sidebar .menu a {outline:none; text-decoration:none;}
+.g-sidebar .menu dt { position: relative; margin-top: 10px; font-size: 14px; border-bottom: 2px solid #6F7C7E; }
+.g-sidebar .menu dt a { display: block; padding: 0 10px 0 23px; height: 25px; line-height: 25px; font-weight: normal; overflow: hidden; color: #C4DBE0; font-family: Helvetica,Arial,"Microsoft Yahei",SimSun,SimSun-ExtB}
+
+.g-sidebar .menu dt i.icon {position: absolute; top:5px; left: 5px}
+.g-sidebar .menu dt i.j-caret { position: absolute; top:5px;left:auto;right:15px; }
+.g-sidebar .menu dd {  padding:3px 0 5px 5px;/* background: #323d49*/}
+.g-sidebar .menu ul { margin-bottom: 0}
+.g-sidebar .menu ul li { position: relative;}
+.g-sidebar .menu ul li i.icon {position: absolute; top:6px; left: 5px}
+.g-sidebar .menu ul li a { display: block; padding: 0 10px 0 22px; height: 24px; line-height: 24px; font-size: 12px; color: #D3EAF0}
+.g-sidebar .menu ul li a:hover { background: #435255; }
+.g-sidebar .menu ul li a.active { background: #6F8E98; color: #FFF; border-radius: 3px 0 0 3px}
+
+
+.g-mainbar { margin-left: 150px; min-height: 100%}
+.g-mainbar-inner { position: relative; margin-top: 40px}
+.g-mainbar .options { position: fixed; right: 30px; top: 75px; z-index: 2; box-shadow: 0 0 4px rgba(0,0,0,0.3); opacity: 0.6;filter:alpha(opacity=60);}
+.g-mainbar .options a { float: left; display: block;  width: 20px; height: 20px; line-height: 18px; font-size: 14px; overflow: hidden; border:1px solid #5D5F5F; text-align: center; background: #3B3E40; color: #bbb; outline: none;}
+.g-mainbar .options .full_screen { border-left: 0}
+
+@-moz-document url-prefix(){ /* 火狐hash */
+	
+}  
+
+.g-mainbar .show { position: fixed; top:41px; right: 0; bottom: 0; left: 152px; z-index: 1 }
+
+.main-loading {position: absolute; top: 50px;  width: 100%; text-align: center; font-size: 16px}
+.main-loading .inner { margin-top: 15% }
+.main-loading i.fa { margin-right: 5px}
+
+/*全屏*/
+.fullScreen .navbar {z-index: 1}
+.fullScreen .show { border-top: 3px solid #444}
+.fullScreen .g-mainbar .options { top: 10px; box-shadow:none;}
+.fullScreen .g-mainbar .options .full_screen {  background: #000; color: #FFF; }

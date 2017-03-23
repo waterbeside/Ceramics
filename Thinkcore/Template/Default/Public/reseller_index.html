@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body class="P-dealer-usercenter">
+<div class="g-all" >
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_reseller.jpg);">
+            <div class="m-channel-title"><h2>经销商专区</h2><small>Reseller</small></div>
+    </div>
+    
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <volist name="catList" id="vo">    
+            <li <?php if($vo['a']=='usercenter'){ ?> class="active" <?php } ?> ><a href="<?php echo U($vo['a']); ?>">{$vo.name}</a></li> 
+        </volist>
+
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Reseller/index')}">经销商专区</a></li>
+        <li class="active">用户中心</li>
+       
+      </ol>
+    </div>
+  </div>
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container">
+      <div class="blank30"></div>
+      <div class="panel panel-default m-userinfo-box">
+        <div class="panel-heading"><h4><i class="fa fa-user"></i> 用户资料</h4></div>
+        <div class="panel-body">
+            <div class="m-usercenter-btnbar">
+              <a class="btn btn-default " href="{:U('edit')}" data-title="修改资料" data-trigger="modal"><i class="fa fa-pencil"></i><br>修改资料</a>
+              <a class="btn btn-default " href="{:U('edit',array('resetpwd'=>1))}"  data-title="修改密码" data-trigger="modal"><i class="fa fa-lock"></i><br>修改密码</a>
+              <a class="btn btn-primary " href="{:U('lists')}"><i class="fa fa-download"></i><br>资料下载</a>
+              <a class="btn btn-danger pull-right" href="{:U('logout')}"><i class="fa fa-sign-out"></i><br>安全退出</a>              
+            </div>
+
+        </div>
+        <table class="table table-bordered">
+            <thead></thead>
+            <tbody>
+              <tr>
+                <th width="18%">用户名：</th>
+                <td>{$userInfo.MemName}</td>
+                <th  width="18%">客户号</th>
+                <td>{$userInfo.code}</td>
+              </tr>
+              <tr>
+                <th >真实姓名：</th>
+                <td>{$userInfo.RealName}</td>
+                <th >姓别：</th>
+                <td>{$userInfo.Sex}</td>
+              </tr>
+              <tr>
+                <th >联系电话</th>
+                <td>{$userInfo.Telephone} 
+                  <script type="text/javascript">
+                    if(checkMobile()){
+                      var tel =  '{$userInfo.Telephone}';
+                      document.write('&nbsp;&nbsp;<a class="btn btn-default btn-sm" href="tel:'+tel+'"><i class="fa fa-phone"></i> 拨打电话</a>')
+                      document.write('&nbsp;&nbsp; <a class="btn btn-default btn-sm"  href="sms:'+tel+'"><i class="fa fa-envelope"></i> 发信息</a>')
+                    }
+                  </script>
+                </td>
+                <th >电子邮箱</th>
+                <td>{$userInfo.Email}</td>
+              </tr>
+            
+              <tr>
+                <th>地址：</th>
+                <td  >{$userInfo.Address}</td>
+                <th>当前状态：</th>
+                <td  class="td-status">
+                  <?php if($userInfo['Working']){?> 
+                    <span class="text-success"><i class="fa fa-check"></i> 审核已通过</span>
+                  <?php }else{?> 
+                    <span class="text-danger"><i class="fa fa-times"></i> 待审核，或审核未通过</span>
+                  <?php }?>
+                </td>
+              </tr>
+              <tr>
+                <th >网站账号注册时间：</th>
+                <td>{$userInfo.AddTime|strtotime|date="Y-m-d",###}</td>
+                <th >登入次数：</th>
+                <td>{$userInfo.LoginTimes}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      <?php if(!$userInfo['Working']){?>
+      <div role="alert" class="alert alert-warning  fade in"  >
+            <button data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button><h4><i class="fa fa-warning"></i>&nbsp;提示：</h4><p>你的帐号还在审核中或未通过审核(资料真实两个工作日内审核通过)。现在你可以完善你的资料【经销商客户号】，有助于通过审核<br/></p><p>如需急用请致电 #lazyme#网站管理员：0757—82729091</p>
+      </div>                 
+     <?php }?>
+      <div role="alert" class="alert alert-info "    >
+            <button data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
+            <h4><i class="fa fa-info"></i>&nbsp;提示：</h4><p style="padding-top:5px; line-height:1.8">您的注册时间为：<b>{$userInfo.AddTime|strtotime|date="Y-m-d",###}</b> 。 上一次登录时间为：<b><?php echo cookie('dealerLastTime');?></b> 。 共登录<b>{$userInfo.LoginTimes}</b>次</p>
+      </div>
+
+      <div class="panel panel-default m-down-box">
+        <div class="panel-heading"><h4><i class="fa fa-list"></i> 最新物料推荐</h4><a class="more btn btn-primary" href="{:U('lists')}">更多 <i class="fa fa-arrow-circle-right"></i></a></div>
+
+          <div class="m-list-download list-group">
+            <volist name="datas" id="vo">
+            <a class="list-group-item" href="{:U('shows',array('id'=>$vo['ID']))}">
+              <span class="cate">[{$vo.cate.SortNameCH}]</span>
+              <b>{$vo.DownNameCH}</b>
+              <span class="time pull-right">{$vo.AddTime|strtotime|date="Y-m-d",###}</span>
+              <span class="sizes  pull-right">{$vo.FileSize}</span>
+            </a>
+            </volist>
+           
+
+          </div>
+  
+        <div class="panel-footer">
+          
+              <a class="btn btn-primary  " href="{:U('lists')}">选择物料分类：</a>
+              <volist name="subCatList" id="vo">
+                <a class="btn btn-danger  " href="{:U('lists',array('catid'=>$vo['ID']))}">{$vo.SortNameCH}</a>&nbsp;
+              </volist>
+
+          
+        
+      </div>
+
+     
+        
+      
+      
+    </div>                  
+             
+    
+
+     
+  </div>
+  <!--./mainer-->
+   <script src="__TPL_JS__/Default/reseller.js"></script>
+  <script type="text/javascript">
+
+  function submit_edit(obj){
+    var returnTrue = 1
+    if($('#J-resetpwd').length>0 && $('#J-resetpwd').val()=='1'){
+      //returnTrue = returnTrue==0? 0 :checkFormPw(0)
+      //returnTrue = returnTrue==0? 0 :checkFormRePw(0)
+    }else{
+      returnTrue = returnTrue==0? 0 :checkTheLen('address',6,'地址字数过短',3,'',0)
+      returnTrue = returnTrue==0? 0 :checkTheLen('realname',0,'姓名不能为空',3,'',0)
+      returnTrue = returnTrue==0? 0 :checkTheLen('phone',6,'请输入正确的电话号码',3,'',0)
+    }
+    
+      
+    if(returnTrue == 0){
+        goToErrorInput(obj);
+        return false;
+    }
+    submit_ajax(obj,function(json){
+      if(json.status){
+        return true;
+      }else{
+        if(typeof(json.input)!='undefined'){
+          $input = $(obj).find('input[name='+json.input+']');
+          $input.inputFeedback({'status':0,'info':json.info});
+            goToErrorInput($input);
+        }        
+      }
+      return false;
+    })
+    return false;
+
+  }
+
+  </script>
+
+
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<div class="table-edit table-edit-model"> 
+  <div class="common-form">
+
+    <form class="form" method="post" action="{:U('Rbac/roleedit')}"  onsubmit="return submit_ajax(this);">
+      <div class=" panel panel-default">
+        <div class="panel-heading"><h5>编辑角色</h5></div>
+        <table class="table table-striped table-bordered ">
+          <tr>
+            <td class="th-label" width="100">角色名称</td>
+            <td><input type="text" name="name" value="{$data.name}" class="form-control" id="rolename">
+              </input></td>
+          </tr>
+          <tr>
+            <td class="th-label">角色描述</td>
+            <td><textarea name="remark" rows="2" cols="20" id="remark" class="form-control" style="height:100px;">{$data.remark}</textarea></td>
+          </tr>
+          <tr>
+            <td class="th-label">是否启用</td>
+            <td>
+              <label class="label_radio"><input type="radio" name="status" value="1"  
+              <if condition="$data['status'] eq 1">checked</if>
+              >启用</label>
+              <label class="label_radio"> &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="status" value="0" 
+                <if condition="$data['status'] eq 0">checked</if>
+                >禁止</label></td>
+          </tr>
+        </table>
+        <input type="hidden" name="id" value="{$data.id}" />
+      </div>
+    </form>
+  </div>
+</div>

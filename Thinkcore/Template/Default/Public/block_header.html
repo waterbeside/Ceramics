@@ -1,0 +1,128 @@
+<!-- header -->    
+<header id="J-header" class="g-header">
+    
+    <div class="g-topbar">
+        <div class="topWrap">
+            <div class="container">
+                <div class="honner">精工品质，精彩生活</div>
+                <div class="g-topbarMenu">
+                     <a  target="_blank" href="http://mail.wintoceramics.com/"><i class="fa fa-envelope-o"></i>企业邮箱</a>&nbsp;&nbsp;
+                    <!--s:经销家园登录-->
+                    <div id="topUser">
+                    <span class="lab"> 经销商专区：</span>
+                        <div class="unLog"><a href="{:U('Public/Reseller/login')}"><i class="fa fa-sign-in"></i> 登录</a> | <a href="{:U('Public/Reseller/register')}"><i class="fa fa-fire"></i> 注册</a></div>
+                        <div class="hasLog"><i class="fa fa-user"></i> 您好 <b class="username">test122</b> | <a href="{:U('Public/Reseller/index')}"><i class="fa fa-cog"></i> 会员中心</a> | <a href="{:U('Public/Reseller/logout')}"><i class="fa fa-sign-out"></i> 退出</a></div>                 
+
+                    </div>
+                    <!--e:经销家园登录--> 
+                     <script type="text/javascript" >
+                        $(function(){
+                            $.ajax({
+                                dataType:'json'
+                                ,type:'get'
+                                ,url:'{:U("Public/Reseller/baseinfo")}'
+                                ,success:function(json){
+                                    if(json.status){
+                                        var $userbox = $('#topUser');
+                                        $userbox.find('.hasLog').show().siblings('.unLog').hide();
+                                        $userbox.find('.username').html(json.dealername);
+                                    }
+                                }
+                            })
+                        })
+                        // document.write("<scr"+"ipt  src=\"/ch/checklogin.js.php?t="+Math.random()+"\"><\/scr"+"ipt>");
+                    </script>  
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="g-headerbg"></div>
+    <div class="g-headercon">
+        <!--s:logobar-->
+        <div class="logobar">
+
+            
+            <div class="container">
+                <div class="logo">
+                    <a  href="/"><img class="ie6png" src="__TPL_IMG__/Default/winto_logo_honer.png"/></a>
+                    <!-- <div class="honor">国家高新技术企业 广东省名牌产品</div> -->
+                    <!-- Generated markup by the plugin --></div>
+
+                    
+
+                       
+                    <div class="searchbar " id="J-searchbar">
+                        <form action="{:U('Search/index')}" method="post" >
+                        <input placeholder="请输入关键字" name="keyword" class="form-control " type="text"   value=''>
+                        <a onclick="$(this).closest('form').submit()" type="submit" class="btn  btn-danger"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                        </form>
+                        <a class="searchbar-close" href="javascript:void(0);" onclick="showSearchbar(1)"><i class="fa fa-times"></i></a>
+                    </div>
+                    <a href="/EN/" class="u-btn-nav u-btn-en" >EN</a>
+                    <a href="javascript:void(0);" class="u-btn-nav " id="J-searchbar-btn" onclick="showSearchbar()"><i class="fa fa-search"></i></a>
+
+                    <!--./searchbar-->
+                    <a href="javascript:void(0);" class="u-btn-nav u-btn-nav-menu navbar-toggler "  type="button" data-toggle="collapse" data-target=".navbar-collapse"   ><i class="fa fa-bars"></i></a>
+                    <nav class="m-navbar navbar-collapse collapse"> 
+
+                            <ul id="winto_nav" class="nav navbar-nav">
+                                <li class="home"><span class="x"><a href="/" title="首页">首页</a></span></li>
+                               <li  >
+                                    <span class="x"><a href="{:U('Index/about')}">关于#lazyme#<i class="fa fa-caret-down"></i></a></span>
+                                    <div class="nCon">
+                                        <a href="{:U('Index/about')}" >企业简介</a>
+                                        <a href="{:U('Index/about',array('id'=>2))}" >企业文化</a>
+                                        <a href="{:U('Index/about',array('id'=>3))}" >企业荣誉</a>
+                                        <a href="{:U('Index/about',array('id'=>4))}" >生产基地</a>
+                                    </div>
+                                </li>
+
+                                <li  ><span class="x"><a href="{:U('Products/lists')}" title="Products">产品中心<i class="fa fa-caret-down"></i></a></span>
+                                    <div class="nCon nCon-product">
+                                        
+                                        <a href="{:U('Products/lists',array('catid'=>3))}" title="完全玻化石(瓷质抛光砖)">完全玻化石(瓷质抛光砖)</a>
+                                        <a href="{:U('Products/lists',array('catid'=>4))}" title="釉面砖">釉面砖</a>
+                                        <a href="{:U('Products/lists',array('catid'=>165))}" title="全抛釉(瓷抛砖)">全抛釉(瓷抛砖)</a>
+                                        <a href="{:U('Products/lists',array('catid'=>5))}" title="仿古砖">仿古砖</a>
+                                        <a href="{:U('Products/lists',array('catid'=>1))}" title="全晶玉(微晶陶瓷复合砖)">全晶玉(微晶陶瓷复合砖)</a>
+                                        <a href="{:U('Products/lists',array('catid'=>13))}" title="广场砖">广场砖</a>
+                                        <span class="divider"></span>
+                                        <a href="{:U('Products/ebooklist')}" title="产品画册">产品画册</a>
+                                        <a href="{:U('Products/effects')}" title="空间效果图">空间效果图</a>
+                                    </div>
+                                </li>
+                                <li><span class="x"><a href="{:U('Index/newslist')}" title="品牌资讯">品牌资讯<i class="fa fa-caret-down"></i></a></span>
+                                    <div class="nCon">
+                                        <a href="{:U('Index/newslist',array('catid'=>1))}" title="企业动态">企业动态</a>
+                                        <a href="{:U('Index/newslist',array('catid'=>2))}" title="行业快讯">行业快讯</a>
+                                        <a href="{:U('Index/newslist',array('catid'=>7))}" title="品牌专题">品牌专题</a>                                       
+                                    </div>
+                                </li>
+                                <li><span class="x"><a href="{:U('Reseller/lists')}" title="经销专区">经销专区</a></span></li>
+                                <li><span class="x"><a href="{:U('Index/room')}" title="营销中心">营销中心<i class="fa fa-caret-down"></i></a></span>
+                                    <div class="nCon">
+                                        <a href="{:U('Index/room',array('catid'=>51))}" title="企业动态">总部展厅</a>
+                                        <a href="{:U('Index/room',array('catid'=>57))}" title="行业快讯">终端展厅</a>  
+                                        <a href="{:U('Index/cases')}" title="工程案例">工程案例</a>                                    
+                                    </div>
+                                </li>
+                                
+                                <li><span class="x"><a href="{:U('Index/contactus')}" title="Contact Us">联系我们</a></span></li>
+                                
+                            </ul>
+
+                            
+                    </nav>
+                    <!--./navbar-->
+
+                                         
+                    
+            </div>   
+        </div>
+    <!--e:logobar--> 
+    </div>
+
+
+</header>
+<!-- /header -->

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body class="P-downlists">
+<div class="g-all" >
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    <div class="m-banner-coverPic" style="background-image: url(__TPL_IMG__/Default/banner_reseller.jpg);">
+            <div class="m-channel-title"><h2>经销商专区</h2><small>Reseller</small></div>
+    </div>
+    
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <?php if($islogged){ ?>
+        <volist name="catList" id="vo">    
+            <li <?php if($vo['a']=='lists'){ ?> class="active" <?php } ?> ><a href="<?php echo U($vo['a']); ?>">{$vo.name}</a></li> 
+        </volist>
+
+        <?php }else{?>
+          <volist name="catList" id="vo">    
+            <if condition='$vo["a"] eq "lists"'> 
+              <li class="active"><a href="<?php echo U($vo['a']); ?>">{$vo.name}</a></li> 
+            </if>  
+          </volist>
+          <li ><a href="<?php echo U('login'); ?>">登入</a></li> 
+          <li ><a href="<?php echo U('Reseller/register'); ?>">注册</a></li>
+        <?php } ?>
+        
+        
+
+      </ul>
+
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Reseller/index')}">经销商专区</a></li>
+        <li class="active">资料下载</li>
+       
+      </ol>
+    </div>
+  </div>
+   <div class="container">
+    <ul class="m-menu-sub">      
+      <li  <?php if(empty($catid)){echo 'class="active"';}?>><a href="{:U('lists')}">全部</a></li>
+      <volist name="subCatList" id="vo">
+        <li  <if condition='$catid eq $vo["ID"]'>class="active"</if>><a href="{:U('lists',array('catid'=>$vo['ID']))}">{$vo.SortNameCH}</a></li>            
+      </volist>
+    </ul>
+  </div>
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container">
+      <div class="blank20"></div>
+
+      <div class="panel panel-default m-down-box">
+        <div class="panel-heading"><h4>  <?php if($catInfo){echo $catInfo['SortNameCH'];}else{echo '全部'; } ?></h4></div>
+
+          <ul class="m-list-download list-group">
+            <volist name="datas" id="vo">
+              <li class="list-group-item">
+
+              <span class="cate"><a href="{:U('lists',array('catid'=>$vo['SortID']))}">[<?php echo $subCatList[$vo['SortID']]['SortNameCH'];?>]</a></span>
+              <b><a  href="{:U('shows',array('id'=>$vo['ID']))}">{$vo.DownNameCH}</a></b>
+              <?php if($vo['CommendFlag']==1){?> <img class="h_img" src="__TPL_IMG__/Default/hot.gif" ><?php } ?>
+              <span class="time pull-right">{$vo.AddTime|strtotime|date="Y-m-d",###}</span>
+              <span class="size  pull-right">{$vo.FileSize}</span>
+            </li>
+            </volist>
+          </ul>
+       
+      
+    </div>        
+     <div class="pagenav">
+            {$showPages}  
+          </div>          
+             <div class="blank50"></div>
+
+    
+
+     
+  </div>
+  <!--./mainer-->
+  
+
+
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

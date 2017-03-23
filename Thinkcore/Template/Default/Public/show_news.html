@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="ie ie8_lt"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><html><![endif]-->
+
+<head>
+<template file="Public/block_meta.html"/>
+<template file="Public/block_jscss.html"/>
+</head>
+
+<body >
+<div class="g-all">
+  <template file="Public/block_header.html"/>
+  <!--banner-->
+  <div class="m-banner">
+    
+  </div>
+  <div class="m-menubar">
+    <div class="container">
+      <ul class="m-menu">
+        <volist name="catList" id="vo">
+          <li  <if condition='$catInfo["ID"] eq $vo["ID"]'>class="active"</if>><a href="{:U('newslist',array('catid'=>$vo['ID']))}">{$vo.SortNameCH}</a></li>            
+        </volist>      
+      </ul>
+      <ol class="breadcrumb hidden-xs">
+        <li><a href="/">首页</a></li>
+        <li><a href="{:U('Index/newslist')}">新闻资讯</a></li>
+        <if  condition="$catInfo.SortNameCH neq ''"><li class="active">{$catInfo.SortNameCH}</li></if>
+      </ol>
+    </div>
+  </div>
+  <!--./m-menubar-->
+  <div class="g-mainer ">
+    <div class="container m-article-wraper">
+      
+        <div class="m-title">
+          <h1>{$datas.NewsNameCH}</h1>
+          <div class="info  pull-left"><i class="fa fa-clock-o"></i>{$datas.AddTime|strtotime|date="Y-m-d",###} / <i class="fa fa-eye"></i>浏览：<span id="clickNum"><script src="{:U('Index/hits',array('channel'=>'news',type=>'show','id'=>$datas['ID']))}"></script></span> / <i class="fa fa-bullseye"></i>来源：<?php if($datas['SourceCH']){echo $datas['SourceCH'];}else{echo '#lazyme#陶瓷';}?></div>
+
+          <baidushare class="pull-right"/> 
+          <div class="blank5"></div>
+        </div>
+        <article class="m-article">
+          {$datas.ContentCH}
+        </article>
+        <div class="m-article-footer">
+          <baidushare class="pull-left"/> 
+          <div class="pull-right">
+            <if  condition="$prevItem.ID neq ''"><a href="{:U('newsshow',array('id'=>$prevItem['ID']))}" class="btn btn-default btn-sm"><i class="fa fa-angle-left"></i>&nbsp;上一篇</a></if>
+            <a href="{:U('newslist',array('catid'=>$catInfo['ID']))}" class="btn btn-default btn-sm"><i class="fa fa-list"></i>&nbsp;回列表</a>
+            <if  condition="$nextItem.ID neq ''"><a href="{:U('newsshow',array('id'=>$nextItem['ID']))}" class="btn btn-default btn-sm">下一篇&nbsp;<i class="fa fa-angle-right"></i></a></if>            
+          </div>          
+        </div>
+        
+      
+      
+    </div>          
+             
+    
+    
+ 
+     
+  </div>
+  <!--./mainer-->
+  <template file="Public/block_footer.html"/>
+</div>
+</body>
+</html>

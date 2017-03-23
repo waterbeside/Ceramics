@@ -1,0 +1,46 @@
+<div class=" m-menu-level-1">
+            <?php if($filter['sizes']){ $filterParam['sizes']=$filter['sizes']; } $tempCatList = $allCatList ; ?>
+            <ul class="container nav nav-tabs" role="tablist">              
+              <li class="<?php if($catid==0){echo 'on';} ?> all"  ><a href="{:U('lists',$filterParam)}" ><span>全部</span></a></li>
+              <li class="active" ><a href="#J-promenu-3" role="tab" data-toggle="tab" aria-controls="完全玻化石(瓷质抛光砖)" aria-expanded="false">完全玻化石(瓷质抛光砖)</a></li>            
+              <li  ><a href="#J-promenu-4" role="tab" data-toggle="tab" aria-controls="釉面砖" aria-expanded="false">釉面砖</a></li>
+              <li  ><a href="#J-promenu-165" role="tab" data-toggle="tab" aria-controls="全抛釉(瓷质砖)" aria-expanded="false">全抛釉(瓷质砖)</a></li>
+              <li  ><a href="#J-promenu-5" role="tab" data-toggle="tab" aria-controls="釉面砖" aria-expanded="false">仿古砖</a></li>
+              <li  ><a href="#J-promenu-1" role="tab" data-toggle="tab" aria-controls="合晶玉(微晶陶瓷复合砖)" aria-expanded="false">合晶玉(微晶陶瓷复合砖)</a></li>
+              <li  ><a href="#J-promenu-13" role="tab" data-toggle="tab" aria-controls="广场砖" aria-expanded="false">广场砖</a></li>
+              
+            </ul>
+          </div>
+          <div class="m-menu-level-2 tab-content-wrap">
+            <div class="container tab-content">
+              <div role="tabpanel" class="tab-pane active" id="J-promenu-3">
+                <?php $filterParam['catid']=3 ;echo createCatFilterBtn($catid,$filterParam,'全部');?>
+                <?php $tempCatList = showProductsSubMenu($tempCatList,3,$catid,$filterParam); ?>
+              </div>
+              <div role="tabpanel" class="tab-pane " id="J-promenu-4">
+                <?php $filterParam['catid']=4 ;echo createCatFilterBtn($catid,$filterParam,'全部');?>                
+                <?php $tempCatList = showProductsSubMenu($tempCatList,150,$catid,$filterParam);   ?>
+                
+              </div>
+              <div role="tabpanel" class="tab-pane " id="J-promenu-165">
+                <?php $filterParam['catid']=165 ;echo createCatFilterBtn($catid,$filterParam,'全部');?>
+                <?php $tempCatList = showProductsSubMenu($tempCatList,34,$catid,$filterParam);   ?>
+                <?php $filterParam['catid']=107 ;echo createCatFilterBtn($catid,$filterParam,'全抛釉配套');?>                
+                
+              </div>
+              <div role="tabpanel" class="tab-pane" id="J-promenu-5">                
+                <?php $filterParam['catid']=5 ;echo createCatFilterBtn($catid,$filterParam,'全部');?>
+                <?php $tempCatList = showProductsSubMenu($tempCatList,35,$catid,$filterParam);   ?>
+                <?php $filterParam['catid']=108 ;echo createCatFilterBtn($catid,$filterParam,'仿古经典配套');?>                
+              </div>
+              <div role="tabpanel" class="tab-pane" id="J-promenu-1">
+                <?php $filterParam['catid']=1 ;echo createCatFilterBtn($catid,$filterParam,'全部');?>
+                <?php $tempCatList = showProductsSubMenu($tempCatList,1,$catid,$filterParam);   ?>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="J-promenu-13">
+                <?php $filterParam['catid']=13 ;echo createCatFilterBtn($catid,$filterParam,'全部');?>
+                <?php $tempCatList = showProductsSubMenu($tempCatList,13,$catid,$filterParam);   ?>
+              </div>
+            </div>
+          </div>
+
